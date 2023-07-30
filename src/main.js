@@ -8,7 +8,7 @@ import GlobalJs from '@/js/global.js'
 import Login from '@/components/member/Login'
 import Agreement from '@/components/member/Agreement'
 import Join from '@/components/member/Join'
-
+import Board from '@/components/board/Board'
 
 const store = createStore({
     state() {
@@ -22,7 +22,7 @@ const app = createApp(App);
 app.component('Login', Login);
 app.component('Agreement', Agreement);
 app.component('Join', Join);
-
+app.component('Board', Board);
 
 app.use(router);
 app.use(store);
