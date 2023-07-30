@@ -7,7 +7,7 @@ export default {
             this.$store.state.mainLayer.pop();
         },
         Vue.config.globalProperties.$clearLayer = function() {
-            this.$store.state.mainLayer = [];
+            this.$store.state.mainLayer = ['Login'];
         }
     }
 }

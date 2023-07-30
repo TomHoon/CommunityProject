@@ -1,5 +1,6 @@
-<template>
+<template>  
   <div class="join_tit">
+    <img src="@/assets/back.png"  height="30" width="30" alt="" @click="backPage">
     <h1 class="join_tit_h1">회원가입</h1>
       <!-- <img src="@/assets/font/free-icon-question-mark-4502682.png" class="ask" @click="openModal"> -->
   </div>
@@ -152,6 +153,9 @@ export default {
     openModal() {
       this.showModal = !this.showModal;
     },
+    backPage() {
+      this.$backPage();
+    }
     /*checkId() {
       const validateId = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/
 

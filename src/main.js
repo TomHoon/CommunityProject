@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
+import { createStore } from 'vuex'
 import App from './App.vue'
 import router from '@/router.js'
-import { createStore } from 'vuex'
 import GlobalJs from '@/js/global.js'
 
 // 전역 컴포넌트 등록
@@ -13,7 +13,7 @@ import Join from '@/components/member/Join'
 const store = createStore({
     state() {
         return {
-            mainLayer: []
+            mainLayer: ['Login']
         };
     }
 });

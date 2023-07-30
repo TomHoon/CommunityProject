@@ -1,7 +1,8 @@
 <template>
   <h1>로그인</h1>
   <div class="login_form">
-    <form @submit.prevent="FnLogin">
+    <!-- 💕라우터를 사용하지 않기 때문에 form submit 사용하지 않음  -->
+    <form>
       <div class="id_form">
         <label for="member_id">아이디 : </label>
         <input type="text" id="member_id" v-model="member_id" class="member_id" required>
@@ -11,7 +12,8 @@
         <input type="password" id="member_pw" v-model="member_pw" class="member_pw" required>
       </div>
 
-      <button class="login_btn" type="submit">Log In</button>
+      <button class="login_btn" @click="fnLogin">Log In</button>
+      <button class="login_btn" @click="fnJoin">Join In</button>
     </form>
   </div>
 </template>
@@ -27,8 +29,9 @@ export default {
       member_pw: '',
     };
   },
+    // 💕메소드 첫 알파벳은 소문자로 표기
     methods: {
-      FnLogin(){
+      fnLogin(){
         let 로그인파라미터 = {
           member_id : this.member_id,
           member_pw : this.member_pw
@@ -42,6 +45,9 @@ export default {
                 console.log("ㅅㄱ");
               }
             })
+      },
+      fnJoin() {
+        this.$pushContents('Join');
       }
     }
 }
