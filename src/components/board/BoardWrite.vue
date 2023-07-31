@@ -1,5 +1,5 @@
 <template>
-  	<article>
+    <article>
 		<div class="container" role="main">
 			<h2>글쓰기</h2>
 				<div class="mb-3">

@@ -87,7 +87,7 @@ export default {
   width: 530px;
   height: 50px;
   padding: 0 0 0 15px;
-//background-color: rgba(136, 135, 135, 0.33);
+  background-color: rgba(136, 135, 135, 0.33);
   border: 1px solid rgba(136, 135, 135, 0.34);
   border-radius: 3px;
   color: rgba(66, 64, 64, 0.75);
