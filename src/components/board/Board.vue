@@ -7,7 +7,7 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">구분</th>
-        <th scope="col" >제목</th>
+        <th scope="col">제목</th>
         <th scope="col">내용</th>
         <th scope="col">글쓴이</th>
         <th scope="col">추천</th>
@@ -22,7 +22,7 @@
       <tr v-for="(item, idx) in calData()" :key="idx">  
         <th scope="row">{{item.id}}</th>
         <th scope="row">{{item.gubun}}</th>
-        <td @click="goDetails">{{item.title}}</td>
+        <td @click="[goDetails(),upHit(idx)]">{{item.title}}</td>
         <td>{{item.content}}</td>
         <td>{{item.writer}}</td>
         <td>{{item.recommend}}</td>
@@ -45,7 +45,7 @@ import axios from 'axios';
     computed: {
       getBoardList() {
         return this.boardList
-      }
+      },
     },
     mounted() {
       axios.get('/getBoardAll')
@@ -75,6 +75,10 @@ import axios from 'axios';
       goDetails() {
         this.$pushContents('BoardDetails');
       },
+      upHit(idx) {
+        console.log(idx)
+        // axios.post('/updateHitBoard')
+      },
       startPage() {
         return ((this.curPageNum - 1 ) * this.dataPerPage);
       },
@@ -85,6 +89,7 @@ import axios from 'axios';
         return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
       },
       calData() {
+        this.boardList.reverse()
         return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
       }
     }
