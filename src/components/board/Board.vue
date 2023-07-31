@@ -22,7 +22,7 @@
       <tr v-for="(item, idx) in calData()" :key="idx">  
         <th scope="row">{{item.id}}</th>
         <th scope="row">{{item.gubun}}</th>
-        <td @click="[goDetails(),upHit(idx)]">{{item.title}}</td>
+        <td @click="[goDetails(),upHit(item.id -1)]">{{item.title}}</td>
         <td>{{item.content}}</td>
         <td>{{item.writer}}</td>
         <td>{{item.recommend}}</td>
@@ -51,7 +51,6 @@ import axios from 'axios';
       axios.get('/getBoardAll')
         .then((res) => {
           this.boardList = res.data;
-          this.boardList.reverse() // 역순으로 변경
           // console.log("res data : ", res.data)
           // console.log("boardList : ", this.boardList)
           // console.log("boardList[0] : ", this.boardList[0])
@@ -77,9 +76,18 @@ import axios from 'axios';
         this.$pushContents('BoardDetails');
       },
       upHit(payload) {
-
-        console.log(payload)
+        let param = {
+          id : this.boardList[payload].id
+        }
+        console.log(this.boardList[payload].id)
+        axios.post('/updateHitBoard', param).then((res) => {
+          console.log("증가했어",res)
+        })
+        .catch((error) => {
+          console.error('오류', error);
+        })
       },
+
       startPage() {
         return ((this.curPageNum - 1 ) * this.dataPerPage);
       },
@@ -90,6 +98,7 @@ import axios from 'axios';
         return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
       },
       calData() {
+        
         return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
       }
     }
