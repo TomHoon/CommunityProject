@@ -10,6 +10,7 @@ import Agreement from '@/components/member/Agreement'
 import Join from '@/components/member/Join'
 import Board from '@/components/board/Board'
 import BoardWrite from '@/components/board/BoardWrite'
+import BoardDetails from '@/components/board/BoardDetails'
 
 const store = createStore({
     state() {
@@ -25,6 +26,7 @@ app.component('Agreement', Agreement);
 app.component('Join', Join);
 app.component('Board', Board);
 app.component('BoardWrite', BoardWrite);
+app.component('BoardDetails', BoardDetails);
 
 app.use(router);
 app.use(store);
