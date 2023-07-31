@@ -15,7 +15,10 @@
       </tr>
     </thead>
     <tbody>
+      <!-- 페이징 처리 이전 코드 -->
       <!-- <tr v-for="(item, idx) in getBoardList" :key="idx"> -->
+      
+      <!-- 페이징 처리 이후 코드 -->
       <tr v-for="(item, idx) in calData()" :key="idx">  
         <th scope="row">{{item.id}}</th>
         <th scope="row">{{item.gubun}}</th>
@@ -28,6 +31,7 @@
     </tbody>
   </table>
 
+  <!-- 페이징 처리 코드 -->
   <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
   
 
@@ -57,7 +61,7 @@ import axios from 'axios';
     data() {
       return {
         dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
-        curPageNum: 1, //이거머임?
+        curPageNum: 1, //현재 페이지
         boardList: []
       }
     },
@@ -72,17 +76,16 @@ import axios from 'axios';
         this.$pushContents('BoardDetails');
       },
       startPage() {
-        return ((this.curPageNum - 1 ) * this.dataPerPage); // 0
+        return ((this.curPageNum - 1 ) * this.dataPerPage);
       },
       endPage() {
-        console.log(this.startPage() + this.dataPerPage)
-        return ("end", this.startPage() + this.dataPerPage); // 0 + 10 = 10
+        return ("end", this.startPage() + this.dataPerPage);
       },
       numOfPages() {
         return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
       },
       calData() {
-        return this.boardList.slice(this.startPage(), this.endPage())
+        return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
       }
     }
 }
