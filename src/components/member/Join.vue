@@ -72,7 +72,10 @@
         </span>
       </div>
       <input type="hidden" v-model="member_del_yn">
-      <button class="join_btn" @click="join">가입</button>
+      <div class="buttons">
+        <button class="join_btn" @click="join">가입</button>
+        <button class="join_btn" @click="backPage">뒤로가기</button>
+      </div>
   </div>
 
 
@@ -119,6 +122,9 @@ export default {
 
   },
   methods: {
+    backPage() {
+      this.$backPage();
+    },
     join(event) {
       event.preventDefault();
 
@@ -1037,5 +1043,11 @@ input[type="number"] {
 li {
   list-style: none;
 }
-
+.buttons {
+  display:flex;
+  margin-right: 10px;
+}
+.buttons button{
+  width:45%;
+}
 </style>

@@ -391,7 +391,8 @@
     </div>
   </section>
 </div>
-  <div>
+  <div class="buttons">
+    <span class="join_btn member_box" @click="$backPage">뒤로가기</span>
     <span class="join_btn member_box" @click="join">회원가입</span>
   </div>
 </template>
@@ -482,6 +483,11 @@ textarea {
   font-family: 'Didact Gothic', sans-serif;
   color: #817f7f;
   font-size: 13px;
-
+}
+.buttons {
+  display: flex;
+}
+.buttons button{
+  width: 45%;
 }
 </style>
