@@ -1,5 +1,5 @@
 <template>
-  <h1>약관동의</h1>
+  <h1 class="tit">약관동의</h1>
 <div class="agreement_wrap">
   <section id="fregister_term">
     <div class="as">
@@ -408,13 +408,14 @@ export default {
     }
   },
     methods: {
-      // join : function() {
-      //   if (!this.agree1 || !this.agree2) {
-      //     alert("약관동의에 모두 체크해주시기 바랍니다.");
-      //   } else {
-      //     router.push({ path: '/Join' })
-      //   }
-      // },
+      join : function() {
+        if (!this.agree1 || !this.agree2) {
+          alert("약관동의에 모두 체크해주시기 바랍니다.");
+        } else {
+          this.$pushContents('Join');
+
+        }
+      },
 
     },
 }
@@ -427,6 +428,7 @@ export default {
   font-weight: bold;
   text-decoration: none;
   color: inherit;
+  text-align: center;
 }
 .agreement_wrap {
   margin-right: 20px;
