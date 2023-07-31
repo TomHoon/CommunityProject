@@ -3,6 +3,10 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave:false,
   devServer: {
-    proxy: 'http://gnsdl2846.cafe24.com'
+    // 💕운영
+    proxy: 'http://gnsdl2846.cafe24.com' 
+
+    // 💕개발
+    // proxy: 'http://localhost:8081' 
   }
 })
