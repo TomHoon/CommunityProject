@@ -51,6 +51,7 @@ import axios from 'axios';
       axios.get('/getBoardAll')
         .then((res) => {
           this.boardList = res.data;
+          this.boardList.reverse() // 역순으로 변경
           // console.log("res data : ", res.data)
           // console.log("boardList : ", this.boardList)
           // console.log("boardList[0] : ", this.boardList[0])
@@ -75,9 +76,9 @@ import axios from 'axios';
       goDetails() {
         this.$pushContents('BoardDetails');
       },
-      upHit(idx) {
-        console.log(idx)
-        // axios.post('/updateHitBoard')
+      upHit(payload) {
+
+        console.log(payload)
       },
       startPage() {
         return ((this.curPageNum - 1 ) * this.dataPerPage);
@@ -89,7 +90,6 @@ import axios from 'axios';
         return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
       },
       calData() {
-        this.boardList.reverse()
         return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
       }
     }
