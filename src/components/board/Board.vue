@@ -48,7 +48,7 @@ import axios from 'axios';
       },
     },
     mounted() {
-      axios.get('/getBoardAll')
+      axios.post('/getBoardAll', {order: 0})
         .then((res) => {
           this.boardList = res.data;
           // console.log("res data : ", res.data)
