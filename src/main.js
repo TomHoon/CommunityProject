@@ -15,7 +15,9 @@ import BoardDetails from '@/components/board/BoardDetails'
 const store = createStore({
     state() {
         return {
-            mainLayer: ['Login']
+            mainLayer: [
+                {pageName: 'Login', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
+            ]
         };
     }
 });

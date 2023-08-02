@@ -1,21 +1,23 @@
 <template>
-  <h1 class="tit" title="홈으로 돌아가기">로그인</h1>
-  <div class="login_form">
-    <!-- 💕라우터를 사용하지 않기 때문에 form submit 사용하지 않음  -->
-
-    <div class="id_form">
-      <input type="text" id="member_id" v-model="member_id" class="member_id" placeholder="아이디"
-             autocomplete="off">
-    </div>
-    <div class="pw_form">
-      <input type="password" id="member_pw" v-model="member_pw" class="member_pw" placeholder="비밀번호"  @keyup.enter="fnLogin">
-    </div>
+  <div>
+    <h1 class="tit" title="홈으로 돌아가기">로그인</h1>
     <div class="login_form">
+      <!-- 💕라우터를 사용하지 않기 때문에 form submit 사용하지 않음  -->
 
-      <button class="login_btn" @click="fnLogin">로그인</button>
+      <div class="id_form">
+        <input type="text" id="member_id" v-model="member_id" class="member_id" placeholder="아이디"
+              autocomplete="off">
+      </div>
+      <div class="pw_form">
+        <input type="password" id="member_pw" v-model="member_pw" class="member_pw" placeholder="비밀번호"  @keyup.enter="fnLogin">
+      </div>
+      <div class="login_form">
+
+        <button class="login_btn" @click="fnLogin">로그인</button>
+      </div>
+      <div class="join"><span @click="fnJoin" class="join_btn">회원가입</span></div>
+
     </div>
-    <div class="join"><span @click="fnJoin" class="join_btn">회원가입</span></div>
-
   </div>
 </template>
 
@@ -49,17 +51,13 @@ export default {
 
         axios.post("/loginMember", 로그인파라미터)
             .then((res) => {
-              console.log("loginMember", res.data);
               if (res.data == 1) {
-                this.$pushContents('Board');
-                console.log("로그인 성공");
+                this.$pushContents('Board', {from: '로그인에서'});
               }else {
-                console.log("틀림ㅅㄱ");
                 alert("아이디 또는 비밀번호가 틀렸습니다.\n다시 입력해주세요.")
               }
             }).catch((err) => {
           if (err.response) {
-            console.log("틀림ㅅㄱ2");
           }
         })
       },

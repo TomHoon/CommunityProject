@@ -1,6 +1,10 @@
 <template>
     <div>
-        <component :is="getMainLayer">
+        <component 
+            :is="getMainLayer"
+            :pageParams="getMainPageInfo"
+            :transferObj="getTransferObj"
+        >
 
         </component>
     </div>
@@ -10,11 +14,19 @@
 export default {
     computed: {
         getMainLayer() {
-            return this.$store.state.mainLayer[this.$store.state.mainLayer.length-1];
-        }
+            return this.$store.state.mainLayer[this.$store.state.mainLayer.length-1].pageName;
+        },
+        getMainPageInfo() {
+            return this.$store.state.mainLayer[this.$store.state.mainLayer.length-1].pageInfo
+        },
+        getTransferObj() {
+            return this.$store.state.mainLayer[this.$store.state.mainLayer.length-1].transferObj
+        },
     },
     mounted(){
         console.log(this.$store.state.mainLayer[this.$store.state.mainLayer.length-1]);
+    },
+    methods: {
     }
 
 }

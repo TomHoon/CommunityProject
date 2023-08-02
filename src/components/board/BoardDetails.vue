@@ -1,21 +1,25 @@
 <template>
   <div>
-    <div class="title">
-      상세 페이지
+      <div class="title">
+        상세 페이지
+      </div>
+      <button class="back" @click="backPage">
+        뒤로가기
+      </button>
     </div>
-    <button class="back" @click="backPage">
-      뒤로가기
-    </button>
-  </div>
 </template>
 
 <script>
 export default {
-    methods:{
-      backPage() {
-        this.$backPage();
-      },
-    }
+  props: ['pageParams'],
+  mounted() {
+    console.log(this.pageParams.i2d);
+  }, 
+  methods:{
+    backPage() {
+      this.$backPage({boardParam: '백페이지에서 사용할 파람'});
+    },
+  }
 }
 </script>
 

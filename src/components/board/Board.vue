@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <img src="@/assets/back.png"  height="15" width="15" alt="" @click="backPage"><strong>뒤로가기</strong>
+    <img src="@/assets/back.png"  height="15" width="15" alt="" @click="backPage"><strong>뒤로가기</strong>
   <button type="button" class="btn btn-dark write-btn" @click="goWrite">글쓰기</button>
   <table class="table">
     <thead>
@@ -33,7 +33,7 @@
 
   <!-- 페이징 처리 코드 -->
   <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
-  
+
 
 </div>
 </template>
@@ -42,20 +42,17 @@
 import axios from 'axios';
 
   export default {
+    props: ['pageParams', 'transferObj'],
     computed: {
       getBoardList() {
         return this.boardList
-      },
+      }
     },
     mounted() {
+      this.$propsWatch();
       axios.post('/getBoardAll', {order: 0})
         .then((res) => {
           this.boardList = res.data;
-          // console.log("res data : ", res.data)
-          // console.log("boardList : ", this.boardList)
-          // console.log("boardList[0] : ", this.boardList[0])
-          // console.log("boardList[0].id : ", this.boardList[0].id)
-          // console.log("boardList.length : ", this.boardList.length)
         });
     },
     data() {
@@ -67,20 +64,19 @@ import axios from 'axios';
     },
     methods: {
       backPage() {
-        this.$backPage();
+        this.$backPage({test: 'hello'});
       },
       goWrite() {
         this.$pushContents('BoardWrite');
       },
       goDetails() {
-        this.$pushContents('BoardDetails');
+        this.$pushContents('BoardDetails', {i2d: 'helloman'});
       },
       upHit(payload) {
         let param = {
           id : payload
         }
         axios.post('/updateHitBoard', param).then((res) => {
-          console.log("증가했어",res)
         })
         .catch((error) => {
           console.error('오류', error);
@@ -98,6 +94,9 @@ import axios from 'axios';
       },
       calData() {
         return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
+      },
+      propsChanged() {
+        console.log(this.transferObj);
       }
     }
 }
