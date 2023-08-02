@@ -73,8 +73,8 @@
       </div>
       <input type="hidden" v-model="member_del_yn">
       <div class="buttons">
-        <button class="join_btn" @click="join">가입</button>
         <button class="join_btn" @click="backPage">뒤로가기</button>
+        <button class="join_btn" @click="join">가입</button>
       </div>
   </div>
 
@@ -355,7 +355,7 @@ export default {
 }
 
 .id_check_memo {
-  font-size: 0.7rem;
+  font-size: 10.5px;
   text-align: left;
   margin-top: 5px;
   margin-left: 3px;
@@ -398,10 +398,11 @@ export default {
 }
 
 .pw_check_memo {
-  font-size: 12px;
+  font-size: 10.5px;
   text-align: left;
   margin-top: 5px;
   margin-left: 3px;
+
 }
 
 .pw_check_form {
@@ -570,8 +571,8 @@ export default {
 }
 
 .postcode {
-  width: 70px;
-  margin-right: 20px;
+  width: 80px;
+  margin-right: 12px;
   margin-bottom: 5px;
   border: 1px solid rgba(136, 135, 135, 0.34);
   border-radius: 3px;
@@ -593,8 +594,8 @@ export default {
   background-color: white;
   width: 150px;
   float: left;
-  height: 44px;
-  margin-top: 11px;
+  height: 40px;
+  margin-top: 12px;
   cursor: pointer;
 }
 
@@ -719,10 +720,10 @@ export default {
   }
 
   .id_check_memo {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     text-align: left;
     margin-top: 5px;
-    margin-left: 9%;
+    margin-left: 10.5%;
     width: 80%;
 
   }
@@ -762,10 +763,10 @@ export default {
   }
 
   .pw_check_memo {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     text-align: left;
     margin-top: 5px;
-    margin-left: 9%;
+    margin-left: 10.5%;
     width: 80%;
   }
 
@@ -936,7 +937,7 @@ export default {
     height: 40px;
     float: left;
     text-align: center;
-    margin-left: 6.4%;
+    margin-left: 10%;
     margin-right: 5px;
 
   }
@@ -947,10 +948,10 @@ export default {
     color: rgba(66, 64, 64, 0.75);
     font-size: 12px;
     background-color: white;
-    width: 50%;
-    height: 44px;
+    width: 43.5%;
+    height: 40px;
     cursor: pointer;
-
+    float: left;
   }
 
   .member_address {
@@ -992,12 +993,12 @@ export default {
   .join_btn {
     text-align: center;
     color: white;
-    width: 80%;
+    width: 200px;
     height: 40px;
     border: 1px solid rgba(136, 135, 135, 0.34);
     border-radius: 3px;
     font-size: 14px;
-    margin: 30px auto;
+    margin: 30px;
     background-color: #ad74e3;
     cursor: pointer;
 
@@ -1045,7 +1046,6 @@ li {
 }
 .buttons {
   display:flex;
-  margin-right: 10px;
 }
 .buttons button{
   width:45%;

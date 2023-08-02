@@ -432,10 +432,9 @@ export default {
   text-align: center;
 }
 .agreement_wrap {
-  margin-right: 20px;
 }
 #fregister_term {
-  width: 90%;
+  width: 85%;
   margin: 0 auto 30px auto;
 }
 .fregister_agree01 {
@@ -444,7 +443,7 @@ export default {
 }
 #fregister_private {
   margin-bottom: 30px;
-  width: 90%;
+  width: 85%;
   margin: 0 auto 30px auto;
 }
 .fregister_agree02 {
@@ -454,7 +453,7 @@ export default {
 .member_box {
   box-sizing: border-box;
   border: 1px solid black;
-  width: 230px;
+  width: 220px;
   height: 50px;
   display: block;
   margin: 0 auto;
@@ -489,5 +488,22 @@ textarea {
 }
 .buttons button{
   width: 45%;
+}
+
+/*모바일 반응형*/
+/*---------------------------------------------------------------------------------------------*/
+
+@media (max-width: 750px) {
+  .member_box {
+    box-sizing: border-box;
+    border: 1px solid black;
+    width: 150px;
+    height: 40px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    text-decoration: none;
+    padding-top: 12px;
+  }
 }
 </style>
