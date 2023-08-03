@@ -19,6 +19,10 @@
 					<label for="content">내용</label>
 					<textarea class="form-control" v-model="article.content" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 				</div>
+				<div class="mb-3">
+					<label for="content">파일첨부</label>
+					<input type="file" @change="fileHandler">
+				</div>
 				<!-- <div class="mb-3">
 					<label for="tag">TAG</label>
 					<input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">
@@ -44,6 +48,18 @@ export default {
         }
     },
     methods: {
+        async fileHandler(e) {
+            const formData = new FormData();
+            formData.append('uploadFile', e.target.files[0]);
+
+            await axios.post('/pushImage', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            
+        },
         backPage() {
             this.$backPage();
         },
@@ -60,10 +76,9 @@ export default {
                 recommend: '1',
                 hit: '1'
             }
-            axios.post('/addBoard', param).then((res) => {
-                console.log(res.data);
-            });
-
+            axios.post('/addBoard', param)
+                .catch(error => console.log(error.message));
+                
             this.$backPage();
         }
     }
