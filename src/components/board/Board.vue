@@ -22,7 +22,7 @@
       <tr v-for="(item, idx) in calData()" :key="idx">  
         <th scope="row">{{item.id}}</th>
         <th scope="row">{{item.gubun}}</th>
-        <td @click="[goDetails(),upHit(item.id)]">{{item.title}}</td>
+        <td @click="[goDetails(item),upHit(item.id)]">{{item.title}}</td>
         <td>{{item.content}}</td>
         <td>{{item.writer}}</td>
         <td>{{item.recommend}}</td>
@@ -69,14 +69,14 @@ import axios from 'axios';
       goWrite() {
         this.$pushContents('BoardWrite');
       },
-      goDetails() {
-        this.$pushContents('BoardDetails', {i2d: 'helloman'});
+      goDetails(payload) {
+        this.$pushContents('BoardDetails', {BoardData: payload});
       },
       upHit(payload) {
         let param = {
           id : payload
         }
-        axios.post('/updateHitBoard', param).then((res) => {
+        axios.post('/updateHitBoard', param).then(() => {
         })
         .catch((error) => {
           console.error('오류', error);

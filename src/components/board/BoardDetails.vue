@@ -1,24 +1,50 @@
 <template>
   <div>
       <div class="title">
-        상세 페이지
+        {{ pageParams.BoardData.title }}
       </div>
-      <button class="back" @click="backPage">
+
+      <div>
+        조회수 : {{ pageParams.BoardData.recommend }} 추천수 : {{ pageParams.BoardData.hit}}
+      </div>
+      
+      <div class="content">
+        {{ pageParams.BoardData.content }}
+      </div>
+
+      <button class="btn" @click="Recommend( pageParams.BoardData.id )">
+        추천하기
+      </button>
+
+      <button class="btn" @click="backPage">
         뒤로가기
       </button>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   props: ['pageParams'],
   mounted() {
-    console.log(this.pageParams.i2d);
+    console.log('보드리스트', this.pageParams.BoardData);
   }, 
   methods:{
     backPage() {
       this.$backPage({boardParam: '백페이지에서 사용할 파람'});
     },
+    Recommend(payload) {
+        let param = {
+          id : payload
+        }
+        console.log(payload)
+        axios.post('/updateRecommendBoard', param).then(() => {
+        })
+        .catch((error) => {
+          console.error('오류', error);
+        })
+      },
   }
 }
 </script>
@@ -29,9 +55,14 @@ export default {
     font-size: 40px;
     font-weight: bold;
 }
-.back{
+.content{
+  height: 200px;
+}
+.btn{
     color:#ad74e3;
-    width: 500px;
+    background-color: pink;
+    width: 200px;
+    margin : 5px;
     height: 50px;
     border: 0px;
     border-radius: 3px;
