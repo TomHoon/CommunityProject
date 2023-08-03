@@ -3,9 +3,17 @@
     <h1 class="join_tit_h1">회원가입</h1>
   </div>
   <div class="join_form">
-      <div class="id_form">
-        <label for="member_id">아이디</label>
-        <span class="float-right">
+    <div class="profile_form">
+      <span class="profile_label">프로필</span>
+      <img src=@/assets/profile_Img.jpg class="profile_Img" alt='프로필' />
+      <label for="member_profile">+</label>
+      <span class="float-right">
+          <input type="file" id="member_profile" class="member_profile" accept="image/*">
+        </span>
+    </div>
+    <div class="id_form">
+      <label for="member_id">아이디</label>
+      <span class="float-right">
             <input type="text" id="member_id" v-model="member_id" class="member_id" placeholder="아이디를 입력해주세요."
                    maxlength="15" autocomplete="off">
           <span v-show="valid.member_id">
@@ -13,10 +21,10 @@
           </span>
             <div class="id_check_memo">아이디는 영문+숫자 포함 6~12자 이하</div>
         </span>
-      </div>
-      <div class="pw_form">
-        <label for="member_pw">비밀번호</label>
-        <span class="float-right">
+    </div>
+    <div class="pw_form">
+      <label for="member_pw">비밀번호</label>
+      <span class="float-right">
           <input type="password" id="member_pw" v-model="member_pw" class="member_pw" placeholder="비밀번호를 입력해주세요."
                  maxlength="15">
           <span v-show="valid.member_pw">
@@ -24,44 +32,45 @@
           </span>
           <div class="pw_check_memo">비밀번호는 영문+숫자+특수기호 포함 8자 이상</div>
         </span>
-      </div>
-      <div class="pw_check_form">
-        <label for="member_pw_check">비밀번호확인</label>
-        <span class="float-right">
+    </div>
+    <div class="pw_check_form">
+      <label for="member_pw_check">비밀번호확인</label>
+      <span class="float-right">
           <input type="password" id="member_pw_check" v-model="member_pw_check" class="member_pw_check"
                  placeholder="비밀번호를 입력해주세요." maxlength="15">
           <span v-show="valid.member_pw_check">
             <img src="@/assets/icons8-check-48.png" class="pwchk_check">
           </span>
         </span>
-      </div>
-      <div class="name_form">
-        <label for="member_name">이름</label>
-        <span class="float-right">
+    </div>
+    <div class="name_form">
+      <label for="member_name">이름</label>
+      <span class="float-right">
           <input type="text" id="member_name" v-model="member_name" class="member_name" autocomplete="off">
         </span>
-      </div>
-      <div class="nickname_form">
-        <label for="member_nickname">닉네임</label>
-        <span class="float-right">
+    </div>
+    <div class="nickname_form">
+      <label for="member_nickname">닉네임</label>
+      <span class="float-right">
           <input type="text" id="member_nickname" v-model="member_nickname" class="member_nickname" autocomplete="off">
         </span>
-      </div>
-      <div class="phone_form">
-        <label for="member_phone">전화번호</label>
-        <span class="float-right">
-          <input type="tel" id="member_phone" v-model="member_phone" class="member_phone" placeholder="(-없이)" autocomplete="off" maxlength="11"/>
+    </div>
+    <div class="phone_form">
+      <label for="member_phone">전화번호</label>
+      <span class="float-right">
+          <input type="tel" id="member_phone" v-model="member_phone" class="member_phone" placeholder="(-없이)"
+                 autocomplete="off" maxlength="11"/>
         </span>
-      </div>
-      <div class="email_form">
-        <label for="member_email">이메일</label>
-        <span class="float-right">
+    </div>
+    <div class="email_form">
+      <label for="member_email">이메일</label>
+      <span class="float-right">
           <input type="text" id="member_email" v-model="member_email" class="member_email" autocomplete="off">
         </span>
-      </div>
-      <div class="address_form">
-        <label for="member_address">주소</label>
-        <span class="float-right">
+    </div>
+    <div class="address_form">
+      <label for="member_address">주소</label>
+      <span class="float-right">
           <input type="text" v-model="postcode" class="postcode" placeholder="우편번호">
           <input type="button" @click="execDaumPostcode()" class="execDaumPostcode" value="우편번호 찾기"><br>
           <input type="text" id="member_address" v-model="member_address" class="member_address" placeholder="주소"
@@ -70,12 +79,12 @@
                  autocomplete="off"><br>
           <input type="text" id="extraAddress" v-model="extraAddress" class="extraAddress" readonly>
         </span>
-      </div>
-      <input type="hidden" v-model="member_del_yn">
-      <div class="buttons">
-        <button class="join_btn" @click="backPage">뒤로가기</button>
-        <button class="join_btn" @click="join">가입</button>
-      </div>
+    </div>
+    <input type="hidden" v-model="member_del_yn">
+    <div class="buttons">
+      <button class="join_btn" @click="backPage">뒤로가기</button>
+      <button class="join_btn" @click="join">가입</button>
+    </div>
   </div>
 
 
@@ -139,35 +148,35 @@ export default {
         member_address: this.member_address + " " + this.detailAddress,
         member_del_yn: 'N',
       };
-      if(this.member_id == ''){
+      if (this.member_id == '') {
         alert("아이디를 입력해주세요.")
         return false;
       }
-      if(this.member_pw =='') {
+      if (this.member_pw == '') {
         alert("비밀번호를 입력해주세요.")
         return false;
       }
-      if(this.member_pw_check =='') {
+      if (this.member_pw_check == '') {
         alert("비밀번호확인을 입력해주세요.")
         return false;
       }
-      if(this.member_name =='') {
+      if (this.member_name == '') {
         alert("이름을 입력해주세요.")
         return false;
       }
-      if(this.member_nickname =='') {
+      if (this.member_nickname == '') {
         alert("닉네임을 입력해주세요.")
         return false;
       }
-      if(this.member_phone =='') {
+      if (this.member_phone == '') {
         alert("전화번호를 입력해주세요.")
         return false;
       }
-      if(this.member_email =='') {
+      if (this.member_email == '') {
         alert("이메일을 입력해주세요.")
         return false;
       }
-      if(this.member_address =='') {
+      if (this.member_address == '') {
         alert("주소를 입력해주세요.")
         return false;
       }
@@ -319,6 +328,37 @@ export default {
   display: inline-block;
 }
 
+.profile_form {
+  width: 700px;
+  height: 90px;
+  margin: 20px auto;
+}
+.profile_label {
+  float: left;
+  padding: 42px 0 0 20px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #736d6d;
+}
+.profile_form label {
+  padding: 22px 0 0 20px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #736d6d;
+  transform: translate(-11rem, -1rem);
+  padding: 100px 0 0 100px;
+  position: absolute;
+}
+
+.member_profile {
+  display: none;
+}
+.profile_Img {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  transform: translateX(-70%);
+}
 .id_form {
   box-sizing: border-box;
   border: 0.4px solid rgba(173, 116, 227, 0.63);
@@ -678,13 +718,41 @@ export default {
   .join_tit {
     margin-bottom: 15px;
   }
+
   .float-right {
     width: 69%;
   }
+
   .join_form {
     margin-top: 40px;
     display: inline-block;
     width: 100%;
+  }
+  .profile_form {
+    width: 80%;
+    height: 90px;
+  }
+  .profile_label {
+    float: left;
+    padding: 42px 0 0 20px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #736d6d;
+  }
+  .profile_form label {
+    padding: 22px 0 0 20px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #736d6d;
+    transform: translate(-6.9rem, 0.8rem);
+    padding: 60px 0 0 60px;
+    position: absolute;
+  }
+  .profile_Img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    transform: translate(-70%, 40%);
   }
   .id_form {
     box-sizing: border-box;
@@ -716,7 +784,7 @@ export default {
     width: 13px;
     height: 13px;
     position: absolute;
-    transform: translate(-1.3rem , 1.6rem);
+    transform: translate(-1.3rem, 1.6rem);
   }
 
   .id_check_memo {
@@ -727,6 +795,7 @@ export default {
     width: 80%;
 
   }
+
   .pw_form {
     box-sizing: border-box;
     border: 0.4px solid rgba(173, 116, 227, 0.63);
@@ -803,6 +872,7 @@ export default {
     position: absolute;
     transform: translate(-1.3rem, 1.6rem);
   }
+
   .name_form {
     box-sizing: border-box;
     border: 0.4px solid rgba(173, 116, 227, 0.63);
@@ -884,6 +954,7 @@ export default {
     width: 80%;
     margin: 12px 0 0 0;
   }
+
   .email_form {
     box-sizing: border-box;
     border: 0.4px solid rgba(173, 116, 227, 0.63);
@@ -911,6 +982,7 @@ export default {
     width: 80%;
     margin: 12px 0 0 0;
   }
+
   .address_form {
     box-sizing: border-box;
     border: 0.4px solid rgba(173, 116, 227, 0.63);
@@ -1044,10 +1116,12 @@ input[type="number"] {
 li {
   list-style: none;
 }
+
 .buttons {
-  display:flex;
+  display: flex;
 }
-.buttons button{
-  width:45%;
+
+.buttons button {
+  width: 45%;
 }
 </style>
