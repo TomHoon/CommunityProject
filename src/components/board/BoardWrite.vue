@@ -21,7 +21,7 @@
 				</div>
 				<div class="mb-3">
 					<label for="content">파일첨부</label>
-					<input type="file" @change="fileHandler">
+					<input type="file" ref="fileUpload">
 				</div>
 				<!-- <div class="mb-3">
 					<label for="tag">TAG</label>
@@ -49,36 +49,59 @@ export default {
     },
     methods: {
         async fileHandler(e) {
+            // console.log(e.target.files[0]);
+            // const formData = new FormData();
+            // formData.append('uploadFile', e.target.files[0]);
+            // formData.append('test', '나눠서간다');
+            
+            // await axios.post('/pushImage', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+            
+        },
+        backPage() {
+            this.$backPage();
+        },
+        async saveWrite() {
+            if (!this.article.gubun || !this.article.title || !this.article.content) {
+                alert("빈칸을 채워주세요");
+                return;
+            }
+
+            // let 이미지파일 = this.$refs.fileUpload.files[0];
+            // console.log('이미지파일 > ', this.$refs.fileUpload.files[0]);
             const formData = new FormData();
-            formData.append('uploadFile', e.target.files[0]);
+            formData.append('uploadFile', this.$refs.fileUpload.files[0]);
 
             await axios.post('/pushImage', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            // if (this.$refs.fileUpload.files[0]) {
+            //     console.log('ghere')
+            //     const formData = new FormData();
+            //     formData.append('uploadFile', 이미지파일);
+            //     await axios.post('/pushImage', formData, {
+            //         headers: {
+            //             'Content-Type': 'multipart/form-data'
+            //         }
+            //    });
+            // }
 
-            
-        },
-        backPage() {
-            this.$backPage();
-        },
-        saveWrite() {
-            if (!this.article.gubun || !this.article.title || !this.article.content) {
-                alert("빈칸을 채워주세요");
-                return;
-            }
             let param = {
                 gubun: this.article.gubun,
                 title: this.article.title,
                 content: this.article.content,
                 writer: 'tom',
                 recommend: '1',
-                hit: '1'
+                hit: '1',
             }
-            axios.post('/addBoard', param)
+            await axios.post('/addBoard', param)
                 .catch(error => console.log(error.message));
-                
+
             this.$backPage();
         }
     }
