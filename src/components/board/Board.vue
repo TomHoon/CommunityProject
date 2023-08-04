@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 <div class="container">
     <img src="@/assets/back.png"  height="15" width="15" alt="" @click="backPage"><strong>뒤로가기</strong>
   <button type="button" class="btn btn-dark write-btn" @click="goWrite">글쓰기</button>
@@ -15,14 +15,10 @@
       </tr>
     </thead>
     <tbody>
-      <!-- 페이징 처리 이전 코드 -->
-      <!-- <tr v-for="(item, idx) in getBoardList" :key="idx"> -->
-      
-      <!-- 페이징 처리 이후 코드 -->
-      <tr v-for="(item, idx) in calData()" :key="idx">  
+      <tr v-for="(item, idx) in calData()" :key="idx" @click="[goDetails(item),upHit(item.id)]">  
         <th scope="row">{{item.id}}</th>
         <th scope="row">{{item.gubun}}</th>
-        <td @click="[goDetails(item),upHit(item.id)]">{{item.title}}</td>
+        <td>{{item.title}}</td>
         <td>{{item.content}}</td>
         <td>{{item.writer}}</td>
         <td>{{item.recommend}}</td>
@@ -31,13 +27,31 @@
     </tbody>
   </table>
 
-  <!-- 페이징 처리 코드 -->
   <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
 
-
 </div>
-</template>
+</template> -->
 
+<template>
+<Header></Header>
+  <div class="board-container">
+    <button type="button" class="btn btn-dark write-btn" @click="goWrite">글쓰기</button>
+    <div class="board-table">
+
+      <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="[goDetails(item),upHit(item.id)]">  
+        <div class="board-table-cell1">
+          <img class="product-img" :src="item.image_path">
+        </div>
+        <div class="board-table-cell2">
+          <div><h5 style="color:blue">{{item.title}}(5)</h5></div>
+          <div><p>[{{item.gubun}}] | 조회수: {{item.hit}} | 추천수: {{item.recommend}} | 2023.08.04</p></div>
+        </div>
+      </div>
+
+    </div>
+    <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
+  </div>
+</template>
 <script>
 import axios from 'axios';
 
@@ -111,5 +125,53 @@ import axios from 'axios';
   }
   .page-num {
     cursor:pointer;
+  }
+
+    .board-container {
+    max-width: 1100px;
+    margin: 10px 10px;
+
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+    /*margin: 2rem auto;*/
+    margin: 15px 35px 15px 35px;
+    /* max-width: 40rem; */
+    text-align: center;
+  }
+  .board-table {
+    text-align:center;
+    display:table;
+    /*border:1px solid #cecece;*/
+    width:100%;
+    /* height:250px; */
+  }
+
+  .board-table-row {
+    display: table-row;
+    /*border-bottom: dashed silver;*/
+  }
+
+  .board-table-cell1 {
+    display:table-cell;
+    vertical-align:middle;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    width: 30%
+  }
+
+  .board-table-cell2 {
+    display:table-cell;
+    vertical-align:middle;
+    border-bottom: 1px solid #ddd;
+    width: 70%;
+    padding: 10px;
+  }
+
+  .product-img {
+    max-width:60px;
+    max-height:60px;
+    /* max-width:180px; */
+    /* max-height:180px; */
   }
 </style>

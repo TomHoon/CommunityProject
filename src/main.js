@@ -11,6 +11,7 @@ import Join from '@/components/member/Join'
 import Board from '@/components/board/Board'
 import BoardWrite from '@/components/board/BoardWrite'
 import BoardDetails from '@/components/board/BoardDetails'
+import Header from '@/components/Header'
 
 const store = createStore({
     state() {
@@ -29,6 +30,8 @@ app.component('Join', Join);
 app.component('Board', Board);
 app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
+app.component('Header', Header);
+
 
 app.use(router);
 app.use(store);

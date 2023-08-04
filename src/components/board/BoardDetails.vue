@@ -10,6 +10,7 @@
       
       <div class="content">
         {{ pageParams.BoardData.content }}
+        <img :src=" pageParams.BoardData.image_path" alt="">
       </div>
 
       <button class="btn" @click="Recommend( pageParams.BoardData.id )">
@@ -29,6 +30,7 @@ export default {
   props: ['pageParams'],
   mounted() {
     console.log('보드리스트', this.pageParams.BoardData);
+    axios.post('/getBoardById', {id: 15}).then((res) => console.log(res.data));
   }, 
   methods:{
     backPage() {

@@ -70,27 +70,8 @@ export default {
                 return;
             }
 
-            // let 이미지파일 = this.$refs.fileUpload.files[0];
-            // console.log('이미지파일 > ', this.$refs.fileUpload.files[0]);
             const formData = new FormData();
             formData.append('uploadFile', this.$refs.fileUpload.files[0]);
-
-            await axios.post('/pushImage', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            // if (this.$refs.fileUpload.files[0]) {
-            //     console.log('ghere')
-            //     const formData = new FormData();
-            //     formData.append('uploadFile', 이미지파일);
-            //     await axios.post('/pushImage', formData, {
-            //         headers: {
-            //             'Content-Type': 'multipart/form-data'
-            //         }
-            //    });
-            // }
-
             let param = {
                 gubun: this.article.gubun,
                 title: this.article.title,
@@ -98,9 +79,28 @@ export default {
                 writer: 'tom',
                 recommend: '1',
                 hit: '1',
-            }
-            await axios.post('/addBoard', param)
-                .catch(error => console.log(error.message));
+            };
+
+            /**
+             * 💕알림1) 
+             * Backend에서 @RequestPart를 사용하기 때문에 
+             * 백엔드 파라미터 변수명과 같이해야함
+             * 
+             * 백엔드에서 받는 파라미터 변수명이
+             * ✨param 이기 때문에 변수명을 그대로 사용해야함
+             * 
+             * 
+             * 💕알림2)
+             * @RequestPart 는 
+             * 데이터 타입을 String으로만 받을 수 있어
+             * stringify 처리함 
+             */
+            formData.append('param', JSON.stringify(param));
+            await axios.post('/addBoard', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).catch(error => console.log(error.message));
 
             this.$backPage();
         }
