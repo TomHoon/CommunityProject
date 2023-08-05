@@ -73,9 +73,9 @@
       <span class="float-right">
           <input type="text" v-model="postcode" class="postcode" placeholder="우편번호">
           <input type="button" @click="execDaumPostcode()" class="execDaumPostcode" value="우편번호 찾기"><br>
-          <input type="text" id="member_address" v-model="member_address" class="member_address" placeholder="주소"
-                 autocomplete="off"><br>
           <input type="text" id="detailAddress" v-model="detailAddress" class="detailAddress" placeholder="상세주소"
+                 autocomplete="off"><br>
+          <input type="text" id="member_address" v-model="member_address" class="member_address" placeholder="주소"
                  autocomplete="off"><br>
           <input type="text" id="extraAddress" v-model="extraAddress" class="extraAddress" readonly>
         </span>
