@@ -65,7 +65,11 @@
     <div class="email_form">
       <label for="member_email">이메일</label>
       <span class="float-right">
-          <input type="text" id="member_email" v-model="member_email" class="member_email" autocomplete="off"  ref="member_email">
+          <input type="text" id="member_email" v-model="member_email" class="member_email" autocomplete="off"
+                 placeholder="example@email.com" ref="member_email">
+        <span v-show=" valid.member_email">
+          <span class="email_check_memo">올바른 이메일 형식이 아닙니다. 예시)example@email.com</span>
+          </span>
         </span>
     </div>
     <div class="address_form">
@@ -113,7 +117,8 @@ export default {
       valid: {
         member_id: false,
         member_pw: false,
-        member_pw_check: false
+        member_pw_check: false,
+        member_email: false
       },
       member_del_yn: "",
     };
@@ -127,6 +132,9 @@ export default {
     },
     'member_pw_check': function () {
       this.checkPw_chk()
+    },
+    'member_email': function () {
+      this.checkEmail()
     },
 
   },
@@ -234,6 +242,14 @@ export default {
         return
       }
       this.valid.member_pw_check = true
+    },
+    checkEmail() {
+      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/
+      if (!validateEmail.test(this.member_email) || !this.member_email) {
+        this.valid.member_email = true
+        return
+      }
+      this.valid.member_email = false
     },
 
     execDaumPostcode() {
@@ -576,7 +592,7 @@ export default {
   box-sizing: border-box;
   border: 0.4px solid rgba(173, 116, 227, 0.63);
   width: 700px;
-  height: 70px;
+  height: 90px;
   margin: 10px auto;
 }
 
@@ -600,7 +616,14 @@ export default {
   font-size: 15px;
   margin-top: 12px;
 }
-
+.email_check_memo {
+  font-size: 10.5px;
+  text-align: left;
+  margin-top: 5px;
+  margin-left: 3px;
+  display: block;
+  color: rgba(255, 0, 0, 1);
+}
 .address_form {
   box-sizing: border-box;
   border: 0.4px solid rgba(173, 116, 227, 0.63);
