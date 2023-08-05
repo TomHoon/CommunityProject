@@ -15,7 +15,7 @@
       <label for="member_id">아이디</label>
       <span class="float-right">
             <input type="text" id="member_id" v-model="member_id" class="member_id" placeholder="아이디를 입력해주세요."
-                   maxlength="15" autocomplete="off">
+                   maxlength="15" autocomplete="off" ref="member_id">
           <span v-show="valid.member_id">
             <img src="@/assets/icons8-check-48.png" class="id_check">
           </span>
@@ -26,7 +26,7 @@
       <label for="member_pw">비밀번호</label>
       <span class="float-right">
           <input type="password" id="member_pw" v-model="member_pw" class="member_pw" placeholder="비밀번호를 입력해주세요."
-                 maxlength="15">
+                 maxlength="15"  ref="member_pw">
           <span v-show="valid.member_pw">
             <img src="@/assets/icons8-check-48.png" class="pw_check">
           </span>
@@ -37,7 +37,7 @@
       <label for="member_pw_check">비밀번호확인</label>
       <span class="float-right">
           <input type="password" id="member_pw_check" v-model="member_pw_check" class="member_pw_check"
-                 placeholder="비밀번호를 입력해주세요." maxlength="15">
+                 placeholder="비밀번호를 입력해주세요." maxlength="15" ref="member_pw_check">
           <span v-show="valid.member_pw_check">
             <img src="@/assets/icons8-check-48.png" class="pwchk_check">
           </span>
@@ -46,26 +46,26 @@
     <div class="name_form">
       <label for="member_name">이름</label>
       <span class="float-right">
-          <input type="text" id="member_name" v-model="member_name" class="member_name" autocomplete="off">
+          <input type="text" id="member_name" v-model="member_name" class="member_name" autocomplete="off" ref="member_name">
         </span>
     </div>
     <div class="nickname_form">
       <label for="member_nickname">닉네임</label>
       <span class="float-right">
-          <input type="text" id="member_nickname" v-model="member_nickname" class="member_nickname" autocomplete="off">
+          <input type="text" id="member_nickname" v-model="member_nickname" class="member_nickname" autocomplete="off"  ref="member_nickname">
         </span>
     </div>
     <div class="phone_form">
-      <label for="member_phone">전화번호</label>
+      <label for="member_phone">휴대폰번호</label>
       <span class="float-right">
           <input type="tel" id="member_phone" v-model="member_phone" class="member_phone" placeholder="(-없이)"
-                 autocomplete="off" maxlength="11"/>
+                 autocomplete="off" maxlength="11" ref="member_phone"/>
         </span>
     </div>
     <div class="email_form">
       <label for="member_email">이메일</label>
       <span class="float-right">
-          <input type="text" id="member_email" v-model="member_email" class="member_email" autocomplete="off">
+          <input type="text" id="member_email" v-model="member_email" class="member_email" autocomplete="off"  ref="member_email">
         </span>
     </div>
     <div class="address_form">
@@ -150,30 +150,37 @@ export default {
       };
       if (this.member_id == '') {
         alert("아이디를 입력해주세요.")
+        this.$refs.member_id.focus();
         return false;
       }
       if (this.member_pw == '') {
         alert("비밀번호를 입력해주세요.")
+        this.$refs.member_pw.focus();
         return false;
       }
       if (this.member_pw_check == '') {
         alert("비밀번호확인을 입력해주세요.")
+        this.$refs.member_pw_check.focus();
         return false;
       }
       if (this.member_name == '') {
         alert("이름을 입력해주세요.")
+        this.$refs.member_name.focus();
         return false;
       }
       if (this.member_nickname == '') {
         alert("닉네임을 입력해주세요.")
+        this.$refs.member_nickname.focus();
         return false;
       }
       if (this.member_phone == '') {
         alert("전화번호를 입력해주세요.")
+        this.$refs.member_phone.focus();
         return false;
       }
       if (this.member_email == '') {
         alert("이메일을 입력해주세요.")
+        this.$refs.member_email.focus();
         return false;
       }
       if (this.member_address == '') {
