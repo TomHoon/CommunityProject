@@ -5,7 +5,7 @@
       </div>
 
       <div>
-        조회수 : {{ Hit }} 추천수 : {{ Recommend }}
+        조회수 : {{ hit }} 추천수 : {{ recommend }}
       </div>
       
       <div class="content">
@@ -29,36 +29,37 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      Recommend : 0,
-      Hit : 0,
+      recommend: 0,
+      hit : 0,
     }
   },
-  props: ['pageParams'],
   mounted() {
-    console.log(this.pageParams.BoardData.id)
-    axios.post('/getBoardById', {id: this.pageParams.BoardData.id })
-    .then((res) => {
-      console.log(res)
-      this.Recommend = res.Hit
-      });
-  }, 
+    axios.post('/getBoardById', {id:this.pageParams.BoardData.id}).then(response => {
+      this.hit = response.data.hit;
+      this.recommend = response.data.recommend;
+    });
+  },
+
+  props: ['pageParams'],
   methods:{
     backPage() {
       this.$backPage({boardParam: '백페이지에서 사용할 파람'});
     },
+    
     updateRecommend(payload) {
-        let param = {
-          id : payload
-        }
-        console.log(payload)
-        axios.post('/updateRecommendBoard', param).then(() => {
-        })
-        .catch((error) => {
-          console.error('오류', error);
-        })
-      },
-  },
-  computed:{
+      console.log(console.log(payload))
+      let param = {
+        id : payload
+      }
+      axios.post('/updateRecommendBoard', param)
+      .then((res) => {
+        console.log(res)
+        this.recommend = Number(this.recommend) + 1
+      })
+      .catch((error) => {
+        console.error('오류', error);
+      })
+    },
   },
 }
 </script>
