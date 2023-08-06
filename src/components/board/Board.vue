@@ -129,14 +129,10 @@ import axios from 'axios';
 
     .board-container {
     max-width: 1100px;
-    margin: 10px 10px;
-
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     padding: 1rem;
-    /*margin: 2rem auto;*/
-    margin: 15px 35px 15px 35px;
-    /* max-width: 40rem; */
+    margin: 20px auto;
     text-align: center;
   }
   .board-table {
