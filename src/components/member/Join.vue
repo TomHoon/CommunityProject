@@ -5,10 +5,10 @@
   <div class="join_form">
     <div class="profile_form">
       <span class="profile_label">프로필</span>
-      <img src=@/assets/profile_Img.jpg class="profile_Img" alt='프로필' />
+      <img :src="getImgPath" class="profile_Img" alt='프로필' />
       <label for="member_profile">+</label>
       <span class="float-right">
-          <input type="file" id="member_profile" class="member_profile" accept="image/*">
+          <input type="file" @change="temporaryImg" id="member_profile" class="member_profile" accept="image/*">
         </span>
     </div>
     <div class="id_form">
@@ -103,6 +103,7 @@ export default {
   data() {
     //true
     return {
+      imgPath: './profile_Img.jpg',
       member_id: '',
       member_pw: '',
       member_pw_check: '',
@@ -123,6 +124,11 @@ export default {
       member_del_yn: "",
     };
   },
+  computed: {
+    getImgPath() {
+      return this.imgPath;
+    }
+  },
   watch: {
     'member_id': function () {
       this.checkId()
@@ -139,6 +145,17 @@ export default {
 
   },
   methods: {
+    async temporaryImg(e) {
+      const formData = new FormData();
+      formData.append('mFile', e.target.files[0]);
+      await axios.post('/tempImg', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(res => this.imgPath = res.data)
+      .catch(error => console.log(error.message));
+    },
     backPage() {
       this.$backPage();
     },
