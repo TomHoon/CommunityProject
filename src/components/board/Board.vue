@@ -44,7 +44,7 @@
         </div>
         <div class="board-table-cell2">
           <div><h5 style="color:blue">{{item.title}}(5)</h5></div>
-          <div><p>[{{item.gubun}}] | 조회수: {{item.hit}} | 추천수: {{item.recommend}} | 2023.08.04</p></div>
+          <div><p>[{{item.gubun}}] No.{{item.id}} | 조회수: {{item.hit}} | 추천수: {{item.recommend}} | 2023/08/06 </p></div>
         </div>
       </div>
 

@@ -5,7 +5,7 @@
       </div>
 
       <div>
-        조회수 : {{ pageParams.BoardData.recommend }} 추천수 : {{ pageParams.BoardData.hit}}
+        조회수 : {{ Hit }} 추천수 : {{ Recommend }}
       </div>
       
       <div class="content">
@@ -13,7 +13,7 @@
         <img :src=" pageParams.BoardData.image_path" alt="">
       </div>
 
-      <button class="btn" @click="Recommend( pageParams.BoardData.id )">
+      <button class="btn" @click="updateRecommend( pageParams.BoardData.id )">
         추천하기
       </button>
 
@@ -27,16 +27,22 @@
 import axios from 'axios';
 
 export default {
+  data() {
+    return {
+      Recommend : 0,
+      Hit : 0,
+    }
+  },
   props: ['pageParams'],
   mounted() {
-    console.log('보드리스트', this.pageParams.BoardData);
-    axios.post('/getBoardById', {id: 15}).then((res) => console.log(res.data));
+    console.log(this.pageParams.BoardData.id)
+    axios.post('/getBoardById', {id: this.pageParams.BoardData.id }).then((res) => this.Recommend = res);
   }, 
   methods:{
     backPage() {
       this.$backPage({boardParam: '백페이지에서 사용할 파람'});
     },
-    Recommend(payload) {
+    updateRecommend(payload) {
         let param = {
           id : payload
         }
@@ -47,7 +53,9 @@ export default {
           console.error('오류', error);
         })
       },
-  }
+  },
+  computed:{
+  },
 }
 </script>
 
