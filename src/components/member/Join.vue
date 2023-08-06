@@ -8,7 +8,7 @@
       <img :src="getImgPath" class="profile_Img" alt='프로필' />
       <label for="member_profile">+</label>
       <span class="float-right">
-          <input type="file" @change="temporaryImg" id="member_profile" class="member_profile" accept="image/*">
+          <input type="file" ref="fileUpload" @change="temporaryImg" id="member_profile" class="member_profile" accept="image/*">
         </span>
     </div>
     <div class="id_form">
@@ -159,7 +159,7 @@ export default {
     backPage() {
       this.$backPage();
     },
-    join(event) {
+    async join(event) {
       event.preventDefault();
 
       // 로그인 처리 로직 작성
@@ -212,21 +212,34 @@ export default {
         alert("주소를 입력해주세요.")
         return false;
       }
-      axios.post("/joinMember", 회원가입파라미터)
-          .then((res) => {
-            console.log("joinMember", res.data);
-            if (res.data == 1) {
-              this.$pushContents('Login');
+      // axios.post("/joinMember", 회원가입파라미터)
+      //     .then((res) => {
+      //       console.log("joinMember", res.data);
+      //       if (res.data == 1) {
+      //         this.$pushContents('Login');
 
-            } else {
-              console.log("회원가입 불가");
-              return false;
-            }
-          }).catch((err) => {
-        if (err.response) {
-          console.log("회원가입 불가2");
+      //       } else {
+      //         console.log("회원가입 불가");
+      //         return false;
+      //       }
+      //     }).catch((err) => {
+      //   if (err.response) {
+      //     console.log("회원가입 불가2");
+      //   }
+      // })
+      const formData = new FormData();
+      formData.append('mFile', this.$refs.fileUpload.files[0]);
+      let param = 회원가입파라미터;
+
+      formData.append('param', JSON.stringify(param));
+      await axios.post("/joinMember", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
       })
+      .then(res => console.log(res.data))
+      .catch(error => console.log(error.message));
+
     },
     /*
         openModal() {
