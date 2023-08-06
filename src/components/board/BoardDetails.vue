@@ -1,20 +1,25 @@
 <template>
   <div>
       <div class="title">
-        {{ pageParams.BoardData.title }}
+       [{{ pageParams.BoardData.gubun }}] {{ pageParams.BoardData.title }} [댓글수]
       </div>
 
-      <div>
-        조회수 : {{ hit }} 추천수 : {{ recommend }}
+      <div class="sub">
+        추천 {{ recommend }} | 조회 {{ hit }} |  
       </div>
       
       <div class="content">
-        {{ pageParams.BoardData.content }}
-        <img :src=" pageParams.BoardData.image_path" alt="">
+        <div>
+          <img :src=" pageParams.BoardData.image_path" alt="">
+        </div>
+        <div class="content-text">
+          {{ pageParams.BoardData.content }}
+        </div>
       </div>
 
       <button class="btn" @click="updateRecommend( pageParams.BoardData.id )">
-        추천하기
+        <div> {{ recommend }}</div>
+        추천
       </button>
 
       <button class="btn" @click="backPage">
@@ -47,13 +52,11 @@ export default {
     },
     
     updateRecommend(payload) {
-      console.log(console.log(payload))
       let param = {
         id : payload
       }
       axios.post('/updateRecommendBoard', param)
-      .then((res) => {
-        console.log(res)
+      .then(() => {
         this.recommend = Number(this.recommend) + 1
       })
       .catch((error) => {
@@ -66,21 +69,24 @@ export default {
 
 <style scoped>
 .title{
-    color:#ad74e3;
     font-size: 40px;
     font-weight: bold;
 }
 .content{
-  height: 200px;
+  margin:20px auto;
 }
+.content-text{
+  margin : 20px auto;
+}
+
 .btn{
     color:#ad74e3;
     background-color: pink;
     width: 200px;
     margin : 5px;
-    height: 50px;
+    height: 100px;
     border: 0px;
-    border-radius: 3px;
+    /* border-radius: 3px; */
     font-size: 17px;
 }
 </style>
