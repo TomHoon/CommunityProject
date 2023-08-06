@@ -36,7 +36,11 @@ export default {
   props: ['pageParams'],
   mounted() {
     console.log(this.pageParams.BoardData.id)
-    axios.post('/getBoardById', {id: this.pageParams.BoardData.id }).then((res) => this.Recommend = res);
+    axios.post('/getBoardById', {id: this.pageParams.BoardData.id })
+    .then((res) => {
+      console.log(res)
+      this.Recommend = res.Hit
+      });
   }, 
   methods:{
     backPage() {

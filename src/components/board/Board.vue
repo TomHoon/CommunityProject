@@ -44,7 +44,7 @@
         </div>
         <div class="board-table-cell2">
           <div><h5 style="color:blue">{{item.title}}(5)</h5></div>
-          <div><p>[{{item.gubun}}] No.{{item.id}} | 조회수: {{item.hit}} | 추천수: {{item.recommend}} | 2023/08/06 </p></div>
+          <div><p>[{{item.gubun}}] No.{{item.id}} | 조회수: {{item.hit}} | 추천수: {{item.recommend}} | {{item.reg_date}} </p></div>
         </div>
       </div>
 
@@ -67,6 +67,7 @@ import axios from 'axios';
       axios.post('/getBoardAll', {order: 0})
         .then((res) => {
           this.boardList = res.data;
+          console.log(this.boardList)
         });
     },
     data() {
