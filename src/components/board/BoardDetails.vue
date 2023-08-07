@@ -2,17 +2,17 @@
   <div>
     <Header></Header>
     <div class="main">
-      <div class="title">
+      <div class="title left-align">
        {{ BoardData.title }}
       </div>
 
-      <div class="sub">
+      <div class="sub left-align">
         <img src="@/assets/profile_Img.jpg" class="profile-img"> {{ BoardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ BoardData.reg_date }} 
       </div>
       
       <hr>
 
-      <div class="content">
+      <div class="content left-align">
         <div>
           <img :src=" BoardData.image_path" alt="">
         </div>
@@ -78,6 +78,10 @@ export default {
 </script>
 
 <style scoped>
+.left-align{
+  text-align: left;
+  padding: 10px;
+}
 .main{
   max-width: 1100px;
   margin-right: auto;
@@ -95,12 +99,6 @@ export default {
 .title{
   font-size: 30px;
   font-weight: bold;
-  text-align: left;
-  padding: 10px;
-}
-.sub{
-  padding: 10px;
-  text-align: left;
 }
 .content{
   margin: 20px auto;
