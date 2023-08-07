@@ -1,11 +1,13 @@
 <template>
   <div>
+    <Header></Header>
+    <div class="main">
       <div class="title">
        [{{ pageParams.BoardData.gubun }}] {{ pageParams.BoardData.title }} [댓글수]
       </div>
 
       <div class="sub">
-        추천 {{ recommend }} | 조회 {{ hit }} |  
+        <img src="@/assets/profile_Img.jpg" class="profile-img"> {{ pageParams.BoardData.writer }} | 추천 {{ recommend }} | 조회 {{ hit }} | 일시 {{ pageParams.BoardData.reg_date }} 
       </div>
       
       <div class="content">
@@ -26,6 +28,7 @@
         뒤로가기
       </button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -68,12 +71,26 @@ export default {
 </script>
 
 <style scoped>
+.main{
+  max-width: 1100px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top : 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+}
+.profile-img{
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+}
 .title{
-    font-size: 40px;
-    font-weight: bold;
+  font-size: 30px;
+  font-weight: bold;
 }
 .content{
-  margin:20px auto;
+  margin: 20px auto;
 }
 .content-text{
   margin : 20px auto;
