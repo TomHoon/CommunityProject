@@ -91,6 +91,10 @@ import axios from 'axios';
         this.$backPage({test: 'hello'});
       },
       goWrite() {
+        if (!localStorage.getItem('isLogin')) {
+          alert("로그인 이후 이용 가능합니다.");
+          return;
+        }
         this.$pushContents('BoardWrite');
       },
       goDetails(payload) {

@@ -65,8 +65,8 @@ export default {
             this.$backPage();
         },
         async saveWrite() {
-            if (!this.article.gubun || !this.article.title || !this.article.content) {
-                alert("빈칸을 채워주세요");
+            if (!this.article.gubun || !this.article.title) {
+                alert("제목, 구분을 모두 채워주세요");
                 return;
             }
 
