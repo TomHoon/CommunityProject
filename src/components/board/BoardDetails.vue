@@ -3,23 +3,25 @@
     <Header></Header>
     <div class="main">
       <div class="title">
-       [{{ pageParams.BoardData.gubun }}] {{ pageParams.BoardData.title }} [댓글수]
+       {{ BoardData.title }}
       </div>
 
       <div class="sub">
-        <img src="@/assets/profile_Img.jpg" class="profile-img"> {{ pageParams.BoardData.writer }} | 추천 {{ recommend }} | 조회 {{ hit }} | 일시 {{ pageParams.BoardData.reg_date }} 
+        <img src="@/assets/profile_Img.jpg" class="profile-img"> {{ BoardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ BoardData.reg_date }} 
       </div>
       
+      <hr>
+
       <div class="content">
         <div>
-          <img :src=" pageParams.BoardData.image_path" alt="">
+          <img :src=" BoardData.image_path" alt="">
         </div>
         <div class="content-text">
-          {{ pageParams.BoardData.content }}
+          {{ BoardData.content }}
         </div>
       </div>
 
-      <button class="btn" @click="updateRecommend( pageParams.BoardData.id )">
+      <button class="btn" @click="updateRecommend( BoardData.id )">
         <div> {{ recommend }}</div>
         추천
       </button>
@@ -39,6 +41,11 @@ export default {
     return {
       recommend: 0,
       hit : 0,
+    }
+  },
+  computed:{
+    BoardData() {
+      return this.pageParams.BoardData;
     }
   },
   mounted() {
@@ -88,6 +95,12 @@ export default {
 .title{
   font-size: 30px;
   font-weight: bold;
+  text-align: left;
+  padding: 10px;
+}
+.sub{
+  padding: 10px;
+  text-align: left;
 }
 .content{
   margin: 20px auto;
@@ -99,9 +112,9 @@ export default {
 .btn{
     color:#ad74e3;
     background-color: pink;
-    width: 200px;
+    width: 100px;
     margin : 5px;
-    height: 100px;
+    height: 80px;
     border: 0px;
     /* border-radius: 3px; */
     font-size: 17px;
