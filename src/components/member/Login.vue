@@ -32,39 +32,43 @@ export default {
       member_pw: '',
     };
   },
-    // 💕메소드 첫 알파벳은 소문자로 표기
-    methods: {
-      fnLogin() {
-        let 로그인파라미터 = {
-          member_id : this.member_id,
-          member_pw : this.member_pw
-        }
-
-        if(this.member_id == ''){
-          alert("아이디를 입력해주세요.")
-          return false;
-        }
-        if(this.member_pw =='') {
-          alert("비밀번호를 입력해주세요.")
-          return false;
-        }
-
-        axios.post("/loginMember", 로그인파라미터)
-            .then((res) => {
-              if (res.data == 1) {
-                this.$pushContents('Board', {from: '로그인에서'});
-              }else {
-                alert("아이디 또는 비밀번호가 틀렸습니다.\n다시 입력해주세요.")
-              }
-            }).catch((err) => {
-          if (err.response) {
-          }
-        })
-      },
-      fnJoin() {
-        this.$pushContents('Agreement');
+  mounted() {
+    localStorage.getItem("isLogin") ? this.$pushContents('Board') : '';
+  },
+  // 💕메소드 첫 알파벳은 소문자로 표기
+  methods: {
+    fnLogin() {
+      let 로그인파라미터 = {
+        member_id : this.member_id,
+        member_pw : this.member_pw
       }
+
+      if(this.member_id == ''){
+        alert("아이디를 입력해주세요.")
+        return false;
+      }
+      if(this.member_pw =='') {
+        alert("비밀번호를 입력해주세요.")
+        return false;
+      }
+
+      axios.post("/loginMember", 로그인파라미터)
+          .then((res) => {
+            if (res.data == 1) {
+              this.$pushContents('Board', {from: '로그인에서'});
+              localStorage.setItem("isLogin", true);
+            }else {
+              alert("아이디 또는 비밀번호가 틀렸습니다.\n다시 입력해주세요.")
+            }
+          }).catch((err) => {
+        if (err.response) {
+        }
+      })
+    },
+    fnJoin() {
+      this.$pushContents('Agreement');
     }
+  }
 }
 </script>
 
