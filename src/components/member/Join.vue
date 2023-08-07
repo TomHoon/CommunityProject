@@ -237,8 +237,14 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       })
-      .then(res => console.log(res.data))
+      .then(res => {
+        if (res.data == 1) {
+          this.$backPage();
+          this.$backPage();
+        }
+      })
       .catch(error => console.log(error.message));
+      
 
     },
     /*
