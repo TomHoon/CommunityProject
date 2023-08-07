@@ -38,7 +38,8 @@
     <button type="button" class="btn btn-dark write-btn" @click="goWrite">글쓰기</button>
     <div class="board-table">
 
-      <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="[goDetails(item),upHit(item.id)]">  
+      <!-- <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="[goDetails(item),upHit(item.id)]">   -->
+      <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="detailChain(item)">  
         <div class="board-table-cell1">
           <img class="product-img" :src="item.image_path">
         </div>
@@ -78,6 +79,14 @@ import axios from 'axios';
       }
     },
     methods: {
+      detailChain(item) {
+        if (!localStorage.getItem("isLogin")) {
+          alert("로그인 이후 이용 가능합니다.");
+          return;
+        }
+        this.goDetails(item);
+        this.upHit(item.id);
+      },
       backPage() {
         this.$backPage({test: 'hello'});
       },
