@@ -59,17 +59,18 @@
       <label for="member_phone">휴대폰번호</label>
       <span class="float-right">
           <input type="tel" id="member_phone" v-model="member_phone" class="member_phone" placeholder="(-없이)"
-                 autocomplete="off" maxlength="11" ref="member_phone"/>
+                 autocomplete="off" maxlength="11" ref="member_phone" @blur="checkPhone"/>
+          <span class="phone_check_memo" v-if="checkPhone_memo">올바른 휴대폰번호가 아닙니다.</span>
+
         </span>
     </div>
     <div class="email_form">
       <label for="member_email">이메일</label>
       <span class="float-right">
           <input type="text" id="member_email" v-model="member_email" class="member_email" autocomplete="off"
-                 placeholder="example@email.com" ref="member_email">
-        <span v-show=" valid.member_email">
-          <span class="email_check_memo">올바른 이메일 형식이 아닙니다. 예시)example@email.com</span>
-          </span>
+                 placeholder="example@email.com" ref="member_email" @blur="checkEmail">
+<!--        <span v-show=" valid.member_email">-->
+          <span class="email_check_memo" v-if="checkEmail_memo">올바른 이메일 형식이 아닙니다. 예시) example@email.com</span>
         </span>
     </div>
     <div class="address_form">
@@ -119,9 +120,10 @@ export default {
         member_id: false,
         member_pw: false,
         member_pw_check: false,
-        member_email: false
       },
       member_del_yn: "",
+      checkPhone_memo : false,
+      checkEmail_memo : false,
     };
   },
   computed: {
@@ -138,9 +140,6 @@ export default {
     },
     'member_pw_check': function () {
       this.checkPw_chk()
-    },
-    'member_email': function () {
-      this.checkEmail()
     },
 
   },
@@ -212,6 +211,16 @@ export default {
         alert("주소를 입력해주세요.")
         return false;
       }
+      if(this.checkPhone_memo == true) {
+        alert("올바른 휴대폰번호를 입력해주세요.")
+        this.$refs.member_phone.focus();
+        return false;
+      }
+      if(this.checkEmail_memo == true) {
+        alert("올바른 이메일 형식을 입력해주세요.")
+        this.$refs.member_email.focus();
+        return false;
+      }
       // axios.post("/joinMember", 회원가입파라미터)
       //     .then((res) => {
       //       console.log("joinMember", res.data);
@@ -257,7 +266,7 @@ export default {
 
       if (!validateId.test(this.member_id) || !this.member_id) {
         this.valid.member_id = false
-        return
+        return false
       }
       this.valid.member_id = true
     },
@@ -266,7 +275,7 @@ export default {
 
       if (!validatePw.test(this.member_pw) || !this.member_pw) {
         this.valid.member_pw = false
-        return
+        return false
       }
       this.valid.member_pw = true
     },
@@ -275,17 +284,29 @@ export default {
 
       if (!(this.member_pw == this.member_pw_check) || !validatePwChk.test(this.member_pw_check) || !this.member_pw_check) {
         this.valid.member_pw_check = false
-        return
+        return false
       }
       this.valid.member_pw_check = true
     },
-    checkEmail() {
-      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/
-      if (!validateEmail.test(this.member_email) || !this.member_email) {
-        this.valid.member_email = true
-        return
+    checkPhone() {
+      const validatePhone = /^010-?([0-9]{4})-?([0-9]{4})$/;
+      this.checkPhone_memo = false
+      if (!validatePhone.test(this.member_phone) || !this.member_phone) {
+        this.checkPhone_memo = true
+        return false
+      }else {
+        this.checkPhone_memo = false
       }
-      this.valid.member_email = false
+    },
+    checkEmail() {
+      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z\\-]+/
+      this.checkEmail_memo = false
+      if (!validateEmail.test(this.member_email) || !this.member_email) {
+        this.checkEmail_memo = true
+        return false;
+      }else {
+        this.checkEmail_memo = false
+      }
     },
 
     execDaumPostcode() {
@@ -343,7 +364,8 @@ export default {
 }
 
 .join_tit {
-  margin-top: 15px;
+  margin-top: 110px;
+
 }
 
 .join_tit_h1 {
@@ -599,7 +621,7 @@ export default {
   box-sizing: border-box;
   border: 0.4px solid rgba(173, 116, 227, 0.63);
   width: 700px;
-  height: 70px;
+  height: 90px;
   margin: 10px auto;
 }
 
@@ -622,6 +644,14 @@ export default {
   color: rgba(66, 64, 64, 0.75);
   font-size: 15px;
   margin-top: 12px;
+}
+.phone_check_memo {
+  font-size: 10.5px;
+  text-align: left;
+  margin-top: 5px;
+  margin-left: 3px;
+  display: block;
+  color: rgba(255, 0, 0, 1);
 }
 
 .email_form {
