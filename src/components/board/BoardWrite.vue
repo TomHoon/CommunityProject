@@ -44,7 +44,7 @@ export default {
                 gubun: '',
                 title: '',
                 content: '',
-            }
+            },
         }
     },
     methods: {
