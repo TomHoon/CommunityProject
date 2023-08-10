@@ -30,6 +30,13 @@
         뒤로가기
       </button>
     </div>
+    <div class="comment_wrap">
+      <div class="comment_form">
+        <div>
+          댓글구역(수정중)
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -116,5 +123,15 @@ export default {
     border: 0px;
     /* border-radius: 3px; */
     font-size: 17px;
+}
+.comment_wrap {
+
+}
+.comment_form {
+  box-sizing: border-box;
+  border: 1px solid gray;
+  width: 900px;
+  height: 200px;
+  margin: 30px auto ;
 }
 </style>
