@@ -1,5 +1,4 @@
 <template>
-  <div>
     <h1 class="tit" title="홈으로 돌아가기">로그인</h1>
     <div class="login_form">
       <!-- 💕라우터를 사용하지 않기 때문에 form submit 사용하지 않음  -->
@@ -12,13 +11,11 @@
         <input type="password" id="member_pw" v-model="member_pw" class="member_pw" placeholder="비밀번호"  @keyup.enter="fnLogin">
       </div>
       <div class="login_form">
-
         <button class="login_btn" @click="fnLogin">로그인</button>
       </div>
       <div class="join"><span @click="fnJoin" class="join_btn">회원가입</span></div>
 
     </div>
-  </div>
 </template>
 
 <script>
@@ -79,6 +76,7 @@ export default {
   text-decoration: none;
   color: #ad74e3;
   text-align: center;
+  margin-top: 110px;
 }
 .login_form {
   transform: translatey(30%);

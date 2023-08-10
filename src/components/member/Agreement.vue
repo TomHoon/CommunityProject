@@ -430,6 +430,8 @@ export default {
   text-decoration: none;
   color: inherit;
   text-align: center;
+  margin-top: 110px;
+  margin-bottom: 30px;
 }
 .agreement_wrap {
 }
