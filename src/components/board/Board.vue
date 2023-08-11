@@ -39,9 +39,9 @@
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
 
       <button type="button" class="btn btn-primary right-btn">베스트</button>
-      <select class="select-date">
-        <option @click="isCreateTimeOld = false">최신 순</option>
-        <option @click="isCreateTimeOld = true">오래된 순</option>
+      <select class="select-date" @change="changeCreateTime">
+        <option value="latest">최신 순</option>
+        <option value="oldest">오래된 순</option>
       </select>
 
       <select class="select-date">
@@ -76,6 +76,9 @@ import axios from 'axios';
 
   export default {
     props: ['pageParams', 'transferObj'],
+    computed:{
+      
+    },
     mounted() {
       this.$propsWatch();
       axios.post('/getBoardAll', {order: 0})
@@ -89,7 +92,6 @@ import axios from 'axios';
         dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
         curPageNum: 1, //현재 페이지
         boardList: [],
-        isCreateTimeOld: false, //true : 오래된 순, false : 최신 순
       }
     },
     methods: {
@@ -135,16 +137,19 @@ import axios from 'axios';
         return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
       },
       calData() {
-        if(this.isCreateTimeOld == true){
-          return this.boardList.reverse().slice(this.startPage(), this.endPage()) // 오래된 순으로 정렬
-        }
-        if(this.isCreateTimeOld == false){
-          return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
-        }
+        return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
       },
       propsChanged() {
         console.log(this.transferObj);
       },
+      changeCreateTime(event) {
+        if( event.target.value === 'oldest'){
+          this.boardList.reverse()
+        }
+        if( event.target.value === 'latest'){
+          this.boardList.reverse()
+        }
+      }
     }
 }
 </script>
