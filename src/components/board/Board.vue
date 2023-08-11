@@ -142,13 +142,8 @@ import axios from 'axios';
       propsChanged() {
         console.log(this.transferObj);
       },
-      changeCreateTime(event) {
-        if( event.target.value === 'oldest'){
-          this.boardList.reverse()
-        }
-        if( event.target.value === 'latest'){
-          this.boardList.reverse()
-        }
+      changeCreateTime() {
+        this.boardList.reverse()
       }
     }
 }
