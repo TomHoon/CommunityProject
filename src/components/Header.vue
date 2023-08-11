@@ -11,18 +11,18 @@
 
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">SubFull</a>
+      <a class="navbar-brand" href="#">메인 페이지</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#">Best글 
+          <a class="nav-item nav-link active" href="#">Best 게시판
             <!-- <span class="sr-only">(current)</span> -->
           </a>
-          <a class="nav-item nav-link" href="#">Features</a>
-          <a class="nav-item nav-link" href="#">Pricing</a>
-          <a class="nav-item nav-link disabled" href="#">Disabled</a>
+          <a class="nav-item nav-link" href="#">유머 게시판</a>
+          <a class="nav-item nav-link" href="#">공부 게시판</a>
+          <a class="nav-item nav-link" href="#">게임 게시판</a>
         </div>
       </div>
     </nav>

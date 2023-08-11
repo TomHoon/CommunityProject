@@ -14,7 +14,7 @@
 
       <div class="content left-align">
         <div>
-          <img :src=" BoardData.image_path" alt="">
+          <img :src=" BoardData.image_path" alt="" class="content-img">
         </div>
         <div class="content-text">
           {{ BoardData.content }}
@@ -109,6 +109,9 @@ export default {
 }
 .content{
   margin: 20px auto;
+}
+.content-img{
+  max-width: 1050px;
 }
 .content-text{
   margin : 20px auto;

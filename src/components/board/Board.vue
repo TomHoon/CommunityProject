@@ -35,22 +35,40 @@
 <template>
 <Header></Header>
   <div class="board-container">
-    <button type="button" class="btn btn-dark write-btn" @click="goWrite">글쓰기</button>
-    <div class="board-table">
+    <div class="top-box">
+      <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
 
-      <!-- <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="[goDetails(item),upHit(item.id)]">   -->
+      <button type="button" class="btn btn-primary right-btn">베스트</button>
+      <select class="select-date">
+        <option @click="isCreateTimeOld = false">최신 순</option>
+        <option @click="isCreateTimeOld = true">오래된 순</option>
+      </select>
+
+      <select class="select-date">
+        <option>전체</option>
+        <option>공지</option>
+        <option>유머</option>
+        <option>게임</option>
+        <option>공부</option>
+      </select>
+
+    </div>
+    <hr>
+    <div class="board-table">
       <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="detailChain(item)">  
         <div class="board-table-cell1">
           <img class="product-img" :src="item.image_path">
         </div>
         <div class="board-table-cell2">
-          <div><h5 style="color:blue">{{item.title}}(5)</h5></div>
-          <div><p>[{{item.gubun}}] No.{{item.id}} | 조회수: {{item.hit}} | 추천수: {{item.recommend}} | {{item.reg_date}} </p></div>
+          <div><h5 style="color:blue">[{{item.gubun}}] {{item.title}} (댓글수)</h5></div>
+          <div><p>No.{{item.id}} | 추천 {{item.recommend}} | 조회 {{item.hit}} | {{item.reg_date}} </p></div>
         </div>
       </div>
 
     </div>
-    <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
+    <div class="bottom-box">
+      <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
+    </div>
   </div>
 </template>
 <script>
@@ -58,24 +76,20 @@ import axios from 'axios';
 
   export default {
     props: ['pageParams', 'transferObj'],
-    computed: {
-      getBoardList() {
-        return this.boardList
-      }
-    },
     mounted() {
       this.$propsWatch();
       axios.post('/getBoardAll', {order: 0})
-        .then((res) => {
-          this.boardList = res.data;
-          console.log(this.boardList)
-        });
+      .then((res) => {
+        this.boardList = res.data;
+        console.log(this.boardList)
+      });
     },
     data() {
       return {
         dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
         curPageNum: 1, //현재 페이지
-        boardList: []
+        boardList: [],
+        isCreateTimeOld: false, //true : 오래된 순, false : 최신 순
       }
     },
     methods: {
@@ -121,26 +135,42 @@ import axios from 'axios';
         return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
       },
       calData() {
-        return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
+        if(this.isCreateTimeOld == true){
+          return this.boardList.reverse().slice(this.startPage(), this.endPage()) // 오래된 순으로 정렬
+        }
+        if(this.isCreateTimeOld == false){
+          return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
+        }
       },
       propsChanged() {
         console.log(this.transferObj);
-      }
+      },
     }
 }
 </script>
 
 <style>
+  .top-box{
+    height: 50px;
+    }
   .write-btn {
+    float: left;
+    margin-top: 5px;
+  }
+  .right-btn{
+    float: right;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+  .select-date{
+    margin-top: 5px;
+    margin-left: 10px;
+    height: 40px;
     float: right;
   }
   .writing-title {
     cursor: pointer;
   }
-  .page-num {
-    cursor:pointer;
-  }
-
     .board-container {
     max-width: 1100px;
     border-radius: 12px;
@@ -179,9 +209,15 @@ import axios from 'axios';
   }
 
   .product-img {
-    max-width:60px;
-    max-height:60px;
+    max-width:100px;
+    max-height:100px;
     /* max-width:180px; */
     /* max-height:180px; */
+  }
+  .bottom-box {
+    margin-top: 20px;
+  }
+  .page-num {
+    cursor:pointer;
   }
 </style>
