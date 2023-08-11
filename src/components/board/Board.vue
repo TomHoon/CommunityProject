@@ -40,8 +40,8 @@
 
       <button type="button" class="btn btn-primary right-btn">베스트</button>
       <select class="select-date" @change="changeCreateTime">
-        <option value="latest">최신 순</option>
-        <option value="oldest">오래된 순</option>
+        <option>최신 순</option>
+        <option>오래된 순</option>
       </select>
 
       <select class="select-date">
