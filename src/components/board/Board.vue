@@ -33,7 +33,7 @@
 </template> -->
 
 <template>
-<Header></Header>
+<Header @searchBoard="searchBoard"></Header>
   <div class="board-container">
     <div class="top-box">
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
@@ -95,6 +95,12 @@ import axios from 'axios';
       }
     },
     methods: {
+      async searchBoard(emitData) {
+        console.log(emitData);
+        await axios.post('/searchBoard', {title: emitData})
+        .then(res => this.boardList = res.data)
+        .catch(error => console.log(error));
+      },
       detailChain(item) {
         if (!localStorage.getItem("isLogin")) {
           alert("로그인 이후 이용 가능합니다.");

@@ -4,9 +4,9 @@
       <img src="@/assets/ginger.png" width="50px" height="40px" alt="">
       <h2 class="main-name">Community</h2>
       <div class="search-area">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
       </div>
-      <button type="button" class="btn btn-info search-btn">search</button>
+      <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
       <button type="button" class="btn btn-light log-btn" @click="loginOut">{{checkLogin}}</button>
 
     </div>
@@ -33,6 +33,7 @@
     data() {
       return {
         isLogin: false,
+        searchWord: ''
       }
     },
     mounted() {
@@ -44,6 +45,9 @@
       }
     },
     methods: {
+      searchBoard() {
+        this.$emit('searchBoard', this.searchWord);
+      },
       loginOut() {
         if (this.isLogin) {
           localStorage.removeItem("isLogin");

@@ -8,6 +8,8 @@
 
       <div class="sub left-align">
         <img src="@/assets/profile_Img.jpg" class="profile-img"> {{ BoardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ BoardData.reg_date }} 
+          <button class="btn" @click="deleteBoard">삭제</button>
+          <button class="btn" @click="updateBoard">수정</button>
       </div>
       
       <hr>
@@ -64,6 +66,11 @@ export default {
 
   props: ['pageParams'],
   methods:{
+    async deleteBoard() {
+      await axios.post('deleteBoard', {'id': this.BoardData.id})
+      .then(res => this.$backPage())
+      .catch(error => console.log(error));
+    },
     backPage() {
       this.$backPage({boardParam: '백페이지에서 사용할 파람'});
     },
