@@ -54,6 +54,7 @@ export default {
             if (res.data == 1) {
               this.$pushContents('Board', {from: '로그인에서'});
               localStorage.setItem("isLogin", true);
+              localStorage.setItem("id", this.member_id);
             }else {
               alert("아이디 또는 비밀번호가 틀렸습니다.\n다시 입력해주세요.")
             }

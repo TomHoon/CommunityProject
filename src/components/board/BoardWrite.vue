@@ -76,7 +76,7 @@ export default {
                 gubun: this.article.gubun,
                 title: this.article.title,
                 content: this.article.content,
-                writer: 'tom',
+                writer: localStorage.getItem('id'),
                 recommend: '1',
                 hit: '1',
             };
