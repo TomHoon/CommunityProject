@@ -48,14 +48,15 @@
       searchBoard() {
         this.$emit('searchBoard', this.searchWord);
       },
-      loginOut() {
+      async loginOut() {
         if (this.isLogin) {
           localStorage.removeItem("isLogin");
-          this.$backPage();
+          await this.$clearLayer();
+          return;
         }
 
         if (!this.isLogin) {
-          this.$backPage();
+          this.$pushContents('Login');
         }
       }
     }

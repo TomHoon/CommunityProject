@@ -15,7 +15,14 @@ export default {
             this.$propsWatch();
         },
         Vue.config.globalProperties.$clearLayer = function() {
-            this.$store.state.mainLayer = ['Login'];
+            // this.$store.state.mainLayer = ['Login'];
+            this.$store.state.mainLayer = [
+                {
+                    pageName: 'Board',
+                    pageInfo: {temp: '1234'},
+                    transferObj: {temp: '1'}
+                }
+            ];
         }
         Vue.config.globalProperties.$getTransferObj = function() {
             return this.$store.state.mainLayer[this.$store.state.mainLayer.length - 1].transferObj;

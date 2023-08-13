@@ -3,11 +3,11 @@
     <Header></Header>
     <div class="main">
       <div class="title left-align">
-       {{ BoardData.title }}
+       {{ boardData.title }}
       </div>
 
       <div class="sub left-align">
-        <img src="@/assets/profile_Img.jpg" class="profile-img"> {{ BoardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ BoardData.reg_date }} 
+        <img src="@/assets/profile_Img.jpg" class="profile-img"> {{ boardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ boardData.reg_date }} 
           <button class="btn" @click="deleteBoard">삭제</button>
           <button class="btn" @click="updateBoard">수정</button>
       </div>
@@ -16,14 +16,14 @@
 
       <div class="content left-align">
         <div>
-          <img :src=" BoardData.image_path" alt="" class="content-img">
+          <img :src=" boardData.image_path" alt="" class="content-img">
         </div>
         <div class="content-text">
-          {{ BoardData.content }}
+          {{ boardData.content }}
         </div>
       </div>
 
-      <button class="btn" @click="updateRecommend( BoardData.id )">
+      <button class="btn" @click="updateRecommend( boardData.id )">
         <div> {{ recommend }}</div>
         추천
       </button>
@@ -53,12 +53,12 @@ export default {
     }
   },
   computed:{
-    BoardData() {
-      return this.pageParams.BoardData;
+    boardData() {
+      return this.pageParams.boardData;
     }
   },
   mounted() {
-    axios.post('/getBoardById', {id:this.pageParams.BoardData.id}).then(response => {
+    axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(response => {
       this.hit = response.data.hit;
       this.recommend = response.data.recommend;
     });
@@ -66,8 +66,11 @@ export default {
 
   props: ['pageParams'],
   methods:{
+    updateBoard() {
+      this.$pushContents('boardModify', {board: this.boardData});
+    },
     async deleteBoard() {
-      await axios.post('deleteBoard', {'id': this.BoardData.id})
+      await axios.post('deleteBoard', {'id': this.boardData.id})
       .then(res => this.$backPage())
       .catch(error => console.log(error));
     },

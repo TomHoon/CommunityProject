@@ -10,6 +10,7 @@ import Agreement from '@/components/member/Agreement'
 import Join from '@/components/member/Join'
 import Board from '@/components/board/Board'
 import BoardWrite from '@/components/board/BoardWrite'
+import BoardModify from '@/components/board/BoardModify'
 import BoardDetails from '@/components/board/BoardDetails'
 import Header from '@/components/Header'
 
@@ -17,7 +18,7 @@ const store = createStore({
     state() {
         return {
             mainLayer: [
-                {pageName: 'Login', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
+                {pageName: 'Board', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
             ]
         };
     }
@@ -31,6 +32,7 @@ app.component('Board', Board);
 app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
 app.component('Header', Header);
+app.component('BoardModify', BoardModify);
 
 
 app.use(router);
