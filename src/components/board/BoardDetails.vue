@@ -32,13 +32,64 @@
         뒤로가기
       </button>
     </div>
-    <div class="comment_wrap">
-      <div class="comment_form">
-        <div>
-          댓글구역(수정중)
+
+
+<div data-v-50503696="" class="board-bottom">
+    <div class="comment-container">
+        <div class="comment-wrapper">
+            <div class="comment-info">
+              <div class="info-left">
+                <h3>댓글: 1</h3>
+              </div>
+              <div class="info-right">
+                <button>
+                  댓글
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
+            </div>
+            <div class="comment-area">
+              <table>
+                <tbody>
+                    <tr>
+                        <td>
+                          <strong>tomhoon</strong>
+                        </td>
+                        <td>
+                            머라쓴거임?ㅋ
+                        </td>
+                        <td>
+                            <div class="thumbs-area">
+                              <div class="thumbs-area-buttons">
+                                  <button>
+                                    <!-- 색상 안들어간 따봉 up -->
+                                    <i class="bi bi-hand-thumbs-up"></i>
+
+                                    <!-- 색상 들어간 따봉 up-->
+                                    <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
+                                    <span>12</span>
+                                  </button>
+                                  <button>
+                                    <!-- 색상 들어간 따봉 up-->
+                                    <i class="bi bi-hand-thumbs-down"></i>
+
+                                    <!-- 색상 들어간 따봉 down-->
+                                    <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
+                                    <span>2</span>
+                                  </button>
+                              </div>
+                              <div>
+                                2023.08.13
+                              </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>        
+              </table>
+            </div>
         </div>
-      </div>
     </div>
+</div>
   </div>
 </template>
 
@@ -137,14 +188,72 @@ export default {
     /* border-radius: 3px; */
     font-size: 17px;
 }
-.comment_wrap {
+.comment-wrap {
 
 }
-.comment_form {
+.comment-form {
   box-sizing: border-box;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   width: 900px;
   height: 200px;
   margin: 30px auto ;
 }
+.comment-area {
+  max-width:1100px;
+  min-width:800px;
+  display:inline-block;
+}
+.comment-area table{
+  border-top: 1px solid #c2c2c2;
+  border-left: 1px solid #c2c2c2;
+  border-right: 1px solid #c2c2c2;
+}
+.comment-info {
+  width:1050px;
+  margin-top: 20px;
+  max-width:1100px;
+  min-width:800px;
+  display:inline-block;
+}
+.comment-info .info-left{
+  display:block;
+  float:left;
+}
+.comment-info .info-right{
+  display:block;
+  float:right;
+}
+.comment-info .info-right button{
+  border-radius:15px;
+  padding: 8px;
+}
+.comment-area  table tr{
+  height: 60px;
+}
+.comment-area  table tr td{
+  width: 7%;
+  text-align: left;
+  padding:10px;
+  border:1px solid black;
+}
+.comment-area  table tr td:nth-child(1){
+  background-color: #dfe5f5 !important;
+  width:1%;
+}
+.comment-area  table tr td:nth-child(2){
+  width:45%;
+}
+.thumbs-area button{
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+}
+.thumbs-area-buttons{
+ width: 100%;
+}
+
+/* .board-bottom{
+  width: 20%;
+} */
 </style>
