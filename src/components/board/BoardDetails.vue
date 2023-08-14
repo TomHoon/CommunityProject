@@ -3,7 +3,7 @@
     <Header></Header>
     <div class="main">
       <div class="title left-align">
-       {{ boardData.title }}
+       {{ boardData.title }}`
       </div>
 
       <div class="sub left-align">
@@ -35,60 +35,60 @@
 
 
     <div class="board-bottom" v-if="!isMobile">
-        <div class="comment-container">
-            <div class="comment-wrapper">
-                <div class="comment-info">
-                  <div class="info-left">
-                    <h3>댓글: 1</h3>
-                  </div>
-                  <div class="info-right">
-                    <button>
-                      댓글
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="comment-area">
-                  <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                              <strong>tomhoon</strong>
-                            </td>
-                            <td>
-                                머라쓴거임?ㅋ
-                            </td>
-                            <td>
-                                <div class="thumbs-area">
-                                  <div class="thumbs-area-buttons">
-                                      <button>
-                                        <!-- 색상 안들어간 따봉 up -->
-                                        <i class="bi bi-hand-thumbs-up"></i>
-
-                                        <!-- 색상 들어간 따봉 up-->
-                                        <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
-                                        <span>12</span>
-                                      </button>
-                                      <button>
-                                        <!-- 색상 들어간 따봉 up-->
-                                        <i class="bi bi-hand-thumbs-down"></i>
-
-                                        <!-- 색상 들어간 따봉 down-->
-                                        <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
-                                        <span>2</span>
-                                      </button>
-                                  </div>
-                                  <div>
-                                    2023.08.13
-                                  </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>        
-                  </table>
-                </div>
+      <div class="comment-container">
+        <div class="comment-wrapper">
+          <div class="comment-info">
+            <div class="info-left">
+              <h3>댓글: 1</h3>
             </div>
+            <div class="info-right">
+              <button>
+                댓글
+                <i class="bi bi-pencil"></i>
+              </button>
+            </div>
+          </div>
+          <div class="comment-area">
+              <table>
+                <tbody>
+                <tr>
+                  <td>
+                    <strong>tomhoon</strong>
+                  </td>
+                  <td>
+                    머라쓴거임?ㅋ
+                  </td>
+                  <td>
+                    <div class="thumbs-area">
+                      <div class="thumbs-area-buttons">
+                        <button>
+                          <!-- 색상 안들어간 따봉 up -->
+                          <i class="bi bi-hand-thumbs-up"></i>
+
+                          <!-- 색상 들어간 따봉 up-->
+                          <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
+                          <span>12</span>
+                        </button>
+                        <button>
+                          <!-- 색상 들어간 따봉 up-->
+                          <i class="bi bi-hand-thumbs-down"></i>
+
+                          <!-- 색상 들어간 따봉 down-->
+                          <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
+                          <span>2</span>
+                        </button>
+                      </div>
+                      <div>
+                        2023.08.13
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- 모바일 -->
@@ -126,7 +126,9 @@ export default {
     return {
       recommend: 0,
       hit : 0,
-      isMobile:true
+      isMobile:true,
+      getCommentAll: [],
+
     }
   },
   computed:{
