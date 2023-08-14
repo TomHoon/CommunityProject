@@ -7,7 +7,10 @@
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
       </div>
       <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
-      <button type="button" class="btn btn-light log-btn" @click="loginOut">{{checkLogin}}</button>
+      <span class="btn_member">
+        <button type="button" class="btn mem-btn" v-if="isLogin" @click="memberUpdate">회원수정</button>
+        <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
+      </span>
 
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -42,7 +45,7 @@
     computed: {
       checkLogin() {
         return localStorage.getItem("isLogin") ? '로그아웃' : '로그인';
-      }
+      },
     },
     methods: {
       searchBoard() {
@@ -58,6 +61,9 @@
         if (!this.isLogin) {
           this.$pushContents('Login');
         }
+      },
+      memberUpdate() {
+        alert("회원수정");
       }
     }
   }
@@ -71,9 +77,21 @@
       margin-top: 10px;
       margin-bottom: 5px;
     }
-    
+    .top-header .btn_member {
+      margin-left: auto;
+    }
     .top-header .log-btn{
-      margin: auto 0 0 auto;
+      margin-right: 20px;
+
+    }
+    .top-header .log-btn:hover{
+      background-color: rgba(194, 194, 194, 0.99);
+    }
+    .top-header .mem-btn{
+      margin-right: 10px;
+    }
+    .top-header .mem-btn:hover{
+      background-color: rgba(194, 194, 194, 0.99);
     }
     .top-header .search-area{
       width: 50%;
