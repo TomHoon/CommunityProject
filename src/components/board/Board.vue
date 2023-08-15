@@ -44,12 +44,12 @@
         <option>오래된 순</option>
       </select>
 
-      <select class="select-date">
-        <option>전체</option>
-        <option>공지</option>
-        <option>유머</option>
-        <option>게임</option>
-        <option>공부</option>
+      <select class="select-date" @change="changeGubun">
+        <option value="all">전체</option>
+        <option value="notice">공지</option>
+        <option value="funny">유머</option>
+        <option value="game">게임</option>
+        <option value="study">공부</option>
       </select>
 
     </div>
@@ -84,7 +84,22 @@ import axios from 'axios';
       axios.post('/getBoardAll', {order: 0})
       .then((res) => {
         this.boardList = res.data;
-        console.log(this.boardList)
+        this.tempList = res.data;
+        for(let i=0; i < this.boardList.length; i++){
+          if(this.boardList[i].gubun == '공지'){
+            this.noticeList.push(this.boardList[i])
+          }
+          if(this.boardList[i].gubun == '유머'){
+            this.funnyList.push(this.boardList[i])
+          }
+          if(this.boardList[i].gubun == '게임'){
+            this.gameList.push(this.boardList[i])
+          }
+          if(this.boardList[i].gubun == '공부'){
+            this.studyList.push(this.boardList[i])
+          }
+          
+        }
       });
     },
     data() {
@@ -92,6 +107,11 @@ import axios from 'axios';
         dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
         curPageNum: 1, //현재 페이지
         boardList: [],
+        noticeList: [],
+        funnyList: [],
+        gameList: [],
+        studyList: [],
+        tempList: [],
       }
     },
     methods: {
@@ -150,6 +170,23 @@ import axios from 'axios';
       },
       changeCreateTime() {
         this.boardList.reverse()
+      },
+      changeGubun(event) {
+        if(event.target.value === 'all'){
+          this.boardList = this.tempList
+        }
+        if(event.target.value === 'notice'){
+          this.boardList = this.noticeList
+        }
+        if(event.target.value === 'funny'){
+          this.boardList = this.funnyList
+        }
+        if(event.target.value === 'game'){
+          this.boardList = this.gameList
+        }
+        if(event.target.value === 'study'){
+          this.boardList = this.studyList
+        }
       }
     }
 }
