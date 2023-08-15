@@ -14,7 +14,7 @@
     <div class="id_form">
       <label for="member_id">아이디</label>
       <span class="float-right">
-            <input type="text" id="member_id" v-model="member_id" class="member_id" placeholder="아이디를 입력해주세요."
+            <input type="text" readonly id="member_id" v-model="memberInfo.member_id" class="member_id" placeholder="아이디를 입력해주세요."
                    maxlength="15" autocomplete="off" ref="member_id">
           <span v-show="valid.member_id">
             <img src="@/assets/icons8-check-48.png" class="id_check">
@@ -25,11 +25,13 @@
     <div class="pw_form">
       <label for="member_pw">비밀번호</label>
       <span class="float-right">
-          <input type="password" id="member_pw" v-model="member_pw" class="member_pw" placeholder="비밀번호를 입력해주세요."
+          <input type="password" id="member_pw" v-model="memberInfo.member_pw" class="member_pw" placeholder="비밀번호를 입력해주세요."
                  maxlength="15"  ref="member_pw">
-          <span v-show="valid.member_pw">
+          <span v-if="isSamePw">
             <img src="@/assets/icons8-check-48.png" class="pw_check">
           </span>
+            <i v-if="!isShowPw1" class="bi bi-eye-slash-fill pw-eye1" @click="showPw(1)"></i>
+            <i v-if="isShowPw1" class="bi bi-eye-fill pw-eye1" @click="showPw(1)"></i>
           <div class="pw_check_memo">비밀번호는 영문+숫자+특수기호 포함 8자 이상</div>
         </span>
     </div>
@@ -38,27 +40,30 @@
       <span class="float-right">
           <input type="password" id="member_pw_check" v-model="member_pw_check" class="member_pw_check"
                  placeholder="비밀번호를 입력해주세요." maxlength="15" ref="member_pw_check">
-          <span v-show="valid.member_pw_check">
+          <span v-show="isSamePw">
             <img src="@/assets/icons8-check-48.png" class="pwchk_check">
           </span>
+          
+            <i v-if="!isShowPw2" class="bi bi-eye-slash-fill pw-eye2" @click="showPw(2)"></i>
+            <i v-if="isShowPw2" class="bi bi-eye-fill pw-eye2" @click="showPw(2)"></i>
         </span>
     </div>
     <div class="name_form">
       <label for="member_name">이름</label>
       <span class="float-right">
-          <input type="text" id="member_name" v-model="member_name" class="member_name" autocomplete="off" ref="member_name">
+          <input type="text" id="member_name" readonly v-model="memberInfo.member_name" class="member_name" autocomplete="off" ref="member_name">
         </span>
     </div>
     <div class="nickname_form">
       <label for="member_nickname">닉네임</label>
       <span class="float-right">
-          <input type="text" id="member_nickname" v-model="member_nickname" class="member_nickname" autocomplete="off"  ref="member_nickname">
+          <input type="text" id="member_nickname" v-model="memberInfo.member_nickname" class="member_nickname" autocomplete="off"  ref="member_nickname">
         </span>
     </div>
     <div class="phone_form">
       <label for="member_phone">휴대폰번호</label>
       <span class="float-right">
-          <input type="tel" id="member_phone" v-model="member_phone" class="member_phone" placeholder="(-없이)"
+          <input type="tel" id="member_phone" v-model="memberInfo.member_phone" class="member_phone" placeholder="(-없이)"
                  autocomplete="off" maxlength="11" ref="member_phone" @blur="checkPhone"/>
           <span class="phone_check_memo" v-if="checkPhone_memo">올바른 휴대폰번호가 아닙니다.</span>
 
@@ -67,7 +72,7 @@
     <div class="email_form">
       <label for="member_email">이메일</label>
       <span class="float-right">
-          <input type="text" id="member_email" v-model="member_email" class="member_email" autocomplete="off"
+          <input type="text" id="member_email" v-model="memberInfo.member_email" class="member_email" autocomplete="off"
                  placeholder="example@email.com" ref="member_email" @blur="checkEmail">
         <!--        <span v-show=" valid.member_email">-->
           <span class="email_check_memo" v-if="checkEmail_memo">올바른 이메일 형식이 아닙니다. 예시) example@email.com</span>
@@ -78,9 +83,9 @@
       <span class="float-right">
           <input type="text" v-model="postcode" class="postcode" placeholder="우편번호">
           <input type="button" @click="execDaumPostcode()" class="execDaumPostcode" value="우편번호 찾기"><br>
-          <input type="text" id="detailAddress" v-model="detailAddress" class="detailAddress" placeholder="상세주소"
+          <input type="text" id="detailAddress" v-model="memberInfo.detailAddress" class="detailAddress" placeholder="상세주소"
                  autocomplete="off"><br>
-          <input type="text" id="member_address" v-model="member_address" class="member_address" placeholder="주소"
+          <input type="text" id="member_address" v-model="memberInfo.member_address" class="member_address" placeholder="주소"
                  autocomplete="off"><br>
           <input type="text" id="extraAddress" v-model="extraAddress" class="extraAddress" readonly>
         </span>
@@ -88,7 +93,7 @@
     <input type="hidden" v-model="member_del_yn">
     <div class="buttons">
       <button class="join_btn" @click="backPage">뒤로가기</button>
-      <button class="join_btn" @click="join">가입</button>
+      <button class="join_btn" @click="join">수정하기</button>
     </div>
   </div>
 
@@ -104,17 +109,21 @@ export default {
   data() {
     //true
     return {
+      isShowPw1: false,
+      isShowPw2: false,
       imgPath: './profile_Img.jpg',
-      member_id: '',
-      member_pw: '',
+      memberInfo: {
+        member_id: '',
+        member_pw: '',
+        member_name: '',
+        member_nickname: '',
+        member_phone: '',
+        member_email: '',
+        member_address: "",
+      },
       member_pw_check: '',
-      member_name: '',
-      member_nickname: '',
-      member_phone: '',
-      member_email: '',
       showModal: false,
       postcode: "",
-      member_address: "",
       extraAddress: "",
       valid: {
         member_id: false,
@@ -126,9 +135,21 @@ export default {
       checkEmail_memo : false,
     };
   },
+  async mounted() {
+    await axios.post('/getOneMember', {member_id:localStorage.getItem('id')})
+      .then(res => this.memberInfo = res.data);
+
+    await axios.post('/getOneFile', {file_idx: this.memberInfo.file_idx})
+      .then(res => res.data.file_path ? this.imgPath = res.data.file_path : '');
+
+    this.member_pw_check = this.memberInfo.member_pw;
+  },
   computed: {
     getImgPath() {
       return this.imgPath;
+    },
+    isSamePw() {
+      return this.memberInfo.member_pw == this.member_pw_check;
     }
   },
   watch: {
@@ -144,6 +165,16 @@ export default {
 
   },
   methods: {
+    showPw(flag) {
+      if (flag == 1) {
+        this.$refs.member_pw.type = this.$refs.member_pw.type == 'text' ? 'password' : 'text';
+        this.isShowPw1 = this.$refs.member_pw.type == 'text' ? true : false;
+      }
+      if (flag == 2) {
+        this.$refs.member_pw_check.type = this.$refs.member_pw_check.type == 'text' ? 'password' : 'text';
+        this.isShowPw2 = this.$refs.member_pw_check.type == 'text' ? true : false;
+      }
+    },
     async temporaryImg(e) {
       const formData = new FormData();
       formData.append('mFile', e.target.files[0]);
@@ -356,6 +387,14 @@ export default {
 </script>
 
 <style scoped>
+.pw-eye1 {
+  cursor: pointer;
+  margin-left: 10px;
+}
+.pw-eye2 {
+  cursor: pointer;
+  margin-left: 10px;
+}
 .tit {
   text-decoration: none;
   color: inherit;
