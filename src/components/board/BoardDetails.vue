@@ -7,7 +7,7 @@
       </div>
 
       <div class="sub left-align">
-        <img :src="userInfo.userImgPath" class="profile-img"> {{ boardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ boardData.reg_date }} 
+        <img :src="getImgPath" class="profile-img"> {{ boardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ boardData.reg_date }} 
           <button class="btn" @click="deleteBoard" v-if="isOwner">삭제</button>
           <button class="btn" @click="updateBoard" v-if="isOwner">수정</button>
       </div>
@@ -130,7 +130,7 @@ export default {
       getCommentAll: [],
       userInfo: {},
       fileInfo: {},
-      defaultProfileImg: '/upload/1691384796527정준하텔레파시.png'
+      defaultImgPath: '/upload/1691384796527정준하텔레파시.png'
     }
   },
   computed:{
@@ -139,23 +139,18 @@ export default {
     },
     isOwner() {
       return this.pageParams.boardData.writer == localStorage.getItem('id')
+    },
+    getImgPath() {
+      return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
     }
   },
   async mounted() {
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
-    
-    await axios.post('/getOneMember', {member_id: this.pageParams.boardData.writer}).then((res) => this.userInfo = res.data);
-    await axios.post('/getOneFile', {file_idx: this.userInfo.file_idx})
-      .then(res => this.fileInfo = res.data);
 
-    // 사진 없으면 기본값 넣기
-    this.userInfo['userImgPath'] = '';
-    this.fileInfo.file_path ? this.userInfo['userImgPath'] = this.fileInfo.file_path : this.userInfo['userImgPath'] = '/upload/anonymous.png';
-
-    await axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(response => {
-      this.hit = response.data.hit;
-      this.recommend = response.data.recommend;
-    });
+    // Promise all 사용하는 경우 텀이 있어서 file이 안불러와지는 오류가 있음
+    await axios.post('/getOneMember', {member_id: this.pageParams.boardData.writer}).then(res => this.setUserInfo(res.data));
+    await axios.post('/getOneFile', {file_idx: this.userInfo.file_idx}).then(res => this.setFileInfo(res.data));
+    await axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(res => this.setBoardInfo(res.data));
   },
 
   props: ['pageParams'],
@@ -185,6 +180,21 @@ export default {
         console.error('오류', error);
       })
     },
+    setUserInfo(data) {
+      this.userInfo = data;
+    },
+    setFileInfo(data) {
+      this.fileInfo = data;
+
+      // 사용자 정보가 사라지지 않은 경우만 
+      if (this.userInfo) {
+        // 사용자 정보가 있지만 이미지 path가 없는 경우 방어 코드
+        !this.fileInfo.file_path ? this.userInfo['userImgPath'] = this.defaultImgPath : this.userInfo['userImgPath'] = this.fileInfo.file_path;
+      }
+    },
+    setBoardInfo(data) {
+
+    }
   },
 }
 </script>
