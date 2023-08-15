@@ -193,7 +193,8 @@ export default {
       }
     },
     setBoardInfo(data) {
-
+      this.hit = data.hit;
+      this.recommend = data.recommend;
     }
   },
 }
