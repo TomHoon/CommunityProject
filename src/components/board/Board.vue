@@ -262,6 +262,7 @@ import axios from 'axios';
 
   .board-table-row {
     display: table-row;
+    cursor: pointer;
     /*border-bottom: dashed silver;*/
   }
 
