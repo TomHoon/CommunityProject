@@ -98,7 +98,7 @@ import axios from 'axios';
           if(this.boardList[i].gubun == '공부'){
             this.studyList.push(this.boardList[i])
           }
-          if(this.boardList[i].recommend > 9){
+          if(this.boardList[i].recommend >= 10){ // 다음 숫자를 변경하면 베스트 게시판의 추천수를 변경할 수 있습니다.
             this.bestList.push(this.boardList[i])
           }
         }
