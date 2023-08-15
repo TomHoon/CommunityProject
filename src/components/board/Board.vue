@@ -115,6 +115,7 @@ import axios from 'axios';
         studyList: [],
         tempList: [],
         bestList: [],
+        bestToggle : false,
       }
     },
     methods: {
@@ -192,7 +193,14 @@ import axios from 'axios';
         }
       },
       changeBest(){
-        this.boardList = this.bestList
+        if(this.bestToggle == false){
+          this.boardList = this.bestList
+          this.bestToggle = true
+        }
+        else{
+          this.boardList = this.tempList
+          this.bestToggle = false
+        }
       }
     }
 }
