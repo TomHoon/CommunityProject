@@ -143,7 +143,7 @@ export default {
   async mounted() {
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
     
-    await axios.post('/getOneMember', {member_id: localStorage.getItem('id')}).then((res) => this.userInfo = res.data);
+    await axios.post('/getOneMember', {member_id: this.pageParams.boardData.id}).then((res) => this.userInfo = res.data);
     await axios.post('/getOneFile', {file_idx: this.userInfo.file_idx})
       .then(res => this.fileInfo = res.data);
     this.userInfo['userImgPath'] = this.fileInfo.file_name;
