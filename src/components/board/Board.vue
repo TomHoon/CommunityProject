@@ -113,7 +113,6 @@ import axios from 'axios';
         tempList: [],
         bestList: [],
         bestToggle : false,
-        oldToggle: false,
       }
     },
     methods: {
