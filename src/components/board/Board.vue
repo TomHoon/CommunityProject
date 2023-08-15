@@ -61,10 +61,29 @@
           <div><p>No.{{item.id}} | 추천 {{item.recommend}} | 조회 {{item.hit}} | {{item.reg_date}} </p></div>
         </div>
       </div>
-
     </div>
+    
     <div class="bottom-box">
+      <div class="btn-box">
+        <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
+        <button type="button" class="btn btn-primary right-btn" @click="changeBest">베스트</button>
+        <button type="button" class="btn btn-primary right-btn" @click="changeCreateTime">날짜순</button>
+        <select class="select-date" @change="changeGubun">
+          <option value="all">전체</option>
+          <option value="notice">공지</option>
+          <option value="funny">유머</option>
+          <option value="game">게임</option>
+          <option value="study">공부</option>
+        </select>
+      </div>
       <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
+      <div class="search-box">
+        <select class="search-select">
+          <option>제목</option>
+          <option>내용</option>
+        </select>
+        <input>
+      </div>
     </div>
   </div>
 </template>
@@ -269,9 +288,21 @@ import axios from 'axios';
     /* max-height:180px; */
   }
   .bottom-box {
-    margin-top: 20px;
+    height: 130px;
+  }
+  .btn-box {
+    height: 50px;
+    margin-top:10px;
   }
   .page-num {
     cursor:pointer;
+  }
+  .search-box{
+    padding: 10px;
+  }
+  .search-select{
+    /* height: 29.5px; */
+    margin-top:-1px;
+    height: 30px;
   }
 </style>

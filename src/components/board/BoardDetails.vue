@@ -154,7 +154,8 @@ export default {
     },
     async deleteBoard() {
       await axios.post('deleteBoard', {'id': this.boardData.id})
-      .then(res => this.$backPage())
+      // .then(res => this.$backPage())
+      .then(this.$backPage())
       .catch(error => console.log(error));
     },
     backPage() {
@@ -192,9 +193,8 @@ export default {
   padding: 1rem;
 }
 .profile-img{
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
+  width: 150px;
+  height: 150px;
 }
 .title{
   font-size: 30px;
@@ -221,9 +221,11 @@ export default {
     /* border-radius: 3px; */
     font-size: 17px;
 }
+/* 
 .comment-wrap {
-
-}
+  
+ } 
+ */
 .comment-form {
   box-sizing: border-box;
   /* border: 1px solid gray; */

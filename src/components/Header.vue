@@ -1,19 +1,19 @@
 <template>
   <div class="header-container">
     <div class="top-header">
+      
       <img src="@/assets/ginger.png" width="50px" height="40px" alt="">
       <h2 class="main-name">Community</h2>
       <div class="search-area">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
       </div>
       <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
       <span class="btn_member">
         <button type="button" class="btn mem-btn" v-if="isLogin" @click="memberUpdate">회원수정</button>
         <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
       </span>
-
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">메인 페이지</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -21,15 +21,16 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="#">Best 게시판
-            <!-- <span class="sr-only">(current)</span> -->
+            
           </a>
           <a class="nav-item nav-link" href="#">유머 게시판</a>
           <a class="nav-item nav-link" href="#">공부 게시판</a>
           <a class="nav-item nav-link" href="#">게임 게시판</a>
         </div>
       </div>
-    </nav>
+    </nav> -->
   </div>
+  <hr>
 </template>
 <script>
   export default {
