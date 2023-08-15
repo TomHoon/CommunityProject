@@ -55,6 +55,7 @@
         if (this.isLogin) {
           localStorage.removeItem("isLogin");
           await this.$clearLayer();
+          location.reload();
           return;
         }
 
@@ -63,8 +64,8 @@
         }
       },
       memberUpdate() {
-        alert("회원수정");
-      }
+        this.$pushContents('MemberUpdate');
+      },
     }
   }
 </script>

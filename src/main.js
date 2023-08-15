@@ -8,6 +8,7 @@ import GlobalJs from '@/js/global.js'
 import Login from '@/components/member/Login'
 import Agreement from '@/components/member/Agreement'
 import Join from '@/components/member/Join'
+import MemberUpdate from '@/components/member/MemberUpdate'
 import Board from '@/components/board/Board'
 import BoardWrite from '@/components/board/BoardWrite'
 import BoardModify from '@/components/board/BoardModify'
@@ -25,10 +26,14 @@ const store = createStore({
 });
 
 const app = createApp(App);
+//member
 app.component('Login', Login);
 app.component('Agreement', Agreement);
 app.component('Join', Join);
 app.component('Board', Board);
+app.component('MemberUpdate', MemberUpdate);
+
+//board
 app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
 app.component('Header', Header);
