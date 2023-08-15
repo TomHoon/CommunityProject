@@ -39,10 +39,7 @@
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
 
       <button type="button" class="btn btn-primary right-btn" @click="changeBest">베스트</button>
-      <select class="select-date" @change="changeCreateTime">
-        <option>최신 순</option>
-        <option>오래된 순</option>
-      </select>
+      <button type="button" class="btn btn-primary right-btn" @click="changeCreateTime">날짜순</button>
 
       <select class="select-date" @change="changeGubun">
         <option value="all">전체</option>
@@ -116,6 +113,7 @@ import axios from 'axios';
         tempList: [],
         bestList: [],
         bestToggle : false,
+        oldToggle: false,
       }
     },
     methods: {
@@ -200,7 +198,7 @@ import axios from 'axios';
         else{
           this.boardList = this.tempList
           this.bestToggle = false
-        }
+          }
       }
     }
 }
