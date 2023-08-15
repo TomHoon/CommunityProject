@@ -38,7 +38,7 @@
     <div class="top-box">
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
 
-      <button type="button" class="btn btn-primary right-btn">베스트</button>
+      <button type="button" class="btn btn-primary right-btn" @click="changeBest">베스트</button>
       <select class="select-date" @change="changeCreateTime">
         <option>최신 순</option>
         <option>오래된 순</option>
@@ -98,7 +98,9 @@ import axios from 'axios';
           if(this.boardList[i].gubun == '공부'){
             this.studyList.push(this.boardList[i])
           }
-          
+          if(this.boardList[i].recommend > 9){
+            this.bestList.push(this.boardList[i])
+          }
         }
       });
     },
@@ -112,6 +114,7 @@ import axios from 'axios';
         gameList: [],
         studyList: [],
         tempList: [],
+        bestList: [],
       }
     },
     methods: {
@@ -187,6 +190,9 @@ import axios from 'axios';
         if(event.target.value === 'study'){
           this.boardList = this.studyList
         }
+      },
+      changeBest(){
+        this.boardList = this.bestList
       }
     }
 }
