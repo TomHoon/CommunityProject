@@ -7,7 +7,7 @@
       </div>
 
       <div class="sub left-align">
-        <img :src="boardData.image_path" class="profile-img"> {{ boardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ boardData.reg_date }} 
+        <img :src="userInfo.userImgPath" class="profile-img"> {{ boardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ boardData.reg_date }} 
           <button class="btn" @click="deleteBoard" v-if="isOwner">삭제</button>
           <button class="btn" @click="updateBoard" v-if="isOwner">수정</button>
       </div>
@@ -16,7 +16,7 @@
 
       <div class="content left-align">
         <div>
-          <img :src=" boardData.image_path" alt="" class="content-img">
+          <img :src="boardData.image_path" alt="" class="content-img">
         </div>
         <div class="content-text">
           {{ boardData.content }}
@@ -128,7 +128,9 @@ export default {
       hit : 0,
       isMobile:true,
       getCommentAll: [],
-
+      userInfo: {},
+      fileInfo: {},
+      defaultProfileImg: '/upload/1691384796527정준하텔레파시.png'
     }
   },
   computed:{
@@ -139,9 +141,18 @@ export default {
       return this.pageParams.boardData.writer == localStorage.getItem('id')
     }
   },
-  mounted() {
-    window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false; 
-    axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(response => {
+  async mounted() {
+    window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
+    
+    await axios.post('/getOneMember', {member_id: this.pageParams.boardData.writer}).then((res) => this.userInfo = res.data);
+    await axios.post('/getOneFile', {file_idx: this.userInfo.file_idx})
+      .then(res => this.fileInfo = res.data);
+
+    // 사진 없으면 기본값 넣기
+    this.userInfo['userImgPath'] = '';
+    this.fileInfo.file_path ? this.userInfo['userImgPath'] = this.fileInfo.file_path : this.userInfo['userImgPath'] = '/upload/anonymous.png';
+
+    await axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(response => {
       this.hit = response.data.hit;
       this.recommend = response.data.recommend;
     });
