@@ -26,17 +26,15 @@ const store = createStore({
 });
 
 const app = createApp(App);
-//member
+
+app.component('Header', Header);
 app.component('Login', Login);
 app.component('Agreement', Agreement);
 app.component('Join', Join);
-app.component('Board', Board);
 app.component('MemberUpdate', MemberUpdate);
-
-//board
+app.component('Board', Board);
 app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
-app.component('Header', Header);
 app.component('BoardModify', BoardModify);
 
 

@@ -115,6 +115,7 @@ export default {
       showModal: false,
       postcode: "",
       member_address: "",
+      detailAddress: "",
       extraAddress: "",
       valid: {
         member_id: false,
@@ -169,7 +170,9 @@ export default {
         member_nickname: this.member_nickname,
         member_phone: this.member_phone,
         member_email: this.member_email,
-        member_address: this.member_address + " " + this.detailAddress,
+        postcode: this.postcode,
+        member_address: this.member_address + " " + this.extraAddress,
+        detailAddress: this.detailAddress,
         member_del_yn: 'N',
       };
       if (this.member_id == '') {
