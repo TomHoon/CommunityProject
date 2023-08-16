@@ -170,9 +170,9 @@ export default {
         member_nickname: this.member_nickname,
         member_phone: this.member_phone,
         member_email: this.member_email,
-        postcode: this.postcode,
-        member_address: this.member_address + " " + this.extraAddress,
-        detailAddress: this.detailAddress,
+        //postcode: this.postcode,
+        member_address: this.member_address + " " + this.detailAddress, //this.extraAddress,
+        //detailAddress: this.detailAddress,
         member_del_yn: 'N',
       };
       if (this.member_id == '') {

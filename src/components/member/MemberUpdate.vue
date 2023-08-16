@@ -25,27 +25,31 @@
     <div class="pw_form">
       <label for="member_pw">비밀번호</label>
       <span class="float-right">
-          <input type="password" id="member_pw" v-model="memberInfo.member_pw" class="member_pw" placeholder="비밀번호를 입력해주세요."
-                 maxlength="15"  ref="member_pw">
-          <span v-if="isSamePw">
+          <input type="password" id="member_pw" v-model="memberInfo.member_pw" class="member_pw"
+                 placeholder="비밀번호를 입력해주세요."
+                 maxlength="15" ref="member_pw">
+          <span v-if="valid.member_pw">
             <img src="@/assets/icons8-check-48.png" class="pw_check">
           </span>
+          <span class="pw_eye01">
             <i v-if="!isShowPw1" class="bi bi-eye-slash-fill pw-eye1" @click="showPw(1)"></i>
             <i v-if="isShowPw1" class="bi bi-eye-fill pw-eye1" @click="showPw(1)"></i>
+          </span>
           <div class="pw_check_memo">비밀번호는 영문+숫자+특수기호 포함 8자 이상</div>
-        </span>
+      </span>
     </div>
     <div class="pw_check_form">
       <label for="member_pw_check">비밀번호확인</label>
       <span class="float-right">
           <input type="password" id="member_pw_check" v-model="member_pw_check" class="member_pw_check"
                  placeholder="비밀번호를 입력해주세요." maxlength="15" ref="member_pw_check">
-          <span v-show="isSamePw">
+          <span v-show="valid.member_pw_check">
             <img src="@/assets/icons8-check-48.png" class="pwchk_check">
           </span>
-          
+          <span class="pw_eye02">
             <i v-if="!isShowPw2" class="bi bi-eye-slash-fill pw-eye2" @click="showPw(2)"></i>
             <i v-if="isShowPw2" class="bi bi-eye-fill pw-eye2" @click="showPw(2)"></i>
+          </span>
         </span>
     </div>
     <div class="name_form">
@@ -64,7 +68,7 @@
       <label for="member_phone">휴대폰번호</label>
       <span class="float-right">
           <input type="tel" id="member_phone" v-model="memberInfo.member_phone" class="member_phone" placeholder="(-없이)"
-                 autocomplete="off" maxlength="11" ref="member_phone" @blur="checkPhone"/>
+                 autocomplete="off" maxlength="11" ref="member_phone" @change="checkPhone"/>
           <span class="phone_check_memo" v-if="checkPhone_memo">올바른 휴대폰번호가 아닙니다.</span>
 
         </span>
@@ -127,8 +131,8 @@ export default {
       extraAddress: "",
       valid: {
         member_id: false,
-        member_pw: false,
-        member_pw_check: false,
+        member_pw: true,
+        member_pw_check: true,
       },
       member_del_yn: "",
       checkPhone_memo : false,
@@ -148,9 +152,11 @@ export default {
     getImgPath() {
       return this.imgPath;
     },
+    /*
     isSamePw() {
       return this.memberInfo.member_pw == this.member_pw_check;
     }
+    */
   },
   watch: {
     'member_id': function () {
@@ -321,12 +327,11 @@ export default {
     },
     checkPhone() {
       const validatePhone = /^010-?([0-9]{4})-?([0-9]{4})$/;
-      this.checkPhone_memo = false
       if (!validatePhone.test(this.member_phone) || !this.member_phone) {
-        this.checkPhone_memo = true
+        this.checkPhone_memo = true;
         return false
-      }else {
-        this.checkPhone_memo = false
+      } else {
+        this.checkPhone_memo = false;
       }
     },
     checkEmail() {
@@ -389,11 +394,9 @@ export default {
 <style scoped>
 .pw-eye1 {
   cursor: pointer;
-  margin-left: 10px;
 }
 .pw-eye2 {
   cursor: pointer;
-  margin-left: 10px;
 }
 .tit {
   text-decoration: none;
@@ -505,6 +508,7 @@ export default {
   color: rgba(66, 64, 64, 0.75);
   font-size: 15px;
   margin-top: 12px;
+  background-color: #d3d2d2;
 }
 
 .id_check {
@@ -556,7 +560,10 @@ export default {
   position: absolute;
   transform: translate(-2rem, 1.5rem);
 }
-
+.pw_eye01 {
+  position: absolute;
+  transform: translate(-70px, 20px);
+}
 .pw_check_memo {
   font-size: 10.5px;
   text-align: left;
@@ -599,6 +606,10 @@ export default {
   position: absolute;
   transform: translate(-2rem, 1.5rem);
 }
+.pw_eye02 {
+  position: absolute;
+  transform: translate(-70px, 20px);
+}
 
 .name_form {
   box-sizing: border-box;
@@ -626,6 +637,8 @@ export default {
   color: rgba(66, 64, 64, 0.75);
   font-size: 15px;
   margin-top: 12px;
+  background-color: #d3d2d2;
+
 }
 
 .nickname_form {
