@@ -2,8 +2,7 @@
   <div class="header-container">
     <div class="top-header">
       
-      <img src="@/assets/ginger.png" width="50px" height="40px" alt="">
-      <h2 class="main-name">Community</h2>
+      <img src="@/assets/comhub.png" class="logo">
       <div class="search-area">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
       </div>
@@ -72,19 +71,23 @@
 </script>
 <style>
     .navbar {
-        padding: 10px;
+      padding: 10px;
     }
     .top-header {
       display:flex;
       margin-top: 10px;
       margin-bottom: 5px;
     }
-    .top-header .btn_member {
+    .logo{
+      width: 150px;
+      height: 40px;
+      margin-left: 5%;
+    }
+    .btn_member {
       margin-left: auto;
     }
     .top-header .log-btn{
       margin-right: 20px;
-
     }
     .top-header .log-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
@@ -95,16 +98,12 @@
     .top-header .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
     }
-    .top-header .search-area{
+    .search-area{
       width: 50%;
+      
+      margin-left: 10px;
     }
     .search-btn {
-      margin-left: 5px;
+      height: 37px;
     }
-
-    .main-name {
-      margin-left: 3px;
-      margin-right: 3px;
-    }
-
 </style>
