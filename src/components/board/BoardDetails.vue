@@ -50,7 +50,7 @@
         <div class="comment-wrapper">
           <div class="comment-info">
             <div class="info-left">
-              <h3>댓글: 1</h3>
+              <h3>댓글: {{commentList.length}}</h3>
             </div>
             <div class="info-right">
               <button>
@@ -62,31 +62,31 @@
           <div class="comment-area">
               <table>
                 <tbody>
-                <tr>
+                <tr v-for="(item, idx) in commentList" :key="idx">
                   <td>
-                    <strong>tomhoon</strong>
+                    <strong>{{item.member_id}}</strong>
                   </td>
                   <td>
-                    머라쓴거임?ㅋ
+                    {{item.comment_content}}
                   </td>
                   <td>
                     <div class="thumbs-area">
                       <div class="thumbs-area-buttons">
-                        <button>
+                        <button @click="recommendUpDown(1, item.comment_idx)" >
                           <!-- 색상 안들어간 따봉 up -->
                           <i class="bi bi-hand-thumbs-up"></i>
 
                           <!-- 색상 들어간 따봉 up-->
                           <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
-                          <span>12</span>
+                          <span>{{item.comment_recommend}}</span>
                         </button>
-                        <button>
+                        <button @click="recommendUpDown(2, item.comment_idx)">
                           <!-- 색상 들어간 따봉 up-->
                           <i class="bi bi-hand-thumbs-down"></i>
 
                           <!-- 색상 들어간 따봉 down-->
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
-                          <span>2</span>
+                          <span>{{item.comment_unrecommend}}</span>
                         </button>
                       </div>
                       <div>
@@ -97,6 +97,11 @@
                 </tr>
                 </tbody>
               </table>
+            <hr>
+            <div class="comment-write-area">
+              <textarea v-model="commentContent" name="" id="" cols="120" rows="2"/>
+              <button @click="addComment">댓글쓰기</button>
+            </div>
           </div>
         </div>
       </div>
@@ -107,7 +112,7 @@
       <table>
         <tbody>
           <tr>
-            <div class="board-comment">
+            <div class="board-comment">``
               <p class="comment">댓글 내용 ㅋㅋㅋ</p>
             </div>
             <div class="board-info">
@@ -126,6 +131,7 @@
         </tbody>
       </table>
     </div>
+
   </div>
 </template>
 
@@ -141,7 +147,9 @@ export default {
       getCommentAll: [],
       userInfo: {},
       fileInfo: {},
-      defaultImgPath: '/upload/1691384796527정준하텔레파시.png'
+      defaultImgPath: '/upload/1691384796527정준하텔레파시.png',
+      commentContent: '',
+      commentList: []
     }
   },
   computed:{
@@ -156,6 +164,12 @@ export default {
     }
   },
   async mounted() {
+    let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
+    console.log("mounted getCommentByBoard res.data >>>> ", res.data);
+    
+    this.commentList = res.data;
+
+
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
 
     // Promise all 사용하는 경우 텀이 있어서 file이 안불러와지는 오류가 있음
@@ -206,6 +220,45 @@ export default {
     setBoardInfo(data) {
       this.hit = data.hit;
       this.recommend = data.recommend;
+    },
+    async addComment() {
+      if (!this.commentContent) {
+        alert('댓글 내용을 작성해주세요.');
+        return;
+      }
+
+      let param = {
+        member_id: localStorage.getItem('id'),
+        id: this.boardData.id,
+        comment_content: this.commentContent
+      }
+      await axios.post('/addComment', param);
+
+      this.commentContent = '';
+
+      let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
+      this.commentList = res.data;
+    },
+    async recommendUpDown(flag, idx) {
+      let param = {
+        comment_idx: idx
+      };
+      if (flag == 1) {
+        param['comment_recommend'] = 1;
+        param['comment_unrecommend'] = '';
+        let res = await axios.post('/recommendUpDown', param);
+        console.log(res.data);
+      }
+
+      if (flag == 2) {
+        param['comment_recommend'] = '';
+        param['comment_unrecommend'] = 1;
+        let res = await axios.post('/recommendUpDown', param);
+        console.log(res.data);
+      }
+
+      let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
+      this.commentList = res.data;
     }
   },
 }
@@ -337,6 +390,10 @@ export default {
 .board-bottom{
   margin-bottom: 135px;
   padding:10px;
+}
+.comment-write-area {
+  display:flex;
+  margin-top: 30px;
 }
 @media (min-width:200px) and (max-width:480px) {
   .board-bottom {

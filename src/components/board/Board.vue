@@ -1,37 +1,3 @@
-<!-- <template>
-<div class="container">
-    <img src="@/assets/back.png"  height="15" width="15" alt="" @click="backPage"><strong>뒤로가기</strong>
-  <button type="button" class="btn btn-dark write-btn" @click="goWrite">글쓰기</button>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">구분</th>
-        <th scope="col">제목</th>
-        <th scope="col">내용</th>
-        <th scope="col">글쓴이</th>
-        <th scope="col">추천</th>
-        <th scope="col">조회</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item, idx) in calData()" :key="idx" @click="[goDetails(item),upHit(item.id)]">  
-        <th scope="row">{{item.id}}</th>
-        <th scope="row">{{item.gubun}}</th>
-        <td>{{item.title}}</td>
-        <td>{{item.content}}</td>
-        <td>{{item.writer}}</td>
-        <td>{{item.recommend}}</td>
-        <td>{{item.hit}}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
-
-</div>
-</template> -->
-
 <template>
 <Header @searchBoard="searchBoard"></Header>
   <div class="board-container">
@@ -57,8 +23,14 @@
           <img class="product-img" :src="item.image_path">
         </div>
         <div class="board-table-cell2">
-          <div><h5 style="color:blue">[{{item.gubun}}] {{item.title}} (댓글수)</h5></div>
-          <div><p>No.{{item.id}} | 추천 {{item.recommend}} | 조회 {{item.hit}} | {{item.reg_date}} </p></div>
+          <div>
+            <span>[{{item.gubun}}] </span>
+            <span style="font-size:x-large; color:blue;">{{item.title}}</span>
+            (댓글수)
+          </div>
+          <div>
+            <p>No.{{item.id}} | 추천 {{item.recommend}} | 조회 {{item.hit}} | {{item.reg_date}} </p>
+          </div>
         </div>
       </div>
     </div>
