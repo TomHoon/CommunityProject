@@ -3,11 +3,22 @@
     <Header></Header>
     <div class="main">
       <div class="title left-align">
-       {{ boardData.title }}`
+       [{{boardData.gubun }}] {{ boardData.title }}
       </div>
 
+      <hr>
+
       <div class="sub left-align">
-        <img :src="getImgPath" class="profile-img"> {{ boardData.writer }} | 조회 {{ hit }} | 추천 {{ recommend }} | 일시 {{ boardData.reg_date }} 
+        <img :src="getImgPath" class="profile-img">
+        <div class="profile-name">
+          <div> 
+            {{ boardData.writer }}
+          </div> 
+          <div class="profile-content">  
+            <div>추천 <span class="font-red">{{ recommend }}</span> | 조회 {{ hit }}</div>
+            <div>일시 {{ boardData.reg_date }}</div>
+          </div> 
+        </div>
           <button class="btn" @click="deleteBoard" v-if="isOwner">삭제</button>
           <button class="btn" @click="updateBoard" v-if="isOwner">수정</button>
       </div>
@@ -203,7 +214,6 @@ export default {
 <style scoped>
 .left-align{
   text-align: left;
-  padding: 10px;
 }
 .main{
   max-width: 1100px;
@@ -214,9 +224,23 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   padding: 1rem;
 }
+.sub{
+  display: flex;
+}
 .profile-img{
   width: 150px;
   height: 150px;
+}
+.profile-name{
+  font-size: 30px;
+  padding-left : 10px;
+  margin-top : -10px;
+}
+.profile-content{
+  font-size: 20px;
+}
+.font-red{
+  color:red;
 }
 .title{
   font-size: 30px;
