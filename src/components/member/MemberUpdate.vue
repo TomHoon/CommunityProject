@@ -16,9 +16,6 @@
       <span class="float-right">
             <input type="text" readonly id="member_id" v-model="memberInfo.member_id" class="member_id" placeholder="아이디를 입력해주세요."
                    maxlength="15" autocomplete="off" ref="member_id">
-          <span v-show="valid.member_id">
-            <img src="@/assets/icons8-check-48.png" class="id_check">
-          </span>
             <div class="id_check_memo">아이디는 영문+숫자 포함 6~12자 이하</div>
         </span>
     </div>
@@ -28,7 +25,7 @@
           <input type="password" id="member_pw" v-model="memberInfo.member_pw" class="member_pw"
                  placeholder="비밀번호를 입력해주세요."
                  maxlength="15" ref="member_pw">
-          <span v-if="valid.member_pw">
+          <span v-show="valid.member_pw">
             <img src="@/assets/icons8-check-48.png" class="pw_check">
           </span>
           <span class="pw_eye01">
@@ -94,6 +91,9 @@
           <input type="text" id="extraAddress" v-model="extraAddress" class="extraAddress" readonly>
         </span>
     </div>
+    <div class="member_delete">
+      <span class="member_delete_btn" @click="memberDelete">회원탈퇴</span>
+    </div>
     <input type="hidden" v-model="member_del_yn">
     <div class="buttons">
       <button class="join_btn" @click="backPage">뒤로가기</button>
@@ -130,7 +130,6 @@ export default {
       postcode: "",
       extraAddress: "",
       valid: {
-        member_id: false,
         member_pw: true,
         member_pw_check: true,
       },
@@ -159,10 +158,7 @@ export default {
     */
   },
   watch: {
-    'member_id': function () {
-      this.checkId()
-    },
-    'member_pw': function () {
+    'memberInfo.member_pw': function () {
       this.checkPw()
     },
     'member_pw_check': function () {
@@ -192,6 +188,13 @@ export default {
           .then(res => this.imgPath = res.data)
           .catch(error => console.log(error.message));
     },
+    memberDelete() {
+      if(confirm('정말 회원탈퇴 하시겠습니까?')){
+        alert("탈퇴");
+      }else {
+        return false;
+      }
+    },
     backPage() {
       this.$backPage();
     },
@@ -200,23 +203,18 @@ export default {
 
       // 로그인 처리 로직 작성
       let 회원가입파라미터 = {
-        member_id: this.member_id,
-        member_pw: this.member_pw,
-        member_name: this.member_name,
-        member_nickname: this.member_nickname,
-        member_phone: this.member_phone,
-        member_email: this.member_email,
-        member_address: this.member_address + " " + this.detailAddress,
+        member_id: this.memberInfo.member_id,
+        member_pw: this.memberInfo.member_pw,
+        member_name: this.memberInfo.member_name,
+        member_nickname: this.memberInfo.member_nickname,
+        member_phone: this.memberInfo.member_phone,
+        member_email: this.memberInfo.member_email,
+        member_address: this.memberInfo.member_address + " " + this.memberInfo.detailAddress,
         member_del_yn: 'N',
       };
-      if (this.member_id == '') {
-        alert("아이디를 입력해주세요.")
-        this.$refs.member_id.focus();
-        return false;
-      }
-      if (this.member_pw == '') {
+      if (this.memberInfo.member_pw == '') {
         alert("비밀번호를 입력해주세요.")
-        this.$refs.member_pw.focus();
+        this.$refs.memberInfo.member_pw.focus();
         return false;
       }
       if (this.member_pw_check == '') {
@@ -224,38 +222,33 @@ export default {
         this.$refs.member_pw_check.focus();
         return false;
       }
-      if (this.member_name == '') {
-        alert("이름을 입력해주세요.")
-        this.$refs.member_name.focus();
-        return false;
-      }
-      if (this.member_nickname == '') {
+      if (this.memberInfo.member_nickname == '') {
         alert("닉네임을 입력해주세요.")
-        this.$refs.member_nickname.focus();
+        this.$refs.memberInfo.member_nickname.focus();
         return false;
       }
-      if (this.member_phone == '') {
+      if (this.memberInfo.member_phone == '') {
         alert("전화번호를 입력해주세요.")
-        this.$refs.member_phone.focus();
+        this.$refs.memberInfo.member_phone.focus();
         return false;
       }
-      if (this.member_email == '') {
+      if (this.memberInfo.member_email == '') {
         alert("이메일을 입력해주세요.")
-        this.$refs.member_email.focus();
+        this.$refs.memberInfo.member_email.focus();
         return false;
       }
-      if (this.member_address == '') {
+      if (this.memberInfo.member_address == '') {
         alert("주소를 입력해주세요.")
         return false;
       }
       if(this.checkPhone_memo == true) {
         alert("올바른 휴대폰번호를 입력해주세요.")
-        this.$refs.member_phone.focus();
+        this.$refs.memberInfo.member_phone.focus();
         return false;
       }
       if(this.checkEmail_memo == true) {
         alert("올바른 이메일 형식을 입력해주세요.")
-        this.$refs.member_email.focus();
+        this.$refs.memberInfo.member_email.focus();
         return false;
       }
       // axios.post("/joinMember", 회원가입파라미터)
@@ -298,36 +291,28 @@ export default {
           this.showModal = !this.showModal;
         },
         */
-    checkId() {
-      const validateId = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/
-
-      if (!validateId.test(this.member_id) || !this.member_id) {
-        this.valid.member_id = false
-        return false
-      }
-      this.valid.member_id = true
-    },
     checkPw() {
       const validatePw = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[~#?!@$%^&*-]).{8,}$/
 
-      if (!validatePw.test(this.member_pw) || !this.member_pw) {
-        this.valid.member_pw = false
+      if (!(validatePw.test(this.memberInfo.member_pw)) || !(this.memberInfo.member_pw)) {
+        this.valid.member_pw = false;
         return false
+      }else {
+        this.valid.member_pw = true;
       }
-      this.valid.member_pw = true
     },
     checkPw_chk() {
       const validatePwChk = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[~#?!@$%^&*-]).{8,}$/
 
-      if (!(this.member_pw == this.member_pw_check) || !validatePwChk.test(this.member_pw_check) || !this.member_pw_check) {
-        this.valid.member_pw_check = false
-        return false
+      if (!(this.memberInfo.member_pw == this.member_pw_check) || !(validatePwChk.test(this.member_pw_check)) || !(this.member_pw_check)) {
+        this.valid.member_pw_check = false;
+      }else{
+        this.valid.member_pw_check = true;
       }
-      this.valid.member_pw_check = true
     },
     checkPhone() {
       const validatePhone = /^010-?([0-9]{4})-?([0-9]{4})$/;
-      if (!validatePhone.test(this.member_phone) || !this.member_phone) {
+      if (!validatePhone.test(this.memberInfo.member_phone) || !this.memberInfo.member_phone) {
         this.checkPhone_memo = true;
         return false
       } else {
@@ -337,7 +322,7 @@ export default {
     checkEmail() {
       const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z\\-]+/
       this.checkEmail_memo = false
-      if (!validateEmail.test(this.member_email) || !this.member_email) {
+      if (!validateEmail.test(this.memberInfo.member_email) || !this.memberInfo.member_email) {
         this.checkEmail_memo = true
         return false;
       }else {
@@ -747,7 +732,7 @@ export default {
   border: 0.4px solid rgba(173, 116, 227, 0.63);
   width: 700px;
   height: 220px;
-  margin: 10px auto;
+  margin: 10px auto 0 auto;
 }
 
 .address_form label {
@@ -825,7 +810,14 @@ export default {
   width: 400px;
   height: 40px;
 }
-
+.member_delete {
+  text-align: right;
+}
+.member_delete_btn {
+  font-size: 12px;
+  color: #5d5dff;
+  cursor: pointer;
+}
 .join_btn {
   text-align: center;
   color: white;
@@ -1136,7 +1128,7 @@ export default {
     border: 0.4px solid rgba(173, 116, 227, 0.63);
     width: 80%;
     height: 220px;
-    margin: 10px auto;
+    margin: 10px auto 0 auto;
   }
 
   .address_form label {
@@ -1209,7 +1201,10 @@ export default {
     height: 40px;
     margin: 5px 0 0 0;
   }
-
+  .member_delete {
+    text-align: right;
+    width: 90%;
+  }
   .join_btn {
     text-align: center;
     color: white;
