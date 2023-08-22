@@ -3,14 +3,15 @@
     <div class="top-header">
       
       <img src="@/assets/comhub.png" class="logo">
-      <div class="search-area">
+      <div class="button-area">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
+          <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
       </div>
-      <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
-      <span class="btn_member">
-        <button type="button" class="btn mem-btn" v-if="isLogin" @click="memberUpdate">회원수정</button>
-        <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
-      </span>
+
+      <div class="member-area">
+          <button type="button" class="btn mem-btn" v-if="isLogin" @click="memberUpdate">회원수정</button>
+          <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
+      </div>
     </div>
     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">메인 페이지</a>
@@ -74,36 +75,35 @@
       padding: 10px;
     }
     .top-header {
-      display:flex;
       margin-top: 10px;
       margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
     }
     .logo{
       width: 150px;
       height: 40px;
+      float: left;
       margin-left: 5%;
+      transform:translate(-5%, 0);
     }
-    .btn_member {
-      margin-left: auto;
-    }
-    .top-header .log-btn{
-      margin-right: 20px;
-    }
-    .top-header .log-btn:hover{
+    .top-header .log-btn:hover .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
     }
-    .top-header .mem-btn{
-      margin-right: 10px;
+    .button-area{
+      display: flex;
     }
-    .top-header .mem-btn:hover{
-      background-color: rgba(194, 194, 194, 0.99);
+    .member-area{
+      margin-right: 5%;
+      transform:translate(-5%, 0);
     }
-    .search-area{
-      width: 50%;
-      
-      margin-left: 10px;
+
+    .mr-sm-2{
+      width: 1030px;
+      margin-left: 30px;
     }
+
     .search-btn {
-      height: 37px;
+      
     }
 </style>
