@@ -3,7 +3,7 @@
     <div class="top-header">
       
       <img src="@/assets/comhub.png" class="logo">
-      <div class="button-area">
+      <div class="search-area">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
           <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
       </div>
@@ -84,23 +84,22 @@
       width: 150px;
       height: 40px;
       float: left;
-      margin-left: 5%;
-      transform:translate(-5%, 0);
+      margin-left: 100px;
     }
     .top-header .log-btn:hover .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
     }
-    .button-area{
+    .search-area{
       display: flex;
+      margin-left:50px;
     }
     .member-area{
-      margin-right: 5%;
-      transform:translate(-5%, 0);
+      width: 200px;
+      margin-right: 100px;
     }
 
     .mr-sm-2{
       width: 1030px;
-      margin-left: 30px;
     }
 
     .search-btn {
