@@ -1,4 +1,4 @@
-# community
+# community <br/> http://gnsdl2846.cafe24.com/
 
 ## SKILL
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
@@ -18,6 +18,6 @@ https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1k
 https://docs.google.com/spreadsheets/d/15eWKywQcYbW4_I9jjFlx2JngejG84wApNsjGraNNy24/edit#gid=0
 
 
-http://gnsdl2846.cafe24.com/
+
 
 
