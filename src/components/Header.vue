@@ -104,10 +104,8 @@
 
     @media (max-width: 825px) {
   .mr-sm-2{
-    display:none;
+    width: 28.5vw;
   }
-  .search-btn{
-    display:none;
-  }
+  /* .search-btn */
 }
 </style>
