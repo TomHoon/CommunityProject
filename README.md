@@ -15,9 +15,6 @@ https://docs.google.com/spreadsheets/d/10M2Ar8JO5JIsCULc3wMjnFurGfgfYRN6HQ5K5oyV
 ### TODO LIST
 https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1kEK0/edit#gid=0
 
-### 공통 문서
-https://docs.google.com/spreadsheets/d/15eWKywQcYbW4_I9jjFlx2JngejG84wApNsjGraNNy24/edit#gid=0
-
 
 
 
