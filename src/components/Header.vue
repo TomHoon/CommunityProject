@@ -102,7 +102,12 @@
       width: 53.5vw;
     }
 
-    .search-btn {
-      
-    }
+    @media (max-width: 825px) {
+  .mr-sm-2{
+    display:none;
+  }
+  .search-btn{
+    display:none;
+  }
+}
 </style>
