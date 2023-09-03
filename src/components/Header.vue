@@ -72,7 +72,7 @@
 </script>
 <style>
     .navbar {
-      padding: 10px;
+      padding: 1vw;
     }
     .top-header {
       margin-top: 10px;
@@ -81,25 +81,25 @@
       justify-content: space-between;
     }
     .logo{
-      width: 150px;
+      width: 150px; /* 150px */
       height: 40px;
       float: left;
-      margin-left: 100px;
+      margin-left: 3vw;
     }
     .top-header .log-btn:hover .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
     }
     .search-area{
       display: flex;
-      margin-left:50px;
+      margin-left:2.5vw;
     }
     .member-area{
       width: 200px;
-      margin-right: 100px;
+      margin-right: 3vw;
     }
 
     .mr-sm-2{
-      width: 1030px;
+      width: 53.5vw;
     }
 
     .search-btn {
