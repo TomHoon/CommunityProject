@@ -16,10 +16,12 @@
 </div>
 
 ### API 명세서
-https://docs.google.com/spreadsheets/d/10M2Ar8JO5JIsCULc3wMjnFurGfgfYRN6HQ5K5oyV60Q/edit#gid=0
+[이동하기](https://docs.google.com/spreadsheets/d/10M2Ar8JO5JIsCULc3wMjnFurGfgfYRN6HQ5K5oyV60Q/edit#gid=0)
+
 
 ### TODO LIST
-https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1kEK0/edit#gid=0
+[이동하기](https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1kEK0/edit#gid=0)
+
 
 ### 프로젝트에서 잘한 부분
 
