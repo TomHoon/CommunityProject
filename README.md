@@ -1,5 +1,11 @@
 # ComHub [이동하기](http://gnsdl2846.cafe24.com/)
 
+### 프로젝트 주제
+
+### 프로젝트 배경
+
+### 프로젝트 목적
+
 ## SKILL
 <div>
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
@@ -15,6 +21,9 @@ https://docs.google.com/spreadsheets/d/10M2Ar8JO5JIsCULc3wMjnFurGfgfYRN6HQ5K5oyV
 ### TODO LIST
 https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1kEK0/edit#gid=0
 
+### 프로젝트에서 잘한 부분
+
+### 프로젝트에서 부족한 부분
 
 
 
