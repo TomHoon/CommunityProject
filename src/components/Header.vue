@@ -100,6 +100,7 @@
 
     .mr-sm-2{
       width: 53.5vw;
+      /* margin-right: 1px; */
     }
 
     @media (max-width: 825px) {
