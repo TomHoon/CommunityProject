@@ -109,4 +109,13 @@
   }
   /* .search-btn */
 }
+
+@media (max-width: 500px) {
+  .mr-sm-2{
+    display: none;
+  }
+  .search-btn{
+    display: none;
+  }
+}
 </style>
