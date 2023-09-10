@@ -303,7 +303,6 @@ export default {
   margin: 20px auto;
 }
 .content-img{
-  width:80%;
   max-width: 1050px;
 }
 .content-text{
