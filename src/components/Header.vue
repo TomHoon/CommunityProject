@@ -113,7 +113,7 @@
   /* .search-btn */
 }
 
-@media (max-width: 500px) {
+@media (max-width: 450px) {
   .mr-sm-2{
     display: none;
   }

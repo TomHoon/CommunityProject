@@ -38,6 +38,7 @@ export default {
             keys.forEach(key => {
                 const watcher = this.$watch(key, (newVal, oldVal) => {
                     console.log(newVal);
+                    console.log(oldVal)
                     changedTransferObj[key] = newVal;
                 });
                 watchList.push(watcher);
