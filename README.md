@@ -20,6 +20,10 @@
 </div>
 
 
+### Lighthouse Score
+![Lighthouse_score](https://github.com/TomHoon/CommunityProject/assets/100109284/993eaf59-859d-4085-a94c-6c6df3a98123)
+
+
 ### 프로젝트에서 잘한 부분
 
 ### 프로젝트에서 부족한 부분
