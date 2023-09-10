@@ -2,7 +2,7 @@
   <div class="header-container">
     <div class="top-header">
       
-      <img src="@/assets/comhub.png" class="logo">
+      <img src="@/assets/comhub.png" class="logo" @click="closeAll">
       <div class="search-area">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
           <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
@@ -67,6 +67,9 @@
       memberUpdate() {
         this.$pushContents('MemberUpdate');
       },
+      closeAll() {
+        this.$clearLayer();
+      }
     }
   }
 </script>

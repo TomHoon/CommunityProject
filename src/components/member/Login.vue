@@ -60,6 +60,7 @@ export default {
             }
           }).catch((err) => {
         if (err.response) {
+          console.log(err.response)
         }
       })
     },
