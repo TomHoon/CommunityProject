@@ -5,7 +5,7 @@
 ###### API 명세서 [자세히 보기](https://docs.google.com/spreadsheets/d/10M2Ar8JO5JIsCULc3wMjnFurGfgfYRN6HQ5K5oyV60Q/edit#gid=0) / TODO LIST [자세히 보기](https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1kEK0/edit#gid=0) / DB 명세 [자세히 보기 1](https://github.com/TomHoon/CommunityProject/assets/100109284/4ae5be9e-d085-4bd4-8960-ed383b73acfe) / [2](https://github.com/TomHoon/CommunityProject/assets/100109284/f95f9302-ba22-4ef6-8a0c-00014e605a10)
 
 ### 프로젝트 주제
-자유로운 소통 커뮤니티
+ - 자유로운 소통 커뮤니티
 
 ### 프로젝트 배경
 
