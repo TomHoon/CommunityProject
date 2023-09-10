@@ -21,7 +21,7 @@
 
 
 ### Lighthouse Score
-![Lighthouse_score](https://github.com/TomHoon/CommunityProject/assets/100109284/993eaf59-859d-4085-a94c-6c6df3a98123)
+![Lighthouse_score](https://github.com/TomHoon/CommunityProject/assets/100109284/e0c706cd-73bb-4c69-a779-809f1cb4ef60)
 
 
 ### 프로젝트에서 잘한 부분
