@@ -3,7 +3,7 @@
     <Header></Header>
     <div class="main">
       <div class="title left-align">
-       [{{boardData.gubun }}] {{ boardData.title }}
+       [{{boardData.gubun }}] {{ boardData.title }} <span class="title-comment"> [{{commentList.length}}] </span>
       </div>
 
       <hr>
@@ -280,6 +280,11 @@ export default {
 <style scoped>
 .left-align{
   text-align: left;
+}
+.title-comment{
+  font-size: 20px;
+  color:blue;
+  vertical-align: middle;
 }
 .main{
   max-width: 1100px;
