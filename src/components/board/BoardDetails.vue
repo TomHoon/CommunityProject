@@ -153,7 +153,8 @@ export default {
       getCommentAll: [],
       userInfo: {},
       fileInfo: {},
-      defaultImgPath: '/upload/1691384796527정준하텔레파시.png',
+      // defaultImgPath: '/upload/1691384796527정준하텔레파시.png',
+      defaultImgPath: '/profile_img.jpg',
       commentContent: '',
       commentList: []
     }
