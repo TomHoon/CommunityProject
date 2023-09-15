@@ -88,6 +88,7 @@
       height: 40px;
       float: left;
       margin-left: 3vw;
+      cursor: pointer;
     }
     .top-header .log-btn:hover .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);

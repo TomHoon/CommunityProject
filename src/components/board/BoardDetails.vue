@@ -42,8 +42,14 @@
       <button class="btn" @click="backPage">
         뒤로가기
       </button>
-    </div>
 
+      <hr>
+
+      <button type="button" class="btn-primary" @click="goWrite">글쓰기</button>
+      <button type="button" class="btn-primary" >수정</button>
+      <button type="button" class="btn-primary" @click="deleteBoard">삭제</button>
+
+    </div>
 
     <div class="board-bottom" v-if="!isMobile">
       <div class="comment-container">
@@ -180,6 +186,13 @@ export default {
 
   props: ['pageParams'],
   methods:{
+    goWrite(){
+      if (!localStorage.getItem('isLogin')) {
+        alert("로그인 이후 이용 가능합니다.");
+        return;
+      }
+      this.$pushContents('BoardWrite');
+    },
     updateBoard() {
       this.$pushContents('boardModify', {board: this.boardData});
     },
