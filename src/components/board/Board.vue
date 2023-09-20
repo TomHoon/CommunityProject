@@ -26,6 +26,7 @@
           <div>
             <span>[{{item.gubun}}] </span>
             <span style="font-size:x-large; color:blue;">{{item.title}}</span>
+            <!-- <span style="font-size:x-large; font-weight: bold;">{{item.title}}</span> -->
             (댓글수)
           </div>
           <div>
