@@ -54,7 +54,8 @@
       },
       closeAll() {
         this.$clearLayer();
-        this.$emit('allBoard')
+        this.$emit('allBoard');
+        this.searchWord = '';
       },
       fnJoin() {
         this.$pushContents('Agreement');
@@ -94,7 +95,7 @@
 
     .mr-sm-2{
       width: 53.5vw;
-      /* margin-right: 1px; */
+      margin-right: 5px;
     }
 
     @media (max-width: 825px) {
