@@ -43,8 +43,8 @@
 
       <div>
         <button type="button" class="btn btn-primary left-btn" @click="goWrite">글쓰기</button>
-        <button type="button" class="btn btn-primary left-btn" v-if="isOwner" >수정</button>
-        <button type="button" class="btn btn-primary left-btn" v-if="isOwner" @click="deleteBoard">삭제</button>
+        <button type="button" class="btn btn-primary left-btn" @click="updateBoard" v-if="isOwner" >수정</button>
+        <button type="button" class="btn btn-primary left-btn" @click="deleteBoard" v-if="isOwner">삭제</button>
         <button type="button" class="btn btn-primary right-btn" @click="backPage">목록</button>
       </div>
 
