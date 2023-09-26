@@ -104,7 +104,7 @@ export default {
   data() {
     //true
     return {
-      imgPath: './profile_Img.jpg',
+      imgPath: '/upload/1692455050106profile_Img.jpg',
       member_id: '',
       member_pw: '',
       member_pw_check: '',
