@@ -14,6 +14,7 @@
         <button class="login_btn" @click="fnLogin">로그인</button>
       </div>
       <div class="join"><span @click="fnJoin" class="join_btn">회원가입</span></div>
+      <div class="backPage" @click="backPage">뒤로 가기</div>
 
     </div>
 </template>
@@ -66,7 +67,10 @@ export default {
     },
     fnJoin() {
       this.$pushContents('Agreement');
-    }
+    },
+    backPage() {
+      this.$backPage();
+    },
   }
 }
 </script>
@@ -130,7 +134,6 @@ export default {
   color: white;
   font-size: 17px;
   cursor: pointer;
-
 }
 .join {
   font-size: 14px;
@@ -140,6 +143,13 @@ export default {
 .join_btn {
   float: right;
   cursor: pointer;
+}
+.backPage {
+  float: left;
+  cursor: pointer;
+  color: #ad74e3;
+  font-size: 14px;
+  margin-left : 5px;
 }
 
 /*모바일 반응형*/
