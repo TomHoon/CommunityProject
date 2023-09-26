@@ -25,9 +25,8 @@
         <div class="board-table-cell2">
           <div>
             <span>[{{item.gubun}}] </span>
-            <span style="font-size:x-large; color:blue;">{{item.title}}</span>
-            <!-- <span style="font-size:x-large; font-weight: bold;">{{item.title}}</span> -->
-            (댓글수)
+            <span style="font-size:x-large; color:black;">{{item.title}}</span>
+            <span style="font-size:20px; color:blue;" v-if="item.comment_count > 0"> [{{ item.comment_count }}]</span>
           </div>
           <div>
             <p>No.{{item.id}} | 추천 {{item.recommend}} | 조회 {{item.hit}} | {{item.reg_date}} </p>
