@@ -54,10 +54,11 @@
       },
       closeAll() {
         this.$clearLayer();
+        this.$emit('AllBoard')
       },
       fnJoin() {
         this.$pushContents('Agreement');
-      }
+      },
     }
   }
 </script>

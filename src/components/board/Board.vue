@@ -1,5 +1,5 @@
 <template>
-<Header @searchBoard="searchBoard"></Header>
+<Header @searchBoard="searchBoard" @AllBoard="AllBoard"></Header>
   <div class="board-container">
     <div class="top-box">
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
@@ -190,6 +190,9 @@ import axios from 'axios';
           this.boardList = this.tempList
           this.bestToggle = false
           }
+      },
+      AllBoard(){
+        this.boardList = this.tempList
       }
     }
 }
