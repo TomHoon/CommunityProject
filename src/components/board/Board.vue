@@ -53,9 +53,9 @@
       <div class="search-box">
         <select class="search-select">
           <option>제목</option>
-          <option>내용</option>
+          <!-- <option>내용</option> -->
         </select>
-        <input>
+        <input @keyup.enter="searchBoard(searchData)" v-model="searchData">
       </div>
     </div>
   </div>
@@ -105,6 +105,7 @@ import axios from 'axios';
         tempList: [],
         bestList: [],
         bestToggle : false,
+        searchData : '',
       }
     },
     methods: {
