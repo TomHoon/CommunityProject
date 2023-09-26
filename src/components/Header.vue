@@ -4,7 +4,7 @@
       
       <img src="@/assets/comhub.png" class="logo" @click="closeAll">
       <div class="search-area">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord" @keyup.enter="searchBoard">
           <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
       </div>
 
