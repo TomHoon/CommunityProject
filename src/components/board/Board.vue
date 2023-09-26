@@ -110,7 +110,7 @@ import axios from 'axios';
       async searchBoard(emitData) {
         console.log(emitData);
         await axios.post('/searchBoard', {title: emitData})
-        .then(res => this.boardList = res.data)
+        .then(res => this.boardList = res.data.reverse())
         .catch(error => console.log(error));
       },
       detailChain(item) {
