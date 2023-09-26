@@ -65,7 +65,6 @@ import axios from 'axios';
   export default {
     props: ['pageParams', 'transferObj'],
     computed:{
-      
     },
     mounted() {
       this.$propsWatch();

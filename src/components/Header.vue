@@ -59,7 +59,8 @@
       fnJoin() {
         this.$pushContents('Agreement');
       },
-    }
+    },
+    emits: ['searchBoard', 'allBoard'],
   }
 </script>
 <style>
