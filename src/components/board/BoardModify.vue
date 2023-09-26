@@ -50,7 +50,7 @@ export default {
     methods: {
         async modify() {
             await axios.post('/updateBoard', this.board)
-            .then(res => console.log(res))
+            .then(res => console.log(res), this.backPage())
             .catch(err => console.log(err));
         },
         backPage() {
