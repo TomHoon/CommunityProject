@@ -110,32 +110,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 모바일 -->
-    <div class="board-bottom">
-      <table>
-        <tbody>
-          <tr>
-            <div class="board-comment">``
-              <p class="comment">댓글 내용 ㅋㅋㅋ</p>
-            </div>
-            <div class="board-info">
-              <span class="nickname">닉네임</span>
-              <span>2023.08.14</span>
-            </div>
-            <div class="board-buttons">
-              <div></div>
-              <div>
-                <button>신고</button>
-                <button>업</button>
-                <button>다운</button>
-              </div>
-            </div>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
   </div>
 </template>
 
