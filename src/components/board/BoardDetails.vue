@@ -43,7 +43,7 @@
 
       <div>
         <button type="button" class="btn btn-primary left-btn" @click="goWrite">글쓰기</button>
-        <button type="button" class="btn btn-primary left-btn" @click="updateBoard" v-if="isOwner" >수정</button>
+        <button type="button" class="btn btn-primary left-btn" @click="updateBoard" v-if="isOwner">수정</button>
         <button type="button" class="btn btn-primary left-btn" @click="deleteBoard" v-if="isOwner">삭제</button>
         <button type="button" class="btn btn-primary right-btn" @click="backPage">목록</button>
       </div>
@@ -135,7 +135,10 @@ export default {
       return this.pageParams.boardData;
     },
     isOwner() {
-      return this.pageParams.boardData.writer == localStorage.getItem('id')
+      if (!localStorage.getItem('isLogin')) {
+        return
+      }
+      return this.pageParams.boardData.writer == localStorage.getItem('id');
     },
     getImgPath() {
       return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
