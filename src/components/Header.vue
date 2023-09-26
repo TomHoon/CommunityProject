@@ -54,7 +54,7 @@
       },
       closeAll() {
         this.$clearLayer();
-        this.$emit('AllBoard')
+        this.$emit('allBoard')
       },
       fnJoin() {
         this.$pushContents('Agreement');
