@@ -127,6 +127,10 @@ export default {
       checkEmail_memo : false,
     };
   },
+  props: {
+    pageParams: Object,
+    transferObj: Object,
+  },
   computed: {
     getImgPath() {
       return this.imgPath;

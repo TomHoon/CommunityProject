@@ -400,7 +400,12 @@
 <script>
 export default {
   name: "agreement",
+
   components: {
+  },
+  props: {
+    pageParams: Object,
+    transferObj: Object,
   },
   data() {
     return {
