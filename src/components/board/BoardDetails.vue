@@ -53,15 +53,14 @@
       <div class="comment-container">
         <div class="comment-wrapper">
           <div class="comment-info">
-            <div class="info-left">
-              <h3>댓글: {{commentList.length}}</h3>
-            </div>
-            <div class="info-right">
+            <span class="info-left">
+              <h6>댓글 | 총 {{commentList.length}} 개</h6>
+            </span>
+            <span class="info-right">
               <button>
-                댓글목록
-                <i class="bi bi-pencil"></i>
+                <i class="bi bi-pencil">댓글 목록</i>
               </button>
-            </div>
+            </span>
           </div>
           <div class="comment-area">
               <table>
@@ -103,7 +102,7 @@
               </table>
             <hr>
             <div class="comment-write-area">
-              <textarea v-model="commentContent" name="" id="" cols="120" rows="2"/>
+              <textarea v-model="commentContent" name="" id="" cols="120" rows="2" class="comment-textarea" />
               <button @click="addComment">댓글쓰기</button>
             </div>
           </div>
@@ -342,13 +341,14 @@ border-radius: 10px;
   margin-left: 10px;
 }
 
-.
+
 
 /* 
 .comment-wrap {
   
  } 
  */
+
 .comment-form {
   box-sizing: border-box;
   /* border: 1px solid gray; */
@@ -383,7 +383,7 @@ border-radius: 10px;
 }
 .comment-info .info-right button{
   border-radius:15px;
-  padding: 8px;
+  /* padding: 8px; */
 }
 .comment-area  table tr{
   height: 60px;
