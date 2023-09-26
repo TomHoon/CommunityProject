@@ -52,7 +52,10 @@ export default {
             await axios.post('/updateBoard', this.board)
             .then(res => console.log(res))
             .catch(err => console.log(err));
-        }
+        },
+        backPage() {
+            this.$backPage({test: 'hello'});
+        },
     }
 }
 </script>
