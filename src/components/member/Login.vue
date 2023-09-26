@@ -30,6 +30,10 @@ export default {
       member_pw: '',
     };
   },
+  props: {
+    pageParams: Object,
+    transferObj: Object,
+  },
   mounted() {
     localStorage.getItem("isLogin") ? this.$pushContents('Board') : '';
   },

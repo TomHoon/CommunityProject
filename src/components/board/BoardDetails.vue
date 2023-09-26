@@ -127,7 +127,7 @@ export default {
       fileInfo: {},
       defaultImgPath: '/upload/1692455050106profile_Img.jpg',
       commentContent: '',
-      commentList: []
+      commentList: [],
     }
   },
   computed:{
@@ -139,7 +139,7 @@ export default {
     },
     getImgPath() {
       return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
-    }
+    },
   },
   async mounted() {
     let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
