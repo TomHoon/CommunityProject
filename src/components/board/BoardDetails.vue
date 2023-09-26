@@ -204,6 +204,10 @@ export default {
     },
     
     updateRecommend(payload) {
+      if (!localStorage.getItem('isLogin')) {
+        alert("로그인 이후 이용 가능합니다.");
+        return;
+      }
       let param = {
         id : payload
       }
