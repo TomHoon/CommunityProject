@@ -19,8 +19,6 @@
             <div>일시 {{ boardData.reg_date }}</div>
           </div> 
         </div>
-          <button class="btn" @click="deleteBoard" v-if="isOwner">삭제</button>
-          <button class="btn" @click="updateBoard" v-if="isOwner">수정</button>
       </div>
       
       <hr>
@@ -34,20 +32,20 @@
         </div>
       </div>
 
-      <button class="btn" @click="updateRecommend( boardData.id )">
-        <div> {{ recommend }}</div>
-        추천
-      </button>
-
-      <button class="btn" @click="backPage">
-        뒤로가기
-      </button>
-
+      <div>
+        <button class="middle-btn" @click="updateRecommend( boardData.id )">
+          <div>{{ recommend }}</div>
+          추천
+        </button>
+      </div>
+      
       <hr>
 
-      <button type="button" class="btn-primary" @click="goWrite">글쓰기</button>
-      <button type="button" class="btn-primary" >수정</button>
-      <button type="button" class="btn-primary" @click="deleteBoard">삭제</button>
+      <div>
+        <button type="button" class="btn btn-primary left-btn" @click="goWrite">글쓰기</button>
+        <button type="button" class="btn btn-primary left-btn" v-if="isOwner" >수정</button>
+        <button type="button" class="btn btn-primary left-btn" v-if="isOwner" @click="deleteBoard">삭제</button>
+      </div>
 
     </div>
 
@@ -60,7 +58,7 @@
             </div>
             <div class="info-right">
               <button>
-                댓글
+                댓글목록
                 <i class="bi bi-pencil"></i>
               </button>
             </div>
@@ -294,6 +292,7 @@ export default {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   padding: 1rem;
+  padding-bottom: 4rem;
 }
 .sub{
   display: flex;
@@ -326,17 +325,25 @@ export default {
 .content-text{
   margin : 20px auto;
 }
-
-.btn{
-    color:#ad74e3;
-    background-color: pink;
-    width: 100px;
-    margin : 5px;
-    height: 80px;
-    border: 0px;
-    /* border-radius: 3px; */
-    font-size: 17px;
+.middle-btn{
+color: white;
+background-color:#0d6efd;
+width: 100px;
+height: 80px;
+margin: 5px;
+border: 0px;
+font-size: 17px;
+border-radius: 10px;
 }
+
+.left-btn{
+  float: left;
+  /* margin-top: 5px; */
+  margin-left: 10px;
+}
+
+.
+
 /* 
 .comment-wrap {
   
