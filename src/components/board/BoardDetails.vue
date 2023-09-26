@@ -45,6 +45,7 @@
         <button type="button" class="btn btn-primary left-btn" @click="goWrite">글쓰기</button>
         <button type="button" class="btn btn-primary left-btn" v-if="isOwner" >수정</button>
         <button type="button" class="btn btn-primary left-btn" v-if="isOwner" @click="deleteBoard">삭제</button>
+        <button type="button" class="btn btn-primary right-btn" @click="backPage">목록</button>
       </div>
 
     </div>
@@ -343,6 +344,10 @@ border-radius: 10px;
   float: left;
   /* margin-top: 5px; */
   margin-left: 10px;
+}
+.right-btn{
+  float: right;
+  margin-right: 10px;
 }
 
 

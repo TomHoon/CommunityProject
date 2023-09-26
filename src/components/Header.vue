@@ -10,6 +10,7 @@
 
       <div class="member-area">
           <button type="button" class="btn mem-btn" v-if="isLogin" @click="memberUpdate">회원수정</button>
+          <button type="button" class="btn log-btn" v-if="isLogin == false" @click="fnJoin">회원가입</button>
           <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
       </div>
     </div>
@@ -53,6 +54,9 @@
       },
       closeAll() {
         this.$clearLayer();
+      },
+      fnJoin() {
+        this.$pushContents('Agreement');
       }
     }
   }
