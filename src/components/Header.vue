@@ -104,7 +104,7 @@
       }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 850px) {
       .mr-sm-2{
         width: 20vw;
       }
