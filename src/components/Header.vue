@@ -94,23 +94,28 @@
     }
 
     .mr-sm-2{
-      width: 53.5vw;
+      width: 53vw;
       margin-right: 5px;
     }
 
-    @media (max-width: 825px) {
-  .mr-sm-2{
-    width: 28.5vw;
-  }
-  /* .search-btn */
-}
+    @media (max-width: 1100px) {
+      .mr-sm-2{
+        width: 40vw;
+      }
+    }
 
-@media (max-width: 450px) {
-  .mr-sm-2{
-    display: none;
-  }
-  .search-btn{
-    display: none;
-  }
-}
+    @media (max-width: 800px) {
+      .mr-sm-2{
+        width: 20vw;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .mr-sm-2{
+        display: none;
+      }
+      .search-btn{
+        display: none;
+      }
+    }
 </style>
