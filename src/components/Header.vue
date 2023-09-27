@@ -98,7 +98,7 @@
       margin-right: 5px;
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1150px) {
       .mr-sm-2{
         width: 40vw;
       }
