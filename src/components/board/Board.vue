@@ -90,6 +90,11 @@ import axios from 'axios';
           }
         }
       });
+      if(this.transferObj != ''){
+      axios.post('/searchBoard', {title: this.transferObj})
+      .then(res => this.boardList = res.data.reverse())
+      .catch(error => console.log(error));
+      }
     },
     data() {
       return {
@@ -114,10 +119,6 @@ import axios from 'axios';
         .catch(error => console.log(error));
       },
       detailChain(item) {
-        // if (!localStorage.getItem("isLogin")) {
-        //   alert("로그인 이후 이용 가능합니다.");
-        //   return;
-        // }
         this.goDetails(item);
         this.upHit(item.id);
       },

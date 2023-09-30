@@ -14,13 +14,13 @@ export default {
             // this.$emit('transferObj', payload);
             this.$propsWatch();
         },
-        Vue.config.globalProperties.$clearLayer = function() {
+        Vue.config.globalProperties.$clearLayer = function(payload= {}) {
             // this.$store.state.mainLayer = ['Login'];
             this.$store.state.mainLayer = [
                 {
                     pageName: 'Board',
                     pageInfo: {temp: '1234'},
-                    transferObj: {temp: '1'}
+                    transferObj: payload,
                 }
             ];
         }
