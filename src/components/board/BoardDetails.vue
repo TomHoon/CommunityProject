@@ -220,6 +220,10 @@ export default {
       this.recommend = data.recommend;
     },
     async addComment() {
+      if (!localStorage.getItem('isLogin')) {
+        alert("로그인 이후 이용 가능합니다.");
+        return;
+      }
       if (!this.commentContent) {
         alert('댓글 내용을 작성해주세요.');
         return;
