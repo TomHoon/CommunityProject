@@ -189,14 +189,20 @@ export default {
       let param = {
         id : payload
       }
-      axios.post('/updateRecommendBoard', param)
-      .then(() => {
-        this.recommend = Number(this.recommend) + 1
-      })
-      .catch((error) => {
-        console.error('오류', error);
-      })
-    },
+      if(localStorage.getItem(localStorage.getItem('id')) != payload){ // key: login / value : 글번호 가 없으면, 추천 +1
+        axios.post('/updateRecommendBoard', param)
+        .then(() => {
+          this.recommend = Number(this.recommend) + 1,
+          localStorage.setItem(localStorage.getItem('id'), payload) //아이디와 글번호를 저장
+        })
+        .catch((error) => {
+          console.error('오류', error);
+        }) 
+      }
+      else{
+        alert("추천은 게시글당 1회만 가능합니다.")
+      }
+      },
     setUserInfo(data) {
       this.userInfo = data;
     },
