@@ -92,6 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
+                        <button v-if="isOwner">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -104,7 +105,7 @@
             <hr>
             <div class="comment-write-area">
               <textarea v-model="commentContent" name="" id="" cols="120" rows="2" class="comment-textarea" />
-              <button @click="addComment">댓글쓰기</button>
+              <button class="comment-btn" @click="addComment">등록</button>
             </div>
           </div>
         </div>
@@ -240,6 +241,9 @@ export default {
 
       let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
       this.commentList = res.data;
+    },
+    modifyComment(){
+      a
     },
     async recommendUpDown(flag, idx) {
       let param = {
@@ -396,6 +400,9 @@ border-radius: 10px;
 }
 .comment-area  table tr td:nth-child(2){
   width:45%;
+}
+.comment-btn{
+  width: 70px;
 }
 .thumbs-area button{
   border: none;
