@@ -92,7 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
-                        <button v-if="item.member_id == this.getId && localStorage.getItem('isLogin') == true" @click="deleteComment(item.comment_idx)">X</button>
+                        <button @click="deleteComment(item.comment_idx)">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -143,9 +143,6 @@ export default {
     },
     getImgPath() {
       return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
-    },
-    getId() {
-      return localStorage.getItem('id');
     },
   },
   async mounted() {
