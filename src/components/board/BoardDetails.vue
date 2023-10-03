@@ -92,7 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
-                        <button v-if="item.member_id == getId" @click="deleteComment(item.comment_idx)">X</button>
+                        <button v-if="isCommentOwner" @click="deleteComment(item.comment_idx)">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -136,6 +136,9 @@ export default {
       return this.pageParams.boardData;
     },
     isOwner() {
+      if (!localStorage.getItem('isLogin')) {
+        return;
+      }
       return this.pageParams.boardData.writer == this.getId;
     },
     getImgPath() {
@@ -143,6 +146,12 @@ export default {
     },
     getId() {
       return localStorage.getItem('id');
+    },
+    isCommentOwner() {
+      if (!localStorage.getItem('isLogin')) {
+        return;
+      }
+      return this.item.member_id == this.getId
     }
   },
   async mounted() {
