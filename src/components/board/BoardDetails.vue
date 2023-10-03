@@ -92,7 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
-                        <button v-if="isOwner" @click="delComment(item.comment_idx)">X</button>
+                        <button @click="deleteComment(item.comment_idx)">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -136,20 +136,26 @@ export default {
       return this.pageParams.boardData;
     },
     isOwner() {
-      if (!localStorage.getItem('isLogin')) {
-        return
-      }
+      
       return this.pageParams.boardData.writer == localStorage.getItem('id');
+    },
+    commentOwner(){
+      if (!localStorage.getItem('isLogin')) {
+        alert("로그인 이후 이용 가능합니다.");
+        return;
+      }
+      return console.log('yes')
     },
     getImgPath() {
       return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
     },
   },
   async mounted() {
-    let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
-    console.log("mounted getCommentByBoard res.data >>>> ", res.data);
+    // let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
+    // console.log("mounted getCommentByBoard res.data >>>> ", res.data);
     
-    this.commentList = res.data;
+    // this.commentList = res.data;
+    this.updateComment()
 
 
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
@@ -181,7 +187,6 @@ export default {
     backPage() {
       this.$backPage({boardParam: '백페이지에서 사용할 파람'});
     },
-    
     updateRecommend(payload) {
       if (!localStorage.getItem('isLogin')) {
         alert("로그인 이후 이용 가능합니다.");
@@ -220,6 +225,10 @@ export default {
       this.hit = data.hit;
       this.recommend = data.recommend;
     },
+    async updateComment() {
+      let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
+      this.commentList = res.data;
+    },
     async addComment() {
       if (!localStorage.getItem('isLogin')) {
         alert("로그인 이후 이용 가능합니다.");
@@ -239,11 +248,12 @@ export default {
 
       this.commentContent = '';
 
-      let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
-      this.commentList = res.data;
+      this.updateComment()
     },
-    delComment(payload){
-      axios.post('/delComment', payload);
+    async deleteComment(payload){
+      await axios.post('/deleteComment', {comment_idx : payload});
+
+      this.updateComment()
     },
     async recommendUpDown(flag, idx) {
       let param = {
@@ -263,8 +273,7 @@ export default {
         console.log(res.data);
       }
 
-      let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
-      this.commentList = res.data;
+      this.updateComment()
     }
   },
 }
