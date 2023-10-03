@@ -92,7 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
-                        <button @click="deleteComment(item.comment_idx)">X</button>
+                        <button v-if="item.member_id == getId" @click="deleteComment(item.comment_idx)">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -136,19 +136,14 @@ export default {
       return this.pageParams.boardData;
     },
     isOwner() {
-      
-      return this.pageParams.boardData.writer == localStorage.getItem('id');
-    },
-    commentOwner(){
-      if (!localStorage.getItem('isLogin')) {
-        alert("로그인 이후 이용 가능합니다.");
-        return;
-      }
-      return console.log('yes')
+      return this.pageParams.boardData.writer == this.getId;
     },
     getImgPath() {
       return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
     },
+    getId() {
+      return localStorage.getItem('id');
+    }
   },
   async mounted() {
     // let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
@@ -195,11 +190,11 @@ export default {
       let param = {
         id : payload
       }
-      if(localStorage.getItem(localStorage.getItem('id')) != payload){ // key: login / value : 글번호 가 없으면, 추천 +1
+      if(localStorage.getItem(this.getId) != payload){ // key: login / value : 글번호 가 없으면, 추천 +1
         axios.post('/updateRecommendBoard', param)
         .then(() => {
           this.recommend = Number(this.recommend) + 1,
-          localStorage.setItem(localStorage.getItem('id'), payload) //아이디와 글번호를 저장
+          localStorage.setItem(this.getId, payload) //아이디와 글번호를 저장
         })
         .catch((error) => {
           console.error('오류', error);
@@ -240,7 +235,7 @@ export default {
       }
 
       let param = {
-        member_id: localStorage.getItem('id'),
+        member_id: this.getId,
         id: this.boardData.id,
         comment_content: this.commentContent
       }
@@ -251,8 +246,11 @@ export default {
       this.updateComment()
     },
     async deleteComment(payload){
+      if (!localStorage.getItem('isLogin')) {
+        alert("로그인 이후 이용 가능합니다.");
+        return;
+      }
       await axios.post('/deleteComment', {comment_idx : payload});
-
       this.updateComment()
     },
     async recommendUpDown(flag, idx) {
@@ -274,7 +272,7 @@ export default {
       }
 
       this.updateComment()
-    }
+    },
   },
 }
 </script>
