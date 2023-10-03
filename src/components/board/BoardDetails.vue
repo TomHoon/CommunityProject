@@ -92,7 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
-                        <button @click="deleteComment(item.comment_idx)">X</button>
+                        <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -139,7 +139,7 @@ export default {
       if (!localStorage.getItem('isLogin')) {
         return;
       }
-      return this.pageParams.boardData.writer == this.getId;
+      return this.pageParams.boardData.writer == localStorage.getItem('id');
     },
     getImgPath() {
       return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
@@ -190,11 +190,11 @@ export default {
       let param = {
         id : payload
       }
-      if(localStorage.getItem(this.getId) != payload){ // key: login / value : 글번호 가 없으면, 추천 +1
+      if(localStorage.getItem(localStorage.getItem('id')) != payload){ // key: login / value : 글번호 가 없으면, 추천 +1
         axios.post('/updateRecommendBoard', param)
         .then(() => {
           this.recommend = Number(this.recommend) + 1,
-          localStorage.setItem(this.getId, payload) //아이디와 글번호를 저장
+          localStorage.setItem(localStorage.getItem('id'), payload) //아이디와 글번호를 저장
         })
         .catch((error) => {
           console.error('오류', error);
@@ -235,7 +235,7 @@ export default {
       }
 
       let param = {
-        member_id: this.getId,
+        member_id: localStorage.getItem('id'),
         id: this.boardData.id,
         comment_content: this.commentContent
       }
@@ -273,6 +273,15 @@ export default {
 
       this.updateComment()
     },
+    commentOwner(payload) {
+      if (!localStorage.getItem('isLogin')) {
+        return false;
+      }
+      if(payload == localStorage.getItem('id'))
+        return true;
+
+      return false;
+    }
   },
 }
 </script>
