@@ -92,7 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
-                        <button v-if="isOwner">X</button>
+                        <button v-if="isOwner" @click="delComment(item.comment_idx)">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -242,8 +242,8 @@ export default {
       let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
       this.commentList = res.data;
     },
-    modifyComment(){
-      a
+    delComment(payload){
+      axios.post('/delComment', payload);
     },
     async recommendUpDown(flag, idx) {
       let param = {
