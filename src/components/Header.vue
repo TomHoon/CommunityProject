@@ -36,7 +36,7 @@
     methods: {
       searchBoard() {
         this.$emit('searchBoard', this.searchWord);
-        this.$clearLayer(this.searchWord);
+        this.$clearLayer( { searchWord : this.searchWord });
       },
       async loginOut() {
         if (this.isLogin) {

@@ -90,8 +90,8 @@ import axios from 'axios';
           }
         }
       });
-      if(this.transferObj != ''){
-      axios.post('/searchBoard', {title: this.transferObj})
+      if(this.transferObj?.searchWord){
+      axios.post('/searchBoard', {title: this.transferObj.searchWord})
       .then(res => this.boardList = res.data.reverse())
       .catch(error => console.log(error));
       }
