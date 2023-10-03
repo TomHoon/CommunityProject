@@ -92,7 +92,7 @@
                           <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
                           <span>{{item.comment_unrecommend}}</span>
                         </button>
-                        <button v-if="isCommentOwner" @click="deleteComment(item.comment_idx)">X</button>
+                        <button v-if="item.member_id == this.getId && localStorage.getItem('isLogin') == true" @click="deleteComment(item.comment_idx)">X</button>
                       </div>
                       <div>
                         2023.08.13
@@ -147,12 +147,6 @@ export default {
     getId() {
       return localStorage.getItem('id');
     },
-    isCommentOwner() {
-      if (!localStorage.getItem('isLogin')) {
-        return;
-      }
-      return this.item.member_id == this.getId
-    }
   },
   async mounted() {
     // let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
