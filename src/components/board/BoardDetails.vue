@@ -70,7 +70,7 @@
                   <td>
                     <strong>{{item.member_id}}</strong>
                   </td>
-                  <td>
+                  <td class="comment-content">
                     {{item.comment_content}}
                   </td>
                   <td>
@@ -366,7 +366,7 @@ border-radius: 10px;
  } 
  */
 
- .comment-textarea{
+ .comment-content{
   white-space:pre-wrap;
  }
 
