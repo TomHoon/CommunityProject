@@ -335,6 +335,7 @@ export default {
 }
 .content-text{
   margin : 20px auto;
+  white-space: pre-wrap;
 }
 .middle-btn{
 color: white;
@@ -364,6 +365,10 @@ border-radius: 10px;
   
  } 
  */
+
+ .comment-textarea{
+  white-space:pre-wrap;
+ }
 
 .comment-form {
   box-sizing: border-box;
