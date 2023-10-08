@@ -1,11 +1,12 @@
 <template>
   <div class="header-container">
     <div class="top-header">
-      
       <img src="@/assets/comhub.png" class="logo" @click="closeAll">
       <div class="search-area">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchWord" @keyup.enter="searchBoard">
-          <button type="button" class="btn btn-info search-btn" @click="searchBoard">search</button>
+          <span type="button" class="search-btn-area" @click="searchBoard">
+            <i class="fa-solid fa-magnifying-glass search-btn"></i>
+          </span>
+          <input class="search-input" aria-label="Search" v-model="searchWord" @keyup.enter="searchBoard">
       </div>
 
       <div class="member-area">
@@ -66,20 +67,24 @@
   }
 </script>
 <style>
+    .header-container{
+      display: flex;
+      justify-content: center;
+    }
+
     .navbar {
       padding: 1vw;
     }
     .top-header {
       margin-top: 10px;
       margin-bottom: 5px;
+      width: 1100px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
     }
     .logo{
       width: 150px; /* 150px */
       height: 40px;
-      float: left;
-      margin-left: 3vw;
       cursor: pointer;
     }
     .top-header .log-btn:hover .mem-btn:hover{
@@ -88,34 +93,51 @@
     .search-area{
       display: flex;
       margin-left:2.5vw;
+      height: 40px;
     }
     .member-area{
       width: 200px;
-      margin-right: 3vw;
     }
 
-    .mr-sm-2{
-      width: 53vw;
-      margin-right: 5px;
+    .search-input{
+      width: 500px;
+      height: 100%;
+      border: none;
+      border-radius: 0 50px 50px 0;
+      outline: none;
+      padding-left: 10px;
+      display: flex;
+      
     }
 
-    @media (max-width: 1150px) {
-      .mr-sm-2{
-        width: 40vw;
-      }
+    .search-btn-area{
+      /* background: #0d6efe; */
+      background: #fff;
+      display: block;
+      width: 40px;
+      height: 100%;
+      border-radius: 50px 0 0 50px;
+      border: none;
+      outline: none;
     }
 
-    @media (max-width: 850px) {
-      .mr-sm-2{
+    .search-btn{
+      /* color:white; */
+      color : black;
+      margin:12px 0 0 3px
+    }
+
+    @media (max-width: 900px) {
+      .search-input{
         width: 20vw;
       }
     }
 
     @media (max-width: 600px) {
-      .mr-sm-2{
+      .search-input{
         display: none;
       }
-      .search-btn{
+      .search-btn-area{
         display: none;
       }
     }
