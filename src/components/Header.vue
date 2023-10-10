@@ -6,7 +6,7 @@
           <span type="button" class="search-btn-area" @click="searchBoard">
             <i class="fa-solid fa-magnifying-glass search-btn"></i>
           </span>
-          <input class="search-input" aria-label="Search" v-model="searchWord" @keyup.enter="searchBoard">
+          <input class="search-input" aria-label="Search" v-model="searchWord" placeholder="Search Comhub" @keyup.enter="searchBoard">
       </div>
 
       <div class="member-area">
