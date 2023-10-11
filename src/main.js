@@ -14,6 +14,7 @@ import BoardWrite from '@/components/board/BoardWrite'
 import BoardModify from '@/components/board/BoardModify'
 import BoardDetails from '@/components/board/BoardDetails'
 import Header from '@/components/Header'
+import HeaderMenu from '@/components/HeaderMenu'
 
 const store = createStore({
     state() {
@@ -28,6 +29,7 @@ const store = createStore({
 const app = createApp(App);
 
 app.component('Header', Header);
+app.component('HeaderMenu', HeaderMenu);
 app.component('Login', Login);
 app.component('Agreement', Agreement);
 app.component('Join', Join);

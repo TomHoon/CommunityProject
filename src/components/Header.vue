@@ -1,6 +1,10 @@
 <template>
+  <div v-if="menu == true" class="menu">
+    <HeaderMenu></HeaderMenu>
+  </div>
   <div class="header-container">
     <div class="top-header">
+      <img src="@/assets/burger.svg" class="burger" type="button" @click="menuStatus">
       <img src="@/assets/comhub.png" class="logo" @click="closeAll">
       <div class="search-area">
           <span type="button" class="search-btn-area" @click="searchBoard">
@@ -16,14 +20,15 @@
       </div>
     </div>
   </div>
-  <hr>
+  <hr style="z-index: 2;">
 </template>
 <script>
   export default {
     data() {
       return {
         isLogin: false,
-        searchWord: ''
+        searchWord: '',
+        menu: true,
       }
     },
     mounted() {
@@ -62,6 +67,9 @@
       fnJoin() {
         this.$pushContents('Agreement');
       },
+      menuStatus() {
+        this.menu = !this.menu
+      }
     },
     emits: ['searchBoard', 'allBoard'],
   }
@@ -80,12 +88,23 @@
       margin-bottom: 5px;
       width: 1100px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+    }
+    .burger{
+      width: 25px;
+      height: 25px;
+      margin-top:10px;
     }
     .logo{
       width: 150px; /* 150px */
       height: 40px;
       cursor: pointer;
+    }
+    .menu{
+      position: absolute;
+      top: 91px;
+      z-index: 1;
+      border: 1px;
     }
     .top-header .log-btn:hover .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
@@ -100,14 +119,13 @@
     }
 
     .search-input{
-      width: 500px;
+      width: 600px;
       height: 100%;
       border: none;
       border-radius: 0 50px 50px 0;
       outline: none;
       padding-left: 10px;
       display: flex;
-      
     }
 
     .search-btn-area{
