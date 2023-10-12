@@ -20,4 +20,15 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
+@font-face{
+  font-family: 'Pretendard-Black';
+  src : url('assets/fonts/Pretendard-Black.woff');
+}
+
+@font-face{
+  font-family: 'Pretendard-Light';
+  src : url('assets/fonts/Pretendard-Light.woff');
+}
+
 </style>
