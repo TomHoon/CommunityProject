@@ -1,5 +1,5 @@
 <template>
-<Header @searchBoard="searchBoard" @AllBoard="allBoard"></Header>
+<Header @searchBoard="searchBoard" @AllBoard="allBoard" @boardChange="boardChange"></Header>
   <div class="board-container">
     <div class="top-box">
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
@@ -89,12 +89,16 @@ import axios from 'axios';
             this.bestList.push(this.boardList[i])
           }
         }
+        if(this.transferObj?.boardChange){
+          this.boardChange(this.transferObj.boardChange)
+        }
+        if(this.transferObj?.searchWord){
+          axios.post('/searchBoard', {title: this.transferObj.searchWord})
+            .then(res => this.boardList = res.data.reverse())
+            .catch(error => console.log(error));
+        }
       });
-      if(this.transferObj?.searchWord){
-      axios.post('/searchBoard', {title: this.transferObj.searchWord})
-      .then(res => this.boardList = res.data.reverse())
-      .catch(error => console.log(error));
-      }
+
     },
     data() {
       return {
@@ -193,6 +197,23 @@ import axios from 'axios';
       },
       allBoard(){
         this.boardList = this.tempList
+      },
+      boardChange(event){
+        if(event == 'all'){
+          this.boardList = this.tempList
+        }
+        if(event == 'notice'){
+          this.boardList = this.noticeList
+        }
+        if(event == 'funny'){
+          this.boardList = this.funnyList
+        }
+        if(event == 'game'){
+          this.boardList = this.gameList
+        }
+        if(event == 'study'){
+          this.boardList = this.studyList
+        }
       }
     }
 }

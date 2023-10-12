@@ -1,17 +1,24 @@
 <template>
 <div>
     <div class="menu-box">
-        <div class="menu-btn" type="button">전체</div>
-        <div class="menu-btn" type="button">공지</div>
-        <div class="menu-btn" type="button">유머</div>
-        <div class="menu-btn" type="button">게임</div>
-        <div class="menu-btn" type="button">공부</div>
+        <div class="menu-btn" type="button" @click="boardChange('all')">전체</div>
+        <div class="menu-btn" type="button" @click="boardChange('notice')">공지</div>
+        <div class="menu-btn" type="button" @click="boardChange('funny')">유머</div>
+        <div class="menu-btn" type="button" @click="boardChange('game')">게임</div>
+        <div class="menu-btn" type="button" @click="boardChange('study')">공부</div>
     </div>
 </div>
 </template>
 
 <script>
 export default {
+    methods:{
+        boardChange(payload) {
+            this.$emit('boardChange', payload)
+            this.$clearLayer( { boardChange : payload } );
+        }
+    },
+    emits: ['boardChange']
 
 }
 </script>

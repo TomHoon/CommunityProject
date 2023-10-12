@@ -1,6 +1,6 @@
 <template>
   <div v-if="menu == true" class="menu">
-    <HeaderMenu></HeaderMenu>
+    <HeaderMenu @boardChange="boardChange"></HeaderMenu>
   </div>
   <div class="header-container">
     <div class="top-header">
@@ -69,9 +69,12 @@
       },
       menuStatus() {
         this.menu = !this.menu
+      },
+      boardChange(payload) {
+        this.$emit('boardChange', payload)
       }
     },
-    emits: ['searchBoard', 'allBoard'],
+    emits: ['searchBoard', 'allBoard','boardChange'],
   }
 </script>
 <style>
