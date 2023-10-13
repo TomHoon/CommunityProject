@@ -28,7 +28,7 @@
       return {
         isLogin: false,
         searchWord: '',
-        menu: true,
+        menu: false,
       }
     },
     mounted() {
