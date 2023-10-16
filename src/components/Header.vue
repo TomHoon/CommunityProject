@@ -1,7 +1,9 @@
 <template>
-  <div v-if="menu == true" class="menu">
-    <HeaderMenu @boardChange="boardChange"></HeaderMenu>
-  </div>
+  <transition>
+    <div v-if="menu" class="menu">
+      <HeaderMenu @boardChange="boardChange"></HeaderMenu>
+    </div>
+  </transition>
   <div class="header-container">
     <div class="top-header">
       <img src="@/assets/burger.svg" class="burger" type="button" @click="menuStatus">
@@ -147,6 +149,16 @@
       color : black;
       margin:12px 0 0 3px
     }
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 
     @media (max-width: 900px) {
       .search-input{
