@@ -34,7 +34,7 @@
       }
     },
     mounted() {
-      localStorage.getItem("isLogin") ? this.isLogin = true : this.isLogin = false;
+      localStorage.getItem("isLogin") ? this.isLogin = true : localStorage.clear();
     },
     computed: {
       checkLogin() {
