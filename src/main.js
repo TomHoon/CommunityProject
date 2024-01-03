@@ -3,6 +3,9 @@ import { createStore } from 'vuex'
 import App from './App.vue'
 import router from '@/router.js'
 import GlobalJs from '@/js/global.js'
+import getters from '@store/getters'
+import mutations from '@store/mutations';
+import actions from '@/store/actions'
 
 // 전역 컴포넌트 등록
 import Login from '@/components/member/Login'
@@ -24,16 +27,12 @@ const store = createStore({
             ]
         };
     },
-    getters : {
-
-    },
-    mutations : {
-
-    },
-    actions : {
-        
-    }
+    getters,
+    mutations,
+    actions,
 });
+
+export default store;
 
 const app = createApp(App);
 
