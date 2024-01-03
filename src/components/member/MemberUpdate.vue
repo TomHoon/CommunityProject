@@ -188,9 +188,21 @@ export default {
           .then(res => this.imgPath = res.data)
           .catch(error => console.log(error.message));
     },
-    memberDelete() {
+    async memberDelete() {
       if(confirm('정말 회원탈퇴 하시겠습니까?')){
-        alert("탈퇴");
+        await axios.post('/joinOut', {
+          member_id:this.memberInfo.member_id,
+          member_pw:this.memberInfo.member_pw })
+          .then(res => {
+            if(res.data == "삭제완료"){
+              alert("회원 탈퇴 처리 되었습니다.")
+              localStorage.clear();
+              this.$clearLayer();
+            }else{
+              alert("회원 탈퇴 처리에 실패했습니다.")
+            }
+          })
+          .catch(error => console.log(error.message))
       }else {
         return false;
       }
@@ -198,8 +210,8 @@ export default {
     backPage() {
       this.$backPage();
     },
-    async join(event) {
-      event.preventDefault();
+    async join() {
+      // event.preventDefault();
 
       // 로그인 처리 로직 작성
       let 회원가입파라미터 = {
@@ -271,14 +283,13 @@ export default {
       let param = 회원가입파라미터;
 
       formData.append('param', JSON.stringify(param));
-      await axios.post("/joinMember", formData, {
+      await axios.post("/memberUpdate", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
           .then(res => {
-            if (res.data == 1) {
-              this.$backPage();
+            if (res.data == "수정완료") {
               this.$backPage();
             }
           })
