@@ -56,12 +56,14 @@ export default {
 
       axios.post("/loginMember", 로그인파라미터)
           .then((res) => {
-            if (res.data == 1) {
-              this.$pushContents('Board', {from: '로그인에서'});
-              localStorage.setItem("isLogin", true);
-              localStorage.setItem("id", this.member_id);
-            }else {
-              alert("아이디 또는 비밀번호가 틀렸습니다.\n다시 입력해주세요.")
+            if(res.data.result == 0 || res.data.result == -1){
+              alert("아이디 또는 비밀번호가 틀렸습니다. \n다시 입력해주세요.")
+            }else{
+              localStorage.setItem("isLogin", true)
+              localStorage.setItem("id", res.data.user_id)
+              localStorage.setItem("id", this.member_id)
+              localStorage.setItem("token", res.data.token)
+              this.$pushContents("Board", {from: '로그인에서'})
             }
           }).catch((err) => {
         if (err.response) {
