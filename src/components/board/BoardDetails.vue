@@ -116,6 +116,7 @@
 
 <script>
 import axios from 'axios';
+import defaultImg from '@/assets/defaultImg.png'
 
 export default {
   data() {
@@ -126,7 +127,7 @@ export default {
       getCommentAll: [],
       userInfo: {},
       fileInfo: {},
-      defaultImgPath: '/upload/1692455050106profile_Img.jpg',
+      defaultImgPath: defaultImg,
       commentContent: '',
       commentList: [],
     }
