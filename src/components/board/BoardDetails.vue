@@ -9,7 +9,7 @@
       <hr>
 
       <div class="sub left-align">
-        <img :src="getImgPath" class="profile-img">
+        <img :src="ImgPath" class="profile-img">
         <div class="profile-name">
           <div> 
             {{ boardData.writer }}
@@ -127,7 +127,7 @@ export default {
       getCommentAll: [],
       userInfo: {},
       fileInfo: {},
-      defaultImgPath: defaultImg,
+      ImgPath: defaultImg,
       commentContent: '',
       commentList: [],
     }
@@ -141,9 +141,6 @@ export default {
         return;
       }
       return this.pageParams.boardData.writer == localStorage.getItem('id');
-    },
-    getImgPath() {
-      return !this.userInfo ? this.defaultImgPath : this.userInfo.userImgPath;
     },
   },
   async mounted() {
@@ -160,6 +157,10 @@ export default {
     await axios.post('/getOneMember', {member_id: this.pageParams.boardData.writer}).then(res => this.setUserInfo(res.data));
     await axios.post('/getOneFile', {file_idx: this.userInfo.file_idx}).then(res => this.setFileInfo(res.data));
     await axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(res => this.setBoardInfo(res.data));
+
+    if(this.userInfo.userImgPath) {
+      this.ImgPath = this.userInfo.userImgPath
+    }
   },
 
   props: ['pageParams'],
