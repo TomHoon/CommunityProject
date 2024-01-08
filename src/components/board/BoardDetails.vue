@@ -256,23 +256,18 @@ export default {
       this.updateComment()
     },
     async recommendUpDown(flag, idx) {
+      /**
+       * 추천하는 아이디를 넣어줌 (중복 확인을 위해)
+       * 
+       */
       let param = {
-        comment_idx: idx
+        comment_idx: idx,
+        comment_ud_temp_id: localStorage.getItem('id')
       };
-      if (flag == 1) {
-        param['comment_recommend'] = 1;
-        param['comment_unrecommend'] = '';
-        let res = await axios.post('/recommendUpDown', param);
-        console.log(res.data);
-      }
+      let key = ['comment_recommend', 'comment_unrecommend'][flag - 1];
+      param[key] = 1;
 
-      if (flag == 2) {
-        param['comment_recommend'] = '';
-        param['comment_unrecommend'] = 1;
-        let res = await axios.post('/recommendUpDown', param);
-        console.log(res.data);
-      }
-
+      let res = await axios.post('/recommendUpDown', param);
       this.updateComment()
     },
     commentOwner(payload) {
