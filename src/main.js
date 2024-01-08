@@ -19,12 +19,16 @@ import BoardDetails from '@/components/board/BoardDetails'
 import Header from '@/components/Header'
 import HeaderMenu from '@/components/HeaderMenu'
 
+import defaultImg from '@/assets/defaultImg.png'
+
 const store = createStore({
     state() {
         return {
             mainLayer: [
                 {pageName: 'Board', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
-            ]
+            ],
+
+            imgPath : defaultImg,
         };
     },
     getters,

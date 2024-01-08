@@ -116,7 +116,6 @@
 
 <script>
 import axios from 'axios';
-import defaultImg from '@/assets/defaultImg.png'
 
 export default {
   data() {
@@ -127,7 +126,7 @@ export default {
       getCommentAll: [],
       userInfo: {},
       fileInfo: {},
-      ImgPath: defaultImg,
+      ImgPath: this.$store.state.imgPath,
       commentContent: '',
       commentList: [],
     }
@@ -268,6 +267,7 @@ export default {
       param[key] = 1;
 
       let res = await axios.post('/recommendUpDown', param);
+      console.log(res)
       this.updateComment()
     },
     commentOwner(payload) {
