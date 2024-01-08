@@ -5,7 +5,7 @@
   <div class="join_form">
     <div class="profile_form">
       <span class="profile_label">프로필</span>
-      <img :src="getImgPath" class="profile_Img" alt='프로필' />
+      <img :src="imgPath" class="profile_Img" alt='프로필' />
       <label for="member_profile">+</label>
       <span class="float-right">
           <input type="file" ref="fileUpload" @change="temporaryImg" id="member_profile" class="member_profile" accept="image/*">
@@ -115,7 +115,7 @@ export default {
     return {
       isShowPw1: false,
       isShowPw2: false,
-      imgPath: './profile_Img.jpg',
+      imgPath: this.$store.state.defaultImgpath,
       memberInfo: {
         member_id: '',
         member_pw: '',
@@ -148,9 +148,6 @@ export default {
     this.member_pw_check = this.memberInfo.member_pw;
   },
   computed: {
-    getImgPath() {
-      return this.imgPath;
-    },
     /*
     isSamePw() {
       return this.memberInfo.member_pw == this.member_pw_check;

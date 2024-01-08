@@ -9,7 +9,7 @@
       <hr>
 
       <div class="sub left-align">
-        <img :src="ImgPath" class="profile-img">
+        <img :src="imgPath" class="profile-img">
         <div class="profile-name">
           <div> 
             {{ boardData.writer }}
@@ -126,7 +126,7 @@ export default {
       getCommentAll: [],
       userInfo: {},
       fileInfo: {},
-      ImgPath: this.$store.state.imgPath,
+      imgPath: this.$store.state.defaultImgpath,
       commentContent: '',
       commentList: [],
     }
@@ -158,7 +158,7 @@ export default {
     await axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(res => this.setBoardInfo(res.data));
 
     if(this.userInfo.userImgPath) {
-      this.ImgPath = this.userInfo.userImgPath
+      this.imgPath = this.userInfo.userImgPath
     }
   },
 

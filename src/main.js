@@ -28,7 +28,7 @@ const store = createStore({
                 {pageName: 'Board', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
             ],
 
-            imgPath : defaultImg,
+            defaultImgpath : defaultImg,
         };
     },
     getters,
