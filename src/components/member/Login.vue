@@ -17,10 +17,11 @@
       <div class="backPage" @click="backPage">뒤로 가기</div>
 
     </div>
+
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'; //커밋 확인
 
 export default {
   name: "Login",
