@@ -54,16 +54,18 @@
       <div class="comment-container">
         <div class="comment-wrapper">
           <div class="comment-info">
-            <span class="info-left">
+            <div class="info-left">
               <h6>댓글 | 총 {{commentList.length}} 개</h6>
-            </span>
-            <span class="info-right">
-              <button>
-                <i class="bi bi-pencil">댓글 목록</i>
+            </div>
+            <div class="info-right">
+              <button @click="showComment">
+                <i class="bi bi-pencil" v-if="comment==true" >댓글 끄기</i>
+                <i class="bi bi-pencil" v-else>댓글 켜기</i>
               </button>
-            </span>
-          </div>
-          <div class="comment-area">
+            </div>
+          </div> <!-- comment-info -->
+          <br/>
+          <div class="comment-area" v-show="comment">
               <table>
                 <tbody>
                 <tr v-for="(item, idx) in commentList" :key="idx">
@@ -102,7 +104,6 @@
                 </tr>
                 </tbody>
               </table>
-            <hr>
             <div class="comment-write-area">
               <textarea v-model="commentContent" name="" id="" cols="120" rows="2" class="comment-textarea" />
               <button class="comment-btn" @click="addComment">등록</button>
@@ -129,6 +130,7 @@ export default {
       imgPath: this.$store.state.defaultImgpath,
       commentContent: '',
       commentList: [],
+      comment : true,
     }
   },
   computed:{
@@ -278,6 +280,9 @@ export default {
         return true;
 
       return false;
+    },
+    showComment() {
+      this.comment = !this.comment
     }
   },
 }
@@ -306,13 +311,13 @@ export default {
   display: flex;
 }
 .profile-img{
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 }
 .profile-name{
   font-size: 30px;
   padding-left : 10px;
-  margin-top : -10px;
+  margin-top : -5px;
 }
 .profile-content{
   font-size: 20px;
@@ -376,7 +381,7 @@ border-radius: 10px;
 }
 .comment-area {
   max-width:1100px;
-  min-width:800px;
+  width:100%;
   display:inline-block;
 }
 .comment-area table{
@@ -384,11 +389,20 @@ border-radius: 10px;
   border-left: 1px solid #c2c2c2;
   border-right: 1px solid #c2c2c2;
 }
+.comment-textarea{
+  border-radius: 10px 0 0 10px;
+  padding : 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  width:100%;
+  border:none;
+  /* background-color:#f1f1f1; */
+  /* max-width:1050px; */
+}
 .comment-info {
-  width:1050px;
   margin-top: 20px;
   max-width:1100px;
   min-width:800px;
+  width:100%;
   display:inline-block;
 }
 .comment-info .info-left{
@@ -420,7 +434,12 @@ border-radius: 10px;
   width:45%;
 }
 .comment-btn{
-  width: 70px;
+  width:70px;
+  background-color:#0d6efd;
+  color:white;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 .thumbs-area button{
   border: none;
