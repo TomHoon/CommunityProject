@@ -72,7 +72,7 @@ export default {
 }
 .form-select{
     width: 100px;
-    height: 70px;
+    height: 50px;
     margin-right:10px;
 }
 .title{
