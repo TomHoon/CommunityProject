@@ -104,7 +104,8 @@ export default {
   data() {
     //true
     return {
-      imgPath: '/upload/1692455050106profile_Img.jpg',
+      imgPath: this.$store.state.defaultImgpath,
+     //imgPath: 'defaultImg.png',
       member_id: '',
       member_pw: '',
       member_pw_check: '',
@@ -168,6 +169,7 @@ export default {
 
       // 로그인 처리 로직 작성
       let 회원가입파라미터 = {
+        imgPath: this.imgPath,
         member_id: this.member_id,
         member_pw: this.member_pw,
         member_name: this.member_name,
@@ -476,6 +478,12 @@ export default {
 }
 
 .id_check {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  transform: translate(-2rem, 1.5rem);
+}
+.id_not_check {
   width: 20px;
   height: 20px;
   position: absolute;

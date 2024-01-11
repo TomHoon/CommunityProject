@@ -1,5 +1,8 @@
 <template>
-    <h1 class="tit" title="홈으로 돌아가기">로그인</h1>
+  <div class="title">
+    <img src="@/assets/icons8-50.png" class="backPage" @click="backPage" title="뒤로가기">
+    <h1 class="tit" title="로그인">로그인</h1>
+  </div>
     <div class="login_form">
       <!-- 💕라우터를 사용하지 않기 때문에 form submit 사용하지 않음  -->
 
@@ -13,8 +16,11 @@
       <div class="login_form">
         <button class="login_btn" @click="fnLogin">로그인</button>
       </div>
-      <div class="join"><span @click="fnJoin" class="join_btn">회원가입</span></div>
-      <div class="backPage" @click="backPage">뒤로 가기</div>
+      <div>
+        <img src="@/assets/kakao_login_medium_narrow.png" title="카카오로 가입하기" class="kakaoLogin" @click="kakaoLogin()">
+
+      </div>
+      <div class="join" @click="fnJoin"><span class="join_btn" title="개인회원 가입하기">개인회원 가입하기</span></div>
 
     </div>
 
@@ -78,11 +84,46 @@ export default {
     backPage() {
       this.$backPage();
     },
-  }
+    kakaoLogin() {
+      window.Kakao.Auth.login({
+        scope: "profile_nickname, profile_image",
+        success: this.getKakaoAccount,
+      });
+    },
+    getKakaoAccount() {
+      window.Kakao.API.request({
+        url: "http://localhost:8080",
+        success: (res) => {
+          const kakao_account = res.kakao_account;
+          const profile_nickname = kakao_account.profile.profile_nickname;
+          const profile_image = kakao_account.profile_image;
+          console.log("profile_nickname", profile_nickname);
+          console.log("profile_image", profile_image);
+
+          //로그인처리구현
+
+          alert("로그인 성공!");
+        },
+        fail: (error) => {
+          console.log(error);
+        },
+      });
+    },
+    kakaoLogout() {
+      window.Kakao.Auth.logout((res) => {
+        console.log(res);
+      });
+    },
+}
 }
 </script>
 
 <style scoped>
+.title {
+  width: 530px;
+  margin: 0 auto;
+  padding-right: 50px;
+}
 .tit {
   font-size: 40px;
   font-weight: bold;
@@ -92,7 +133,7 @@ export default {
   margin-top: 110px;
 }
 .login_form {
-  transform: translatey(30%);
+  transform: translatey(10%);
   width: 540px;
   margin: 0 auto;
 }
@@ -142,21 +183,35 @@ export default {
   font-size: 17px;
   cursor: pointer;
 }
+.kakaoLogin {
+  margin-top: 50px;
+  cursor: pointer;
+
+}
 .join {
-  font-size: 14px;
-  margin-top: 30px;
-  color: #ad74e3;
+  font-size: 12px;
+  color: #dfdbdb;
+  box-sizing: border-box;
+  background-color:#0d6efd;
+  width: 183px;
+  height: 45px;
+  margin: 20px auto;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+
 }
 .join_btn {
-  float: right;
   cursor: pointer;
+  font-size: 15px;
+  line-height: 45px;
 }
 .backPage {
-  float: left;
   cursor: pointer;
-  color: #ad74e3;
   font-size: 14px;
-  margin-left : 5px;
+  float: left;
+  display: inline;
+
 }
 
 /*모바일 반응형*/
