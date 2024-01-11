@@ -243,7 +243,7 @@
     </div>
     <div class="fregister_agree01">
       <input type="checkbox" name="agree" v-model="agree1" value="1" id="agree1">
-      <label for="agree1">이용약관 동의<span class="color_red">(필수)</span></label>
+      <label for="agree1"><span class="agree1_txt">이용약관 동의</span><span class="color_red">(필수)</span></label>
     </div>
   </section>
 
@@ -387,7 +387,7 @@
     </textarea>
     <div class="fregister_agree02">
       <input type="checkbox" name="agree" v-model="agree2" value="2" id="agree2">
-      <label for="agree2">개인정보 수집 및 이용 동의<span class="color_red">(필수)</span></label>
+      <label for="agree2"><span class="agree2_txt">개인정보 수집 및 이용 동의</span><span class="color_red">(필수)</span></label>
     </div>
   </section>
 </div>
@@ -437,6 +437,12 @@ export default {
   text-align: center;
   margin-top: 110px;
   margin-bottom: 30px;
+}
+.agree1_txt {
+  margin-left: 5px;
+}
+.agree2_txt {
+  margin-left: 5px;
 }
 .agreement_wrap {
 }
