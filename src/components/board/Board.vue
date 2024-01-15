@@ -61,6 +61,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
 
   export default {
     props: ['pageParams', 'transferObj'],
@@ -68,7 +69,7 @@ import axios from 'axios';
     },
     mounted() {
       this.$propsWatch();
-      axios.post('/getBoardAll', {order: 0})
+      getBoardAll(0)
       .then((res) => {
         this.boardList = res.data;
         this.tempList = res.data;
@@ -93,7 +94,7 @@ import axios from 'axios';
           this.boardChange(this.transferObj.boardChange)
         }
         if(this.transferObj?.searchWord){
-          axios.post('/searchBoard', {title: this.transferObj.searchWord})
+          searchBoard(this.transferObj.searchWord)
             .then(res => this.boardList = res.data.reverse())
             .catch(error => console.log(error));
         }
@@ -143,7 +144,8 @@ import axios from 'axios';
         let param = {
           id : payload
         }
-        axios.post('/updateHitBoard', param).then(() => {
+        updateHitBoard(param)
+        .then(() => {
         })
         .catch((error) => {
           console.error('오류', error);

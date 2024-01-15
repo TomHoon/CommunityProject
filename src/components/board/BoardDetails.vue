@@ -116,7 +116,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+import {
+  getOneMember, getOneFile, getBoardById, deleteBoard,
+  updateRecommendBoard, getCommentByBoard, addComment,
+  deleteComment, recommendUpDown
+  }
+  from '@/api/index'
 
 export default {
   data() {
@@ -155,9 +160,9 @@ export default {
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
 
     // Promise all 사용하는 경우 텀이 있어서 file이 안불러와지는 오류가 있음
-    await axios.post('/getOneMember', {member_id: this.pageParams.boardData.writer}).then(res => this.setUserInfo(res.data));
-    await axios.post('/getOneFile', {file_idx: this.userInfo.file_idx}).then(res => this.setFileInfo(res.data));
-    await axios.post('/getBoardById', {id:this.pageParams.boardData.id}).then(res => this.setBoardInfo(res.data));
+    await getOneMember(this.pageParams.boardData.writer).then(res => this.setUserInfo(res.data));
+    await getOneFile(this.userInfo.file_idx).then(res => this.setFileInfo(res.data));
+    await getBoardById(this.pageParams.boardData.id).then(res => this.setBoardInfo(res.data));
 
     if(this.userInfo.userImgPath) {
       this.imgPath = this.userInfo.userImgPath
@@ -177,7 +182,7 @@ export default {
       this.$pushContents('boardModify', {board: this.boardData});
     },
     async deleteBoard() {
-      await axios.post('deleteBoard', {'id': this.boardData.id})
+      await deleteBoard(this.boardData.id)
       // .then(res => this.$backPage())
       .then(this.$backPage())
       .catch(error => console.log(error));
@@ -194,7 +199,7 @@ export default {
         id : payload
       }
       if(localStorage.getItem(localStorage.getItem('id')) != payload){ // key: login / value : 글번호 가 없으면, 추천 +1
-        axios.post('/updateRecommendBoard', param)
+        updateRecommendBoard(param)
         .then(() => {
           this.recommend = Number(this.recommend) + 1,
           localStorage.setItem(localStorage.getItem('id'), payload) //아이디와 글번호를 저장
@@ -224,7 +229,7 @@ export default {
       this.recommend = data.recommend;
     },
     async updateComment() {
-      let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
+      let res = await getCommentByBoard(this.boardData.id)
       this.commentList = res.data;
     },
     async addComment() {
@@ -242,7 +247,7 @@ export default {
         id: this.boardData.id,
         comment_content: this.commentContent
       }
-      await axios.post('/addComment', param);
+      await addComment(param)
 
       this.commentContent = '';
 
@@ -253,7 +258,7 @@ export default {
         alert("로그인 이후 이용 가능합니다.");
         return;
       }
-      await axios.post('/deleteComment', {comment_idx : payload});
+      await deleteComment(payload)
       this.updateComment()
     },
     async recommendUpDown(flag, idx) {
@@ -268,7 +273,7 @@ export default {
       let key = ['comment_recommend', 'comment_unrecommend'][flag - 1];
       param[key] = 1;
 
-      let res = await axios.post('/recommendUpDown', param);
+      let res = await recommendUpDown(param)
       console.log(res)
       this.updateComment()
     },

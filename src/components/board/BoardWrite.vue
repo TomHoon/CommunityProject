@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { addBoard } from '@/api/index';
+
 export default {
     data() {
         return {
@@ -97,11 +98,7 @@ export default {
              * stringify 처리함 
              */
             formData.append('param', JSON.stringify(param));
-            await axios.post('/addBoard', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).catch(error => console.log(error.message));
+            await addBoard(formData).catch(error => console.log(error.message));
 
             this.$backPage();
         }

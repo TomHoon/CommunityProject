@@ -105,8 +105,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import { getOneMember, getOneFile, tempImg, joinOut, memberUpdate } from '@/api/index'
 
 export default {
   name: "Join",
@@ -139,10 +138,10 @@ export default {
     };
   },
   async mounted() {
-    await axios.post('/getOneMember', {member_id:localStorage.getItem('id')})
+    await getOneMember(localStorage.getItem('id'))
       .then(res => this.memberInfo = res.data);
 
-    await axios.post('/getOneFile', {file_idx: this.memberInfo.file_idx})
+    await getOneFile(this.memberInfo.file_idx)
       .then(res => res.data.file_path ? this.imgPath = res.data.file_path : '');
 
     this.member_pw_check = this.memberInfo.member_pw;
@@ -177,17 +176,13 @@ export default {
     async temporaryImg(e) {
       const formData = new FormData();
       formData.append('mFile', e.target.files[0]);
-      await axios.post('/tempImg', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      await tempImg(formData)
           .then(res => this.imgPath = res.data)
           .catch(error => console.log(error.message));
     },
     async memberDelete() {
       if(confirm('정말 회원탈퇴 하시겠습니까?')){
-        await axios.post('/joinOut', {
+        await joinOut({
           member_id:this.memberInfo.member_id,
           member_pw:this.memberInfo.member_pw })
           .then(res => {
@@ -280,19 +275,13 @@ export default {
       let param = 회원가입파라미터;
 
       formData.append('param', JSON.stringify(param));
-      await axios.post("/memberUpdate", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      await memberUpdate(formData)
           .then(res => {
             if (res.data == "수정완료") {
               this.$backPage();
             }
           })
           .catch(error => console.log(error.message));
-
-
     },
     /*
         openModal() {

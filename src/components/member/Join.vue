@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { joinMember, tempImg } from '@/api/index';
 
 
 export default {
@@ -153,11 +153,7 @@ export default {
     async temporaryImg(e) {
       const formData = new FormData();
       formData.append('mFile', e.target.files[0]);
-      await axios.post('/tempImg', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      await tempImg(formData) 
       .then(res => this.imgPath = res.data)
       .catch(error => console.log(error.message));
     },
@@ -250,11 +246,7 @@ export default {
       let param = 회원가입파라미터;
 
       formData.append('param', JSON.stringify(param));
-      await axios.post("/joinMember", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      await joinMember(formData)
       .then(res => {
         if (res.data == 1) {
           this.$backPage();

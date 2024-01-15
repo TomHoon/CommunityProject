@@ -30,7 +30,7 @@
 	</article>
 </template>
 <script>
-import axios from 'axios';
+import { updateBoard } from '@/api/index'
 
 export default {
     data() {
@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         async modify() {
-            await axios.post('/updateBoard', this.board)
+            await updateBoard(this.board)
             .then(res => console.log(res), this.backPage())
             .catch(err => console.log(err));
         },

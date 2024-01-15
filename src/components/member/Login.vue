@@ -27,7 +27,8 @@
 
 </template>
 <script>
-import axios from 'axios'; //커밋 확인
+import { loginMember, } from '@/api/index'
+
 export default {
   name: "Login",
   data() {
@@ -60,7 +61,7 @@ export default {
         return false;
       }
 
-      axios.post("/loginMember", 로그인파라미터)
+      loginMember(로그인파라미터)
           .then((res) => {
             if(res.data.result == 0 || res.data.result == -1){
               alert("아이디 또는 비밀번호가 틀렸습니다. \n다시 입력해주세요.")
