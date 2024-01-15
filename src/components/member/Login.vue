@@ -18,17 +18,16 @@
       </div>
       <div>
         <img src="@/assets/kakao_login_medium_narrow.png" title="카카오로 가입하기" class="kakaoLogin" @click="kakaoLogin()">
-
       </div>
       <div class="join" @click="fnJoin"><span class="join_btn" title="개인회원 가입하기">개인회원 가입하기</span></div>
+      <button title="카카오 로그아웃" class="kakaoLogout" @click="kakaoLogout()">카카오 로그아웃</button>
+
 
     </div>
 
 </template>
-
 <script>
 import axios from 'axios'; //커밋 확인
-
 export default {
   name: "Login",
   data() {
@@ -84,6 +83,8 @@ export default {
     backPage() {
       this.$backPage();
     },
+
+
     kakaoLogin() {
       window.Kakao.Auth.login({
         scope: "profile_nickname, profile_image",
@@ -92,11 +93,12 @@ export default {
     },
     getKakaoAccount() {
       window.Kakao.API.request({
-        url: "http://localhost:8080",
+        url: "/v2/user/me",
         success: (res) => {
+          console.log('res >>> ' , res);
           const kakao_account = res.kakao_account;
-          const profile_nickname = kakao_account.profile.profile_nickname;
-          const profile_image = kakao_account.profile_image;
+          const profile_nickname = kakao_account.profile.nickname;
+          const profile_image = kakao_account.profile.profile_image_url;
           console.log("profile_nickname", profile_nickname);
           console.log("profile_image", profile_image);
 
@@ -110,8 +112,14 @@ export default {
       });
     },
     kakaoLogout() {
-      window.Kakao.Auth.logout((res) => {
-        console.log(res);
+      window.Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+          console.log(response);
+        },
+        fail: function (error) {
+          console.log(error);
+        },
       });
     },
 }

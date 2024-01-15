@@ -50,7 +50,6 @@ app.component('Board', Board);
 app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
 app.component('BoardModify', BoardModify);
-window.Kakao.init("eecb350f94c57f6b00ff48ae30adf3ba");
 
 app.use(router);
 app.use(store);
