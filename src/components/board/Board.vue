@@ -119,7 +119,7 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
       },
       async searchBoard(emitData) {
         console.log(emitData);
-        await axios.post('/searchBoard', {title: emitData})
+        await searchBoard(emitData)
         .then(res => this.boardList = res.data.reverse())
         .catch(error => console.log(error));
       },
