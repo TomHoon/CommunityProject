@@ -60,7 +60,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
 
   export default {
