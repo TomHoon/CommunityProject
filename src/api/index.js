@@ -28,7 +28,7 @@ function getBoardById(payload){
 }
 
 function deleteBoard(payload){
-    return axios.post('deleteBoard', {'id': payload})
+    return axios.post('/deleteBoard', {'id': payload})
 }
 
 function updateRecommendBoard(payload){
