@@ -69,8 +69,26 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
     },
     mounted() {
       this.$propsWatch();
-      getBoardAll(0)
-      .then((res) => {
+      this.getBoardAll(0);
+    },
+    data() {
+      return {
+        dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
+        curPageNum: 1, //현재 페이지
+        boardList: [],
+        noticeList: [],
+        funnyList: [],
+        gameList: [],
+        studyList: [],
+        tempList: [],
+        bestList: [],
+        bestToggle : false,
+        searchData : '',
+      }
+    },
+    methods: {
+      async getBoardAll(payload) {
+        const res = await getBoardAll(payload)
         this.boardList = res.data;
         this.tempList = res.data;
         for(let i=0; i < this.boardList.length; i++){
@@ -98,25 +116,7 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
             .then(res => this.boardList = res.data.reverse())
             .catch(error => console.log(error));
         }
-      });
-
-    },
-    data() {
-      return {
-        dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
-        curPageNum: 1, //현재 페이지
-        boardList: [],
-        noticeList: [],
-        funnyList: [],
-        gameList: [],
-        studyList: [],
-        tempList: [],
-        bestList: [],
-        bestToggle : false,
-        searchData : '',
-      }
-    },
-    methods: {
+      },
       async searchBoard(emitData) {
         console.log(emitData);
         await axios.post('/searchBoard', {title: emitData})
