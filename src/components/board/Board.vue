@@ -91,23 +91,9 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
         const res = await getBoardAll(payload)
         this.boardList = res.data;
         this.tempList = res.data;
-        for(let i=0; i < this.boardList.length; i++){
-          if(this.boardList[i].gubun == '공지'){
-            this.noticeList.push(this.boardList[i])
-          }
-          if(this.boardList[i].gubun == '유머'){
-            this.funnyList.push(this.boardList[i])
-          }
-          if(this.boardList[i].gubun == '게임'){
-            this.gameList.push(this.boardList[i])
-          }
-          if(this.boardList[i].gubun == '공부'){
-            this.studyList.push(this.boardList[i])
-          }
-          if(this.boardList[i].recommend >= 10){ // 다음 숫자를 변경하면 베스트 게시판의 추천수를 변경할 수 있습니다.
-            this.bestList.push(this.boardList[i])
-          }
-        }
+
+        this.boardSort()
+
         if(this.transferObj?.boardChange){
           this.boardChange(this.transferObj.boardChange)
         }
@@ -116,6 +102,19 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
             .then(res => this.boardList = res.data.reverse())
             .catch(error => console.log(error));
         }
+      },
+      boardSort(){
+        const types = [ '공지', '유머', '게임', '공부' ]
+        const lists = { '공지': this.noticeList, '유머': this.funnyList, '게임': this.gameList, '공부': this.studyList, }
+
+        this.boardList.forEach(board => {
+          if( types.includes(board.gubun)) {
+            lists[board.gubun].push(board);
+          }
+          if( board.recommend >= 10) {
+            this.bestList.push(board)
+          }
+        })
       },
       async searchBoard(emitData) {
         console.log(emitData);
