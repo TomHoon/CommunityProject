@@ -138,11 +138,11 @@ export default {
     };
   },
   async mounted() {
-    await getOneMember(localStorage.getItem('id'))
-      .then(res => this.memberInfo = res.data);
+    const getOneMemberRes = await getOneMember(localStorage.getItem('id'))
+    this.memberInfo = getOneMemberRes.data;
 
-    await getOneFile(this.memberInfo.file_idx)
-      .then(res => res.data.file_path ? this.imgPath = res.data.file_path : '');
+    const getOneFileRes = await getOneFile(this.memberInfo.file_idx)
+    getOneFileRes.data.file_path ? this.imgPath = getOneFileRes.data.file_path : ''
 
     this.member_pw_check = this.memberInfo.member_pw;
   },
@@ -176,26 +176,20 @@ export default {
     async temporaryImg(e) {
       const formData = new FormData();
       formData.append('mFile', e.target.files[0]);
-      await tempImg(formData)
-          .then(res => this.imgPath = res.data)
-          .catch(error => console.log(error.message));
+      const res = await tempImg(formData)
+      this.imgPath = res.data
     },
     async memberDelete() {
       if(confirm('정말 회원탈퇴 하시겠습니까?')){
-        await joinOut({
-          member_id:this.memberInfo.member_id,
-          member_pw:this.memberInfo.member_pw })
-          .then(res => {
-            if(res.data == "삭제완료"){
-              alert("회원 탈퇴 처리 되었습니다.")
-              localStorage.clear();
-              this.$clearLayer();
-            }else{
-              alert("회원 탈퇴 처리에 실패했습니다.")
-            }
-          })
-          .catch(error => console.log(error.message))
-      }else {
+        const res = await joinOut({ member_id:this.memberInfo.member_id, member_pw:this.memberInfo.member_pw })
+        if(res.data == "삭제완료"){
+          alert("회원 탈퇴 처리 되었습니다.")
+          localStorage.clear();
+          this.$clearLayer();
+        }else{
+          alert("회원 탈퇴 처리에 실패했습니다.")
+        }
+      }else{
         return false;
       }
     },
@@ -275,13 +269,10 @@ export default {
       let param = 회원가입파라미터;
 
       formData.append('param', JSON.stringify(param));
-      await memberUpdate(formData)
-          .then(res => {
-            if (res.data == "수정완료") {
-              this.$backPage();
-            }
-          })
-          .catch(error => console.log(error.message));
+      const res = await memberUpdate(formData)
+      if (res.data == "수정완료") {
+        this.$backPage();
+        }
     },
     /*
         openModal() {
