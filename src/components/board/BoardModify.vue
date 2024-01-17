@@ -45,8 +45,7 @@ export default {
     methods: {
         async modify() {
             await updateBoard(this.board)
-            .then(res => console.log(res), this.backPage())
-            .catch(err => console.log(err));
+            this.backPage()
         },
         backPage() {
             this.$backPage();

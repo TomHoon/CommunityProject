@@ -156,7 +156,6 @@ export default {
     // this.commentList = res.data;
     this.updateComment()
 
-
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
 
     // Promise all 사용하는 경우 텀이 있어서 file이 안불러와지는 오류가 있음
