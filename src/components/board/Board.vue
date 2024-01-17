@@ -97,17 +97,16 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
           this.boardChange(this.transferObj.boardChange)
         }
         if(this.transferObj?.searchWord){
-          searchBoard(this.transferObj.searchWord)
-            .then(res => this.boardList = res.data.reverse())
-            .catch(error => console.log(error));
+          const res = await searchBoard(this.transferObj.searchWord)
+          this.boardList = res.data.reverse()
         }
       },
       boardSort(){
-        const types = [ '공지', '유머', '게임', '공부' ]
+        const gubunType = ['공지', '유머', '게임', '공부' ]
         const lists = { '공지': this.noticeList, '유머': this.funnyList, '게임': this.gameList, '공부': this.studyList, }
 
         this.boardList.forEach(board => {
-          if( types.includes(board.gubun)) {
+          if( gubunType.includes(board.gubun)) {
             lists[board.gubun].push(board);
           }
           if( board.recommend >= 10) {
@@ -116,10 +115,8 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
         })
       },
       async searchBoard(emitData) {
-        console.log(emitData);
-        await searchBoard(emitData)
-        .then(res => this.boardList = res.data.reverse())
-        .catch(error => console.log(error));
+        const res = await searchBoard(emitData)
+        this.boardList = res.data.reverse()
       },
       detailChain(item) {
         this.goDetails(item);
@@ -138,16 +135,11 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
       goDetails(payload) {
         this.$pushContents('BoardDetails', {boardData: payload});
       },
-      upHit(payload) {
+      async upHit(payload) {
         let param = {
           id : payload
         }
-        updateHitBoard(param)
-        .then(() => {
-        })
-        .catch((error) => {
-          console.error('오류', error);
-        })
+        await updateHitBoard(param)
       },
 
       startPage() {
@@ -168,7 +160,7 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
       changeCreateTime() {
         this.boardList.reverse()
       },
-      changeGubun(event) {
+      changeGubun(event) { // 게시판 변경을 위한 메소드
         if(event.target.value === 'all'){
           this.boardList = this.tempList
         }
@@ -198,7 +190,7 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
       allBoard(){
         this.boardList = this.tempList
       },
-      boardChange(event){
+      boardChange(event){ // 햄버거 버튼을 위한 메소드
         if(event == 'all'){
           this.boardList = this.tempList
         }
