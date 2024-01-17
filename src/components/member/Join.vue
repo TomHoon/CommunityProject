@@ -164,7 +164,6 @@ export default {
 
       // 로그인 처리 로직 작성
       let 회원가입파라미터 = {
-        imgPath: this.imgPath,
         member_id: this.member_id,
         member_pw: this.member_pw,
         member_name: this.member_name,
@@ -242,9 +241,8 @@ export default {
       // })
       const formData = new FormData();
       formData.append('mFile', this.$refs.fileUpload.files[0]);
-      let param = 회원가입파라미터;
+      formData.append('param', JSON.stringify(회원가입파라미터));
 
-      formData.append('param', JSON.stringify(param));
       await joinMember(formData)
       .then(res => {
         if (res.data == 1) {

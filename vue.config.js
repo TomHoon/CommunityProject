@@ -10,6 +10,6 @@ module.exports = defineConfig({
     proxy: 'http://tomhoon.duckdns.org:18080'
 
     // 💕개발
-    // proxy: 'http://localhost:8081' 
+    // proxy: 'http://localhost:8082' 
   }
 })
