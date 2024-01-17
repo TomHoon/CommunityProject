@@ -80,24 +80,39 @@
                       <div class="thumbs-area-buttons">
                         <button @click="recommendUpDown(1, item.comment_idx)" >
                           <!-- 색상 안들어간 따봉 up -->
+                          <i class="bi bi-hand-thumbs-up" v-if="(!item.comment_up_id_list.includes(userId))"></i>
+                          <!-- 색상 들어간 따봉 up-->
+                          <i class="bi bi-hand-thumbs-up-fill" v-else @click="updateRecommendComment(item.comment_idx)"></i>
+                          <span>{{item.comment_recommend}}</span>
+
+                        </button>
+                        <button @click="recommendUpDown(2, item.comment_idx)">
+                          <!-- 색상 안 들어간 따봉 up-->
+                          <i class="bi bi-hand-thumbs-down" v-if="(!item.comment_down_id_list.includes(userId))" ></i>
+                          <!-- 색상 들어간 따봉 down-->
+                          <i class="bi bi-hand-thumbs-down-fill" v-else @click="updateRecommendComment(item.comment_idx)"></i>
+                          <span>{{item.comment_unrecommend}}</span>
+                        </button>
+<!--                          <button @click="recommendUpDown(1, item.comment_idx)" >
+                          &lt;!&ndash; 색상 안들어간 따봉 up &ndash;&gt;
                           <i class="bi bi-hand-thumbs-up"></i>
 
-                          <!-- 색상 들어간 따봉 up-->
-                          <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
+                          &lt;!&ndash; 색상 들어간 따봉 up&ndash;&gt;
+                          &lt;!&ndash; <i class="bi bi-hand-thumbs-up-fill"></i> &ndash;&gt;
                           <span>{{item.comment_recommend}}</span>
                         </button>
                         <button @click="recommendUpDown(2, item.comment_idx)">
-                          <!-- 색상 들어간 따봉 up-->
+                          &lt;!&ndash; 색상 들어간 따봉 up&ndash;&gt;
                           <i class="bi bi-hand-thumbs-down"></i>
 
-                          <!-- 색상 들어간 따봉 down-->
-                          <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
+                          &lt;!&ndash; 색상 들어간 따봉 down&ndash;&gt;
+                          &lt;!&ndash; <i class="bi bi-hand-thumbs-down-fill"></i> &ndash;&gt;
                           <span>{{item.comment_unrecommend}}</span>
-                        </button>
+                        </button>-->
                         <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">X</button>
                       </div>
                       <div>
-                        2023.08.13
+                        {{item.comment_reg_date}}
                       </div>
                     </div>
                   </td>
@@ -136,6 +151,7 @@ export default {
       commentContent: '',
       commentList: [],
       comment : true,
+      userId: ''
     }
   },
   computed:{
@@ -150,6 +166,7 @@ export default {
     },
   },
   async mounted() {
+    this.userId = localStorage.getItem('id')
     // let res = await axios.post('/getCommentByBoard', {id: this.boardData.id});
     // console.log("mounted getCommentByBoard res.data >>>> ", res.data);
     
@@ -262,7 +279,8 @@ export default {
     async recommendUpDown(flag, idx) {
       /**
        * 추천하는 아이디를 넣어줌 (중복 확인을 위해)
-       * 
+       *
+       *
        */
       let param = {
         comment_idx: idx,
@@ -273,7 +291,11 @@ export default {
 
       let res = await recommendUpDown(param)
       console.log(res)
+      console.log("commentList",this.commentList)
       this.updateComment()
+      /*if (param.comment_ud_temp_id == localStorage.getItem("id")) {
+        console.log(param.comment_ud_temp_id);
+      }*/
     },
     commentOwner(payload) {
       if (!localStorage.getItem('isLogin')) {
@@ -286,7 +308,8 @@ export default {
     },
     showComment() {
       this.comment = !this.comment
-    }
+    },
+
   },
 }
 </script>
