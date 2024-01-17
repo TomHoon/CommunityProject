@@ -160,9 +160,14 @@ export default {
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
 
     // Promise all 사용하는 경우 텀이 있어서 file이 안불러와지는 오류가 있음
-    await getOneMember(this.pageParams.boardData.writer).then(res => this.setUserInfo(res.data));
-    await getOneFile(this.userInfo.file_idx).then(res => this.setFileInfo(res.data));
-    await getBoardById(this.pageParams.boardData.id).then(res => this.setBoardInfo(res.data));
+    const getOneMemberRes = await getOneMember(this.pageParams.boardData.writer)
+    this.setUserInfo(getOneMemberRes.data)
+    
+    const getOneFileRes = await getOneFile(this.userInfo.file_idx)
+    this.setFileInfo(getOneFileRes.data)
+
+    const getBoardByIdRes = await getBoardById(this.pageParams.boardData.id)
+    this.setBoardInfo(getBoardByIdRes.data)
 
     if(this.userInfo.userImgPath) {
       this.imgPath = this.userInfo.userImgPath
@@ -183,14 +188,13 @@ export default {
     },
     async deleteBoard() {
       await deleteBoard(this.boardData.id)
+      this.$backPage()
       // .then(res => this.$backPage())
-      .then(this.$backPage())
-      .catch(error => console.log(error));
     },
     backPage() {
       this.$backPage({boardParam: '백페이지에서 사용할 파람'});
     },
-    updateRecommend(payload) {
+    async updateRecommend(payload) {
       if (!localStorage.getItem('isLogin')) {
         alert("로그인 이후 이용 가능합니다.");
         return;
@@ -199,14 +203,9 @@ export default {
         id : payload
       }
       if(localStorage.getItem(localStorage.getItem('id')) != payload){ // key: login / value : 글번호 가 없으면, 추천 +1
-        updateRecommendBoard(param)
-        .then(() => {
-          this.recommend = Number(this.recommend) + 1,
-          localStorage.setItem(localStorage.getItem('id'), payload) //아이디와 글번호를 저장
-        })
-        .catch((error) => {
-          console.error('오류', error);
-        }) 
+        await updateRecommendBoard(param)
+        this.recommend = Number(this.recommend) + 1,
+        localStorage.setItem(localStorage.getItem('id'), payload) //아이디와 글번호를 저장 
       }
       else{
         alert("추천은 게시글당 1회만 가능합니다.")
