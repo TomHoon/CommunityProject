@@ -46,7 +46,7 @@ export default {
   },
   // 💕메소드 첫 알파벳은 소문자로 표기
   methods: {
-    fnLogin() {
+    async fnLogin() {
       let 로그인파라미터 = {
         member_id : this.member_id,
         member_pw : this.member_pw
@@ -61,22 +61,16 @@ export default {
         return false;
       }
 
-      loginMember(로그인파라미터)
-          .then((res) => {
-            if(res.data.result == 0 || res.data.result == -1){
-              alert("아이디 또는 비밀번호가 틀렸습니다. \n다시 입력해주세요.")
-            }else{
-              localStorage.setItem("isLogin", true)
-              localStorage.setItem("id", res.data.user_id)
-              localStorage.setItem("id", this.member_id)
-              localStorage.setItem("token", res.data.token)
-              this.$pushContents("Board", {from: '로그인에서'})
-            }
-          }).catch((err) => {
-        if (err.response) {
-          console.log(err.response)
+      const res = await loginMember(로그인파라미터)
+      if(res.data.result == 0 || res.data.result == -1){
+        alert("아이디 또는 비밀번호가 틀렸습니다. \n다시 입력해주세요.")
+        }else{
+          localStorage.setItem("isLogin", true)
+          localStorage.setItem("id", res.data.user_id)
+          localStorage.setItem("id", this.member_id)
+          localStorage.setItem("token", res.data.token)
+          this.$pushContents("Board", {from: '로그인에서'})
         }
-      })
     },
     fnJoin() {
       this.$pushContents('Agreement');
@@ -123,7 +117,7 @@ export default {
         },
       });
     },
-}
+  }
 }
 </script>
 
