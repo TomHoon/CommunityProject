@@ -153,9 +153,8 @@ export default {
     async temporaryImg(e) {
       const formData = new FormData();
       formData.append('mFile', e.target.files[0]);
-      await tempImg(formData) 
-      .then(res => this.imgPath = res.data)
-      .catch(error => console.log(error.message));
+      const res = await tempImg(formData)
+      this.imgPath = res.data
     },
     backPage() {
       this.$backPage();
@@ -254,8 +253,6 @@ export default {
         }
       })
       .catch(error => console.log(error.message));
-      
-
     },
     /*
         openModal() {
