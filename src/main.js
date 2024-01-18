@@ -16,8 +16,8 @@ import Board from '@/components/board/Board'
 import BoardWrite from '@/components/board/BoardWrite'
 import BoardModify from '@/components/board/BoardModify'
 import BoardDetails from '@/components/board/BoardDetails'
-import Header from '@/components/Header'
-import HeaderMenu from '@/components/HeaderMenu'
+import Header from '@/components/header/Header'
+import HeaderMenu from '@/components/header/HeaderMenu'
 
 import defaultImg from '@/assets/defaultImg.png'
 
