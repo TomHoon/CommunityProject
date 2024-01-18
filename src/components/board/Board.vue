@@ -64,12 +64,6 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
 
   export default {
     props: ['pageParams', 'transferObj'],
-    computed:{
-    },
-    mounted() {
-      this.$propsWatch();
-      this.getBoardAll();
-    },
     data() {
       return {
         dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
@@ -84,6 +78,12 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
         bestToggle : false,
         searchData : '',
       }
+    },
+    computed:{
+    },
+    mounted() {
+      this.$propsWatch();
+      this.getBoardAll();
     },
     methods: {
       async getBoardAll() {
