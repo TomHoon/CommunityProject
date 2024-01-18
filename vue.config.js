@@ -11,5 +11,5 @@ module.exports = defineConfig({
 
     // 💕개발
     // proxy: 'http://localhost:8082' 
-  }
+  },
 })

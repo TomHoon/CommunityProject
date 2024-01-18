@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { Request, searchBoard, updateHitBoard } from '@/api/index'
+import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
 
   export default {
     props: ['pageParams', 'transferObj'],
@@ -87,7 +87,7 @@ import { Request, searchBoard, updateHitBoard } from '@/api/index'
     },
     methods: {
       async getBoardAll() {
-        const res = await new Request().post('/getBoardAll',{order : 0})
+        const res = await getBoardAll(0)
 
         this.boardList = res.data;
         this.tempList = res.data;

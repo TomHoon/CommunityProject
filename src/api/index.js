@@ -11,10 +11,13 @@ class Request {
     }
 }
 
-//Board.vue
-// function getBoardAll(payload) {
-//     return axios.post('/getBoardAll', {order: payload});
+// function getBoardAll() {
+    // return new Request().post('/getBoardAll',{order : 0})
 // }
+
+function getBoardAll(payload) {
+    return new Request().post('/getBoardAll', {order : payload})
+}
 
 function searchBoard(payload) {
     return axios.post('/searchBoard', {title: payload})
@@ -98,7 +101,7 @@ function memberUpdate(payload){
 }
 
 export {
-    // getBoardAll,
+    getBoardAll,
     searchBoard,
     updateHitBoard,
     getOneMember,
