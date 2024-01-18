@@ -1,9 +1,20 @@
 import axios from 'axios';
 
-//Board.vue
-function getBoardAll(payload) {
-    return axios.post('/getBoardAll', {order: payload});
+class Request {
+    constructor() {
+    }
+    get(url, param) {
+        return axios.get(url, param)
+    }
+    post(url, param) {
+        return axios.post(url,param)
+    }
 }
+
+//Board.vue
+// function getBoardAll(payload) {
+//     return axios.post('/getBoardAll', {order: payload});
+// }
 
 function searchBoard(payload) {
     return axios.post('/searchBoard', {title: payload})
@@ -87,7 +98,7 @@ function memberUpdate(payload){
 }
 
 export {
-    getBoardAll,
+    // getBoardAll,
     searchBoard,
     updateHitBoard,
     getOneMember,
@@ -106,4 +117,5 @@ export {
     loginMember,
     joinOut,
     memberUpdate,
+    Request,
 }
