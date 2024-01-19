@@ -1,7 +1,9 @@
 import axios from 'axios';
+import { setInterceptors } from '@/api/common/interceptors'
 
 class Request {
     constructor() {
+        console.log(setInterceptors)
     }
     get(url, param) {
         return axios.get(url, param)
