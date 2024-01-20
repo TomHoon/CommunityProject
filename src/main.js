@@ -20,6 +20,7 @@ import Header from '@/components/header/Header'
 import HeaderMenu from '@/components/header/HeaderMenu'
 
 import defaultImg from '@/assets/defaultImg.png'
+import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies'
 
 const store = createStore({
     state() {
@@ -28,7 +29,10 @@ const store = createStore({
                 {pageName: 'Board', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
             ],
             defaultImgpath : defaultImg,
-            token : ''
+            
+            user : getUserFromCookie() || '',
+            token : getAuthFromCookie() || '',
+
         };
     },
     getters,
