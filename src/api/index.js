@@ -1,101 +1,114 @@
 import axios from 'axios';
 import { setInterceptors } from '@/api/common/interceptors'
 
-class Request {
-    constructor() {
-        console.log(setInterceptors)
-    }
-    get(url, param) {
-        return axios.get(url, param)
-    }
-    post(url, param) {
-        return axios.post(url,param)
-    }
+// class Request {
+//     constructor() {
+//     }
+//     get(url, param) {
+//         setInterceptors();
+//         return axios.get(url, param)
+//     }
+//     post(url, param) {
+//         return axios.post(url,param)
+//     }
+// }
+
+function createInstance() {
+    const instance = axios.create({
+    });
+    return setInterceptors(instance);
 }
 
+const instance = createInstance();
+
+//axios 기본형
+//axios.post('/getBoardAll', { order : 0 })
+
+// const newInterceptors = setInterceptors()
+
 function getBoardAll(payload) {
-    return new Request().post('/getBoardAll', {order : payload})
+    return instance.post('/getBoardAll', {order : payload})
 }
 
 function searchBoard(payload) {
-    return new Request().post('/searchBoard', {title: payload})
+    return instance.post('/searchBoard', {title: payload})
 }
 
 function updateHitBoard(payload){
-    return new Request().post('/updateHitBoard', payload)
+    return instance.post('/updateHitBoard', payload)
 }
 
 
 //BoardDetails.vue
 function getOneMember(payload){
-    return new Request().post('/getOneMember', {member_id: payload})
+    return instance.post('/getOneMember', {member_id: payload})
 }
 
 function getOneFile(payload){
-    return new Request().post('/getOneFile', {file_idx: payload})
+    return instance.post('/getOneFile', {file_idx: payload})
 }
 
 function getBoardById(payload){
-    return new Request().post('/getBoardById', {id: payload})
+    return instance.post('/getBoardById', {id: payload})
 }
 
 function deleteBoard(payload){
-    return new Request().post('/deleteBoard', {'id': payload})
+    return instance.post('/deleteBoard', {'id': payload})
 }
 
 function updateRecommendBoard(payload){
-    return new Request().post('/updateRecommendBoard', payload)
+    return instance.post('/updateRecommendBoard', payload)
 }
 
 function getCommentByBoard(payload){
-    return new Request().post('/getCommentByBoard', {id: payload});
+    return instance.post('/getCommentByBoard', {id: payload});
 }
 
 function addComment(payload){
-    return new Request().post('/addComment', payload);
+    return instance.post('/addComment', payload);
 }
 
 function deleteComment(payload){
-    return new Request().post('/deleteComment', {comment_idx : payload});
+    return instance.post('/deleteComment', {comment_idx : payload});
 }
 
 function recommendUpDown(payload){
-    return new Request().post('/recommendUpDown', payload);
+    return instance.post('/recommendUpDown', payload);
 }
 
 //BoardModify.vue
 function updateBoard(payload){
-    return new Request().post('/updateBoard', payload)
+    return instance.post('/updateBoard', payload)
 }
 
 
 //BoardWrite.vue
 function addBoard(payload){
-    return new Request().post('/addBoard', payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
+    return instance.post('/addBoard', payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
 }
 
 
 //Join.vue
 function tempImg(payload){
-    return new Request().post('/tempImg', payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
+    return instance.post('/tempImg', payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
 }
 
 function joinMember(payload){
-    return new Request().post("/joinMember", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
+    return instance.post("/joinMember", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
 }
 
 
 //Login.vue
 function loginMember(payload){
-    return new Request().post("/loginMember", payload)
+    return instance.post("/loginMember", payload)
 }
 
 function joinOut(payload){
-    return new Request().post('/joinOut', payload)
+    return instance.post('/joinOut', payload)
 }
 
 function memberUpdate(payload){
-    return new Request().post("/memberUpdate", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
+    return instance.post("/memberUpdate", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
 }
 
 export {
@@ -118,5 +131,5 @@ export {
     loginMember,
     joinOut,
     memberUpdate,
-    Request,
+    // Request,
 }

@@ -27,8 +27,8 @@ const store = createStore({
             mainLayer: [
                 {pageName: 'Board', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
             ],
-
             defaultImgpath : defaultImg,
+            token : ''
         };
     },
     getters,

@@ -68,7 +68,7 @@ export default {
           localStorage.setItem("isLogin", true)
           localStorage.setItem("id", res.data.user_id)
           localStorage.setItem("id", this.member_id)
-          localStorage.setItem("token", res.data.token)
+          this.setToken(res.data.token)
           this.$pushContents("Board", {from: '로그인에서'})
         }
     },
@@ -117,6 +117,9 @@ export default {
         },
       });
     },
+    setToken(payload) {
+      this.$store.commit('setToken', payload)
+    }
   }
 }
 </script>
