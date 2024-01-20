@@ -28,6 +28,7 @@
 </template>
 <script>
 import { loginMember, } from '@/api/index'
+import { saveAuthToCookie, saveUserToCookie} from '@/utils/cookies'
 
 export default {
   name: "Login",
@@ -66,9 +67,12 @@ export default {
         alert("아이디 또는 비밀번호가 틀렸습니다. \n다시 입력해주세요.")
         }else{
           localStorage.setItem("isLogin", true)
-          localStorage.setItem("id", res.data.user_id)
           localStorage.setItem("id", this.member_id)
-          this.setToken(res.data.token)
+          this.$store.commit('setToken', res.data.token)
+          this.$store.commit('setId', this.member_id)
+          saveAuthToCookie(res.data.token)
+          saveUserToCookie(res.data.user_id)
+          saveUserToCookie(res.data.member_id)
           this.$pushContents("Board", {from: '로그인에서'})
         }
     },
@@ -117,9 +121,6 @@ export default {
         },
       });
     },
-    setToken(payload) {
-      this.$store.commit('setToken', payload)
-    }
   }
 }
 </script>

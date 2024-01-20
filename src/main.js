@@ -30,7 +30,7 @@ const store = createStore({
             ],
             defaultImgpath : defaultImg,
             
-            user : getUserFromCookie() || '',
+            id : getUserFromCookie() || '',
             token : getAuthFromCookie() || '',
 
         };
