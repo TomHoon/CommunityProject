@@ -83,7 +83,7 @@
     emits: ['searchBoard', 'allBoard','boardChange'],
   }
 </script>
-<style>[]
+<style>
     .header-container{
       display: flex;
       justify-content: center;
