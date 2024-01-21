@@ -71,8 +71,7 @@ export default {
           this.$store.commit('setToken', res.data.token)
           this.$store.commit('setId', this.member_id)
           saveAuthToCookie(res.data.token)
-          saveUserToCookie(res.data.user_id)
-          saveUserToCookie(res.data.member_id)
+          saveUserToCookie(this.member_id)
           this.$pushContents("Board", {from: '로그인에서'})
         }
     },
