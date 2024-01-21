@@ -18,6 +18,7 @@ import BoardModify from '@/components/board/BoardModify'
 import BoardDetails from '@/components/board/BoardDetails'
 import Header from '@/components/header/Header'
 import HeaderMenu from '@/components/header/HeaderMenu'
+import chat from '@/components/chat'
 
 import defaultImg from '@/assets/defaultImg.png'
 import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies'
@@ -54,6 +55,7 @@ app.component('Board', Board);
 app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
 app.component('BoardModify', BoardModify);
+app.component('Chat', chat);
 
 app.use(router);
 app.use(store);

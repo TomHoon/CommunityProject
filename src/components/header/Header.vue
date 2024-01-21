@@ -18,6 +18,7 @@
       <div class="member-area">
           <button type="button" class="btn mem-btn" v-if="isLogin" @click="memberUpdate">회원수정</button>
           <button type="button" class="btn log-btn" v-if="isLogin == false" @click="fnJoin">회원가입</button>
+          <button type="button" class="btn log-btn" v-if="isLogin" @click="goChat">채팅테스트</button>
           <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
       </div>
     </div>
@@ -74,12 +75,15 @@
       },
       boardChange(payload) {
         this.$emit('boardChange', payload)
+      },
+      goChat() {
+        this.$pushContents('Chat');
       }
     },
     emits: ['searchBoard', 'allBoard','boardChange'],
   }
 </script>
-<style>
+<style>[]
     .header-container{
       display: flex;
       justify-content: center;
