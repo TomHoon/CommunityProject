@@ -1,9 +1,9 @@
 function saveAuthToCookie(value) {
-  document.cookie = `comhub_auth=${value}`;
+  document.cookie = `token=${value}`;
 }
 
 function saveUserToCookie(value) {
-  document.cookie = `comhub_user=${value}`;
+  document.cookie = `id=${value}`;
 }
 
 function getAuthFromCookie() {
