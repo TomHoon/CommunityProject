@@ -23,7 +23,7 @@
 				</div>
 
 			<div style="padding-top:40px; height:0px;">
-				<button type="button" style="margin-right:10px;" class="btn btn btn-primary" id="btnSave" @click="modify">수정</button>
+				<button type="button" style="margin-right:10px;" class="btn btn btn-primary" id="btnSave" @click="saveWrite">작성</button>
 				<button type="button" class="btn btn btn-primary" @click="backPage">목록</button>
 			</div>
 		</div>
