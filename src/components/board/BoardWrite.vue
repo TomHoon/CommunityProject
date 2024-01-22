@@ -4,7 +4,7 @@
 		<div class="container" role="main">
                 <div class="mb-3 flex">
                     <select class="form-select" v-model="article.gubun" aria-label="Default select example">
-                        <option value="공지" selected>공지</option>
+                        <option value="공지">공지</option>
                         <option value="유머">유머</option>
                         <option value="게임">게임</option>
                         <option value="공부">공부</option>
@@ -37,7 +37,7 @@ export default {
     data() {
         return {
             article: {
-                gubun: '',
+                gubun: '공지',
                 title: '',
                 content: '',
             },
