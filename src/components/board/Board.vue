@@ -20,7 +20,8 @@
     <div class="board-table">
       <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="detailChain(item)">  
         <div class="board-table-cell1">
-          <img class="product-img" :src="item.image_path">
+          <img class="product-img" :src="image_path(item)">
+          <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
         </div>
         <div class="board-table-cell2">
           <div>
@@ -61,6 +62,7 @@
 </template>
 <script>
 import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
+import comhubImg from '@/assets/comhub.png'
 
   export default {
     props: ['pageParams', 'transferObj'],
@@ -77,6 +79,7 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
         bestList: [],
         bestToggle : false,
         searchData : '',
+        default_image_path : comhubImg,
       }
     },
     computed:{
@@ -84,8 +87,12 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
     mounted() {
       this.$propsWatch();
       this.getBoardAll();
+      this.isLogin();
     },
     methods: {
+      isLogin() {
+        console.log("로그인?",this.$store.getters.isLogin)
+      },
       async getBoardAll() {
         const res = await getBoardAll(0)
 
@@ -207,6 +214,12 @@ import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
         if(event == 'study'){
           this.boardList = this.studyList
         }
+      },
+      image_path(item) {
+        if(item.image_path) {
+          return item.image_path
+        }
+        return this.default_image_path
       }
     }
 }
