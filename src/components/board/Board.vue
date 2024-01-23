@@ -165,7 +165,6 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
         },
         list: {
           gubun: '받은쪽지함',
-
         },
       }
     },
@@ -178,13 +177,13 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
     mounted() {
       this.$propsWatch();
       this.getBoardAll();
-      this.isLogin();
+      // this.isLogin();
     },
     methods: {
-      isLogin() {
-        console.log("로그인?",this.$store.getters.isLogin)
-        console.log("id값?",this.$store.state.id)
-      },
+      // isLogin() {
+        // console.log("로그인?",this.$store.getters.isLogin)
+        // console.log("id값?",this.$store.state.id)
+      // },
       async getBoardAll() {
         const res = await getBoardAll(0)
 
@@ -226,7 +225,7 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
         this.$backPage({test: 'hello'});
       },
       goWrite() {
-        if (!localStorage.getItem('isLogin')) {
+        if (!this.$store.getters.isLogin) {
           alert("로그인 이후 이용 가능합니다.");
           return;
         }
@@ -506,7 +505,7 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
     width: 730px;
     margin: 0 auto;
   }
-  // 쪽지리스트
+  /* // 쪽지리스트 */
   .note_insert_area_title {
     color: #0d6efd;
     font-size: 1.2rem;

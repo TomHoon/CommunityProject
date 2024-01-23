@@ -159,7 +159,7 @@ export default {
       return this.pageParams.boardData;
     },
     isOwner() {
-      if (!localStorage.getItem('isLogin')) {
+      if (!this.$store.getters.isLogin) {
         return;
       }
       return this.pageParams.boardData.writer == localStorage.getItem('id');
@@ -193,7 +193,7 @@ export default {
   props: ['pageParams'],
   methods: {
     goWrite() {
-      if (!localStorage.getItem('isLogin')) {
+      if (!this.$store.getters.isLogin) {
         alert("로그인 이후 이용 가능합니다.");
         return;
       }
@@ -211,7 +211,7 @@ export default {
       this.$backPage({boardParam: '백페이지에서 사용할 파람'});
     },
     async updateRecommend(payload) {
-      if (!localStorage.getItem('isLogin')) {
+      if (!this.$store.getters.isLogin) {
         alert("로그인 이후 이용 가능합니다.");
         return;
       }
@@ -247,7 +247,7 @@ export default {
       this.commentList = res.data;
     },
     async addComment() {
-      if (!localStorage.getItem('isLogin')) {
+      if (!this.$store.getters.isLogin) {
         alert("로그인 이후 이용 가능합니다.");
         return;
       }
@@ -268,7 +268,7 @@ export default {
       this.updateComment()
     },
     async deleteComment(payload) {
-      if (!localStorage.getItem('isLogin')) {
+      if (!this.$store.getters.isLogin) {
         alert("로그인 이후 이용 가능합니다.");
         return;
       }
@@ -297,7 +297,7 @@ export default {
       }*/
     },
     commentOwner(payload) {
-      if (!localStorage.getItem('isLogin')) {
+      if (!this.$store.getters.isLogin) {
         return false;
       }
       if (payload == localStorage.getItem('id'))
