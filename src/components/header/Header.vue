@@ -20,7 +20,6 @@
           <button type="button" class="btn log-btn" v-if="isLogin == false" @click="fnJoin">회원가입</button>
           <button type="button" class="btn log-btn" v-if="isLogin" @click="goChat">채팅테스트</button>
           <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
-          <button @click="logoutAll"> 로그아웃 삭제 전부 </button>
       </div>
     </div>
   </div>
@@ -28,7 +27,6 @@
 </template>
 <script>
 import { deleteCookie } from '@/utils/cookies'
-// import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies'
 
   export default {
     data() {
@@ -51,23 +49,15 @@ import { deleteCookie } from '@/utils/cookies'
         this.$emit('searchBoard', this.searchWord);
         this.$clearLayer( { searchWord : this.searchWord });
       },
-      logoutAll(){
-        this.$store.commit('clearId') // 작동 확인
-        this.$store.commit('clearToken') // 작동 확인
-        deleteCookie("token") // 작동 안됨
-        deleteCookie("id") // 작동 안됨
-        
-        console.log("id값?",this.$store.state.id)
-        console.log("로그인?",this.$store.getters.isLogin)
-        console.log("토큰")
-      },
       async loginOut() {
         if (this.isLogin) {
           localStorage.removeItem("isLogin");
-          this.$store.commit('clearId')
-          this.$store.commit('clearTokken')
-          deleteCookie("token") // token를 삭제하는 코드
-          deleteCookie("id") // id를 삭제하는 코드
+
+          this.$store.commit('clearId') 
+          this.$store.commit('clearToken')
+          deleteCookie("token")
+          deleteCookie("id")
+          
           await this.$clearLayer();
           location.reload();
           return;
