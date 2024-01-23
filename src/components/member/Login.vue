@@ -67,11 +67,14 @@ export default {
         alert("아이디 또는 비밀번호가 틀렸습니다. \n다시 입력해주세요.")
         }else{
           localStorage.setItem("isLogin", true)
-          localStorage.setItem("id", this.member_id)
+          localStorage.setItem("id", res.data.userid)
+
+          console.log("res", res)
+
           this.$store.commit('setToken', res.data.token)
-          this.$store.commit('setId', this.member_id)
+          this.$store.commit('setId', res.data.userid)
           saveAuthToCookie(res.data.token)
-          saveUserToCookie(this.member_id)
+          saveUserToCookie(res.data.userid)
           this.$pushContents("Board", {from: '로그인에서'})
         }
     },

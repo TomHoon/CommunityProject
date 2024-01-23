@@ -183,6 +183,7 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
     methods: {
       isLogin() {
         console.log("로그인?",this.$store.getters.isLogin)
+        console.log("id값?",this.$store.state.id)
       },
       async getBoardAll() {
         const res = await getBoardAll(0)

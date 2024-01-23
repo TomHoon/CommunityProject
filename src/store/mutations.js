@@ -8,7 +8,7 @@ export default {
     clearId(state){
         state.id = '';
     },
-    clearTokken(state){
+    clearToken(state){
         state.token = '';
     }
 }
