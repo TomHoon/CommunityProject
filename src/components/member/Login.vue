@@ -69,8 +69,6 @@ export default {
           localStorage.setItem("isLogin", true)
           localStorage.setItem("id", res.data.userid)
 
-          console.log("res", res)
-
           this.$store.commit('setToken', res.data.token)
           this.$store.commit('setId', res.data.userid)
           saveAuthToCookie(res.data.token)
