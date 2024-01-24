@@ -3,7 +3,7 @@
   <div class="board-container">
     <div class="top-box">
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
-      <span class="message_image note_modalOpen" @mouseover="hovering = true" @mouseout="hovering = false"  @click="modal_note_list">
+      <span class="message_image note_modalOpen" @mouseover="hovering = true" @mouseout="hovering = false"  @click="ModalNoteList">
         <img src="@/assets/icons8-message_white-48.png" v-show="!hovering" alt="쪽지함" class="message_white_btn" title="쪽지함">
         <img src="@/assets/icons8-message_black-64.png" v-show="hovering" alt="쪽지함" class="message_black_btn" title="쪽지함">
       </span>
@@ -64,50 +64,57 @@
   </div>
 
 <!-- 쪽지함리스트 -->
-  <Modal_note_list ref="modal_note_list" :width="900" :height="600"  :clickToClose=true>
+  <ModalNoteList ref="ModalNoteList" :width="900" :height="650"  :clickToClose=true>
     <div class="note_list_area">
-      <div>
-        <span class="note_insert_area_title">쪽지함</span>
+      <div class="note_list_area_main">
+        <span class="note_list_area_title">쪽지함</span>
       </div>
       <div>
-        <select class="note_select" v-model="list.gubun" aria-label="Default select example">
+        <select class="note_select" v-model="noteGubun" aria-label="Default select example">
           <option value="받은쪽지함">받은쪽지함</option>
           <option value="보낸쪽지함">보낸쪽지함</option>
         </select>
       </div>
       <div>
-        <button class="modal_note_insert" @click="modal_note_insert">쪽지보내기</button>
+        <button class="ModalNoteInsert" @click="ModalNoteInsert">쪽지보내기</button>
+        <button class="ModalNoteDetail" @click="ModalNoteDetail">쪽지확인</button>
       </div>
       <div class="note_list_chk_area">
         <div class="note_list_check">
           <input type="checkbox" id="note_list_allCheck" class="note_list_allCheck" name="note_list_allCheck">
           <label for="note_list_allCheck">전체선택</label>
         </div>
-        <span class="note_list_allNote">전체쪽지&nbsp; 개</span>
+        <span class="note_list_allNote">전체쪽지&nbsp; {{noteList.length}}개</span>
         <span class="note_list_newNote">새쪽지&nbsp; 개 </span>
       </div>
-      <div>
-        <table>
-          <tbody>
-            <tr v-for="(item, idx) in noteList" :key="idx" >
-              <td>
-                <strong>{{item.send_id}}</strong>
-              </td>
-            <td>
-                <strong>{{item.recv_id}}</strong>
-              </td>
-              <td>
-                <strong>{{item.note_title}}</strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="note_list_noteList">
+        <div class="note_list_form" v-for="(item, idx) in noteList" :key="idx">
+          <div v-if="noteList.length > 0">
+            <hr>
+            <div>
+              <input type="checkbox" class="note_list_selectChk">
+            </div>
+            <div>
+              <strong class="note_list_send_id">{{ item.send_id }}</strong>
+              <div class="note_list_send_date">{{ item.send_date }}</div>
+              <div>
+                <div class="note_list_title">{{ item.note_title }}</div>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <hr>
+            <div>
+              <span>쪽지가 존재하지 않습니다.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </Modal_note_list>
+  </ModalNoteList>
 
 <!-- 쪽지쓰기 -->
-  <Modal_note_insert ref="modal_note_insert" :width="800" :height="500"  :clickToClose=true>
+  <ModalNoteInsert ref="ModalNoteInsert" :width="800" :height="500"  :clickToClose=true>
     <div class="note_insert_area">
       <span class="note_insert_area_title">쪽지보내기</span>
     </div>
@@ -119,27 +126,52 @@
     </div>
     <div class="note_insert_area_input">
       <div class="note_insert_title_area">
-        <input type="text" placeholder="제목을 입력하세요." v-model="insert.note_title" name="note_title" id="note_title" class="note_title">
+        <input type="text" placeholder="제목을 입력하세요." v-model="noteInsert.note_title" name="note_title" id="note_title" class="note_title">
       </div>
       <div class="send_id_area">
-        <input type="text" placeholder="받는아이디" v-model="insert.send_id" name="send_id" id="send_id" class="send_id" maxlength="13">
+        <input type="text" placeholder="받는아이디" v-model="noteInsert.send_id" name="send_id" id="send_id" class="send_id" maxlength="13">
         <button @click="sendIdCheck" class="sendIdCheck">아이디 확인</button>
       </div>
       <div class="note_content_area">
-        <textarea placeholder="내용을 입력하세요." v-model="insert.note_content" name="note_content" id="note_content" class="note_content" ></textarea>
+        <textarea placeholder="내용을 입력하세요." v-model="noteInsert.note_content" name="note_content" id="note_content" class="note_content" ></textarea>
       </div>
       <div>
         <button class="note_btn" @click="note_btn">보내기</button>
       </div>
     </div>
-  </Modal_note_insert>
+  </ModalNoteInsert>
+    <ModalNoteDetail ref="ModalNoteDetail" :width="550" :height="750" :clickToClose=true>
+      <div class="note_detail_area">
+        <div>
+          <marquee direction=right class="note_detail_area_title">[쪽지] data제목 데이터</marquee>
+          <div class="note_detail_deep_hr"></div>
+
+        </div>
+        <div class="note_detail_area_titlePart">
+          <div class="note_detail_send_id">data보낸아이디 데이터</div>
+          <div class="note_detail_send_date">data보낸시간 데이터</div>
+        </div>
+          <div class="note_detail_light_hr"></div>
+        <div class="note_detail_note_title">data쪽지제목 데이터</div>
+          <div class="note_detail_note_content">data쪽지내용 데이터</div>
+        <div class="note_detail_light_hr02"></div>
+          <div class="note_detail_read_date">확인날짜 : data쪽지확인날짜 데이터</div>
+        <div class="note_detail_button">
+          <button class="note_detail_back"  @click="closeModal()">쪽지함</button>
+          <button class="note_detail_delete" @click="note_detail_delete()">삭제</button>
+        </div>
+
+      </div>
+    </ModalNoteDetail>
 
 </template>
 <script>
-import { getBoardAll, searchBoard, updateHitBoard } from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, getNoteById,} from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
-import Modal_note_insert from '@/components/Modal_note_insert.vue';
-import Modal_note_list from '@/components/Modal_note_list.vue';
+import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
+import ModalNoteList from '@/components/note/ModalNoteList.vue';
+import ModalNoteDetail from '@/components/note/ModalNoteDetail.vue';
+import axios from "axios";
 
   export default {
     props: ['pageParams', 'transferObj'],
@@ -154,35 +186,47 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
         studyList: [],
         tempList: [],
         bestList: [],
-        bestToggle : false,
-        searchData : '',
-        default_image_path : comhubImg,
+        bestToggle: false,
+        searchData: '',
+        default_image_path: comhubImg,
         hovering: false,
-        insert: {
+        noteInsert: {
           send_id: '',
           note_title: '',
           note_content: '',
         },
-        list: {
-          gubun: '받은쪽지함',
-        },
+        noteGubun: '받은쪽지함',
+        noteList: [],
+        send_id: '',
+
+
       }
     },
-    computed:{
+    computed: {},
+    components: {
+      ModalNoteInsert,
+      ModalNoteList,
+      ModalNoteDetail,
     },
-    components:{
-      Modal_note_insert,
-      Modal_note_list,
-    },
-    mounted() {
+    async mounted() {
       this.$propsWatch();
       this.getBoardAll();
-      // this.isLogin();
+
+
+      // 함수화시작
+      this.send_id = localStorage.getItem('id');
+      let param = {
+        send_id: this.send_id
+      }
+      const res = await axios.post('/getNoteById', param);
+      console.log("aaa", res.data);
+      this.noteList = res.data;
+      // 함수화 끝
     },
     methods: {
       // isLogin() {
-        // console.log("로그인?",this.$store.getters.isLogin)
-        // console.log("id값?",this.$store.state.id)
+      // console.log("로그인?",this.$store.getters.isLogin)
+      // console.log("id값?",this.$store.state.id)
       // },
       async getBoardAll() {
         const res = await getBoardAll(0)
@@ -192,23 +236,23 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
 
         this.boardSort()
 
-        if(this.transferObj?.boardChange){
+        if (this.transferObj?.boardChange) {
           this.boardChange(this.transferObj.boardChange)
         }
-        if(this.transferObj?.searchWord){
+        if (this.transferObj?.searchWord) {
           const res = await searchBoard(this.transferObj.searchWord)
           this.boardList = res.data.reverse()
         }
       },
-      boardSort(){
-        const gubunType = ['공지', '유머', '게임', '공부' ]
-        const lists = { '공지': this.noticeList, '유머': this.funnyList, '게임': this.gameList, '공부': this.studyList, }
+      boardSort() {
+        const gubunType = ['공지', '유머', '게임', '공부']
+        const lists = {'공지': this.noticeList, '유머': this.funnyList, '게임': this.gameList, '공부': this.studyList,}
 
         this.boardList.forEach(board => {
-          if( gubunType.includes(board.gubun)) {
+          if (gubunType.includes(board.gubun)) {
             lists[board.gubun].push(board);
           }
-          if( board.recommend >= 10) {
+          if (board.recommend >= 10) {
             this.bestList.push(board)
           }
         })
@@ -236,13 +280,13 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
       },
       async upHit(payload) {
         let param = {
-          id : payload
+          id: payload
         }
         await updateHitBoard(param)
       },
 
       startPage() {
-        return ((this.curPageNum - 1 ) * this.dataPerPage);
+        return ((this.curPageNum - 1) * this.dataPerPage);
       },
       endPage() {
         return ("end", this.startPage() + this.dataPerPage);
@@ -260,65 +304,68 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
         this.boardList.reverse()
       },
       changeGubun(event) { // 게시판 변경을 위한 메소드
-        if(event.target.value === 'all'){
+        if (event.target.value === 'all') {
           this.boardList = this.tempList
         }
-        if(event.target.value === 'notice'){
+        if (event.target.value === 'notice') {
           this.boardList = this.noticeList
         }
-        if(event.target.value === 'funny'){
+        if (event.target.value === 'funny') {
           this.boardList = this.funnyList
         }
-        if(event.target.value === 'game'){
+        if (event.target.value === 'game') {
           this.boardList = this.gameList
         }
-        if(event.target.value === 'study'){
+        if (event.target.value === 'study') {
           this.boardList = this.studyList
         }
       },
-      changeBest(){
-        if(this.bestToggle == false){
+      changeBest() {
+        if (this.bestToggle == false) {
           this.boardList = this.bestList
           this.bestToggle = true
-        }
-        else{
+        } else {
           this.boardList = this.tempList
           this.bestToggle = false
-          }
+        }
       },
-      allBoard(){
+      allBoard() {
         this.boardList = this.tempList
       },
-      boardChange(event){ // 햄버거 버튼을 위한 메소드
-        if(event == 'all'){
+      boardChange(event) { // 햄버거 버튼을 위한 메소드
+        if (event == 'all') {
           this.boardList = this.tempList
         }
-        if(event == 'notice'){
+        if (event == 'notice') {
           this.boardList = this.noticeList
         }
-        if(event == 'funny'){
+        if (event == 'funny') {
           this.boardList = this.funnyList
         }
-        if(event == 'game'){
+        if (event == 'game') {
           this.boardList = this.gameList
         }
-        if(event == 'study'){
+        if (event == 'study') {
           this.boardList = this.studyList
         }
       },
       image_path(item) {
-        if(item.image_path) {
+        if (item.image_path) {
           return item.image_path
         }
         return this.default_image_path
       },
       // 쪽지리스트 모달열기
-      modal_note_list() {
-        this.$refs.modal_note_list.modalOpen();
+      ModalNoteList() {
+        this.$refs.ModalNoteList.modalOpen();
       },
       // 쪽지쓰기 모달열기
-      modal_note_insert() {
-        this.$refs.modal_note_insert.modalOpen();
+      ModalNoteInsert() {
+        this.$refs.ModalNoteInsert.modalOpen();
+      },
+      // 쪽지확인 모달열기
+      ModalNoteDetail() {
+        this.$refs.ModalNoteDetail.modalOpen();
       },
       sendIdCheck() {
         alert("쪽지쓰기 - 아이디 확인")
@@ -329,8 +376,26 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
       note_list_send() {
         alert("쪽지관리 - 쪽지쓰기")
       },
-    }
-}
+      async getNoteById(payload) {
+        console.log("getNoteById",getNoteById);
+        console.log("payload",payload);
+        let param = {
+          send_id: payload,
+        }
+
+        console.log("param",param);
+
+
+        // this.noteList = res.data;
+      },
+      closeModal() {
+        this.$refs.ModalNoteDetail.closeModal();
+      },
+      note_detail_delete() {
+        alert("삭제");
+      }
+      }
+  }
 </script>
 
 <style>
@@ -506,7 +571,12 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
     margin: 0 auto;
   }
   /* // 쪽지리스트 */
-  .note_insert_area_title {
+  .note_list_area_main {
+    margin-bottom: 10px;
+
+
+  }
+  .note_list_area_title {
     color: #0d6efd;
     font-size: 1.2rem;
     font-weight: bold;
@@ -518,7 +588,7 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
     padding-left: 10px;
     outline: none;
   }
-  .modal_note_insert {
+  .ModalNoteInsert {
     width: 700px;
     height: 40px;
     background-color: #0d6efd;
@@ -531,7 +601,7 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
 
   }
   .note_list_chk_area{
-    margin-top: 30px;
+    margin-top: 15px;
   }
   .note_list_check {
     float: left;
@@ -547,8 +617,102 @@ import Modal_note_list from '@/components/Modal_note_list.vue';
   .note_list_allNote {
     float: right;
   }
-  .hr {
+  .note_list_noteList {
+    margin-top: 45px;
+  }
+  .note_list_form {
     margin-top: 10px;
+  }
+  .note_list_selectChk {
+    float: left;
+    margin-top: 4px;
+    margin-right: 5px;
+
+  }
+  .note_list_send_id {
+    float: left;
+  }
+  .note_list_send_date {
+    transform: translateX(16rem);
+  }
+  .note_list_title {
+    text-align: left;
+    padding-left: 18px;
+    margin-top: 8px;
+
+  }
+  .note_detail_area {
+    width: 450px;
+    margin: 0 auto;
+  }
+  .note_detail_area_title {
+    color: #0d6efd;
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  .note_detail_deep_hr {
+    border: rgba(197, 193, 193, 0.76) 0.8px solid;
+    margin-bottom: 15px;
+
+  }
+  .note_detail_send_id {
+    display: inline-block;
+    float: left;
+
+  }
+  .note_detail_send_date {
+    display: inline-block;
+    float: right;
+
+  }
+  .note_detail_light_hr {
+    border: rgba(220, 217, 217, 0.2) 1px solid;
+    margin-top: 50px;
+  }
+  .note_detail_note_title {
+    float: left;
+    margin: 10px 0;
+  }
+  .note_detail_note_content {
+    width: 100%;
+    height: 400px;
+    margin-top: 40px;
+    padding: 10px 15px;
+    overflow-y: auto;
+  }
+  .note_detail_light_hr02 {
+    border: rgba(220, 217, 217, 0.2) 1px solid;
+    margin-top: 10px;
+
+  }
+  .note_detail_read_date {
+    text-align: right;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .note_detail_button {
+    float: right;
+    margin-top: 20px;
+    margin-right: 15px;
+
+  }
+  .note_detail_delete {
+    margin-left: 15px;
+    background-color: #0d6efd;
+    color: rgb(237, 237, 237);
+    border-radius: 4px;
+    border: none;
+    width: 55px;
+    height: 35px;
+  }
+  .note_detail_back {
+    background-color: #0d6efd;
+    color: rgb(237, 237, 237);
+    border-radius: 4px;
+    border: none;
+    width: 75px;
+    height: 35px;
   }
 
 </style>

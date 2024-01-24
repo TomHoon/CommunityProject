@@ -38,6 +38,10 @@ function updateHitBoard(payload){
     return instance.post('/updateHitBoard', payload)
 }
 
+function getNoteById(payload){
+    return instance.post('/getNoteById', payload)
+}
+
 
 //BoardDetails.vue
 function getOneMember(payload){
@@ -111,6 +115,7 @@ function memberUpdate(payload){
     return instance.post("/memberUpdate", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
 }
 
+
 export {
     getBoardAll,
     searchBoard,
@@ -131,5 +136,6 @@ export {
     loginMember,
     joinOut,
     memberUpdate,
+    getNoteById,
     // Request,
 }
