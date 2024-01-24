@@ -37,7 +37,7 @@ export default {
     methods: {
         setWebSocket() {
             // websocket 생성
-            this.websocket = new WebSocket("ws://localhost:8082/ws/chat");
+            this.websocket = new WebSocket("ws://192.168.25.28:18080/ws/chat");
             this.websocket.onmessage = this.onMessage;	// 소켓이 메세지를 받을 때
             this.websocket.onopen = this.onOpen;		// 소켓이 생성될때(클라이언트 접속)
         },
