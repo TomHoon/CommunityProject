@@ -3,7 +3,10 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: "eslint:recommended",
+  extends: [
+    "eslint:recommended",
+    // "plugin:vue/recommended" //Parsing error 대처법
+  ],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly"
