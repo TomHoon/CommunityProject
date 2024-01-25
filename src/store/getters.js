@@ -1,5 +1,5 @@
 export default {
-    isLogin(state) {
-        return state.id !== '';
-    }
+  isLogin(state) {
+    return state.id !== '';
+  }
 }
