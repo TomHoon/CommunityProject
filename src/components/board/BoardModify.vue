@@ -11,7 +11,9 @@
                     </select>
 					<input type="text" class="form-control title" v-model="board.title" name="title" id="title" placeholder="제목을 입력해 주세요">
 				</div>
-				
+				<div class="mb-4" v-if="board.image_path">
+                    <img :src="board.image_path" alt="" class="content-img">
+                </div>
                 <div class="mb-4">
 					<textarea class="form-control" v-model="board.content" rows="10" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 				</div>
@@ -81,7 +83,6 @@ export default {
             */
             formData.append('param', JSON.stringify(param));
             await updateBoard(formData).catch(error => console.log(error.message));
-            // await addBoard(formData).catch(error => console.log(error.message));
 
             this.$backPage();
         },
@@ -115,5 +116,10 @@ export default {
 }
 .title{
     width: 100%;
+}
+
+.content-img {
+  max-width: 1050px;
+  border-radius: 10px;
 }
 </style>
