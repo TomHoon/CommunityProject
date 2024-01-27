@@ -58,7 +58,7 @@
                                                 &lt;!&ndash; <i class="bi bi-hand-thumbs-down-fill"></i> &ndash;&gt;
                                                 <span>{{item.comment_unrecommend}}</span>
                                               </button>-->
-                      <!-- <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">X</button> -->
+                      <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">X</button>
                     </div>
                     <div>
                       {{item.comment_reg_date}}
