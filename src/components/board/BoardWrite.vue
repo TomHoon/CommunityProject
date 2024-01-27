@@ -11,7 +11,9 @@
                     </select>
 					<input type="text" class="form-control title" v-model="article.title" name="title" id="title" placeholder="제목을 입력해 주세요">
                 </div>
-
+				<div class="mb-4" v-if="ImgPath">
+                    <img :src="ImgPath" alt="" class="content-img">
+                </div>
 				<div class="mb-4">
 					<textarea class="form-control" v-model="article.content" rows="10" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 				</div>
@@ -19,7 +21,7 @@
                     <label for="fileUpload" type="button">
                       <img src="@/assets/fileUpload.svg" style="width:30px; margin-right:5px;"/>
                     </label>
-					<input type="file" id="fileUpload" ref="fileUpload" style="width:210px;">
+					<input type="file" id="fileUpload" ref="fileUpload" style="width:210px;" @change="fileHandler">
 				</div>
 
 			<div style="padding-top:40px; height:0px;">
@@ -33,7 +35,10 @@
 <script>
 import { addBoard } from '@/api/index';
 
+
+
 export default {
+    props: ['pageParams', 'transferObj'],
     data() {
         return {
             article: {
@@ -41,10 +46,11 @@ export default {
                 title: '',
                 content: '',
             },
+            ImgPath : null
         }
     },
     methods: {
-        async fileHandler(e) {
+        fileHandler(e) {
             // console.log(e.target.files[0]);
             // const formData = new FormData();
             // formData.append('uploadFile', e.target.files[0]);
@@ -55,8 +61,12 @@ export default {
             //         'Content-Type': 'multipart/form-data'
             //     }
             // });
-            console.log(e)
-            
+            const file = e.target.files[0];
+            if (file) {
+                // 이미지 파일이 선택된 경우, ImgPath 변수에 파일 경로를 저장
+                this.ImgPath = URL.createObjectURL(file);
+                console.log(this.ImgPath)
+            }
         },
         backPage() {
             this.$backPage();
@@ -96,7 +106,7 @@ export default {
             await addBoard(formData).catch(error => console.log(error.message));
 
             this.$backPage();
-        }
+        },
     }
 }
 </script>
@@ -124,4 +134,8 @@ export default {
     .title{
         width: 100%;
     }
+    .content-img {
+  max-width: 1050px;
+  border-radius: 10px;
+}
 </style>

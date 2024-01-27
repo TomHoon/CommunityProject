@@ -218,6 +218,7 @@ export default {
 
 .content-img {
   max-width: 1050px;
+  border-radius: 10px;
 }
 
 .content-text {
