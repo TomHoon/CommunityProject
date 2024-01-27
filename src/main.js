@@ -24,21 +24,21 @@ import defaultImg from '@/assets/defaultImg.png'
 import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies'
 
 const store = createStore({
-    state() {
-        return {
-            mainLayer: [
-                {pageName: 'Board', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
-            ],
-            defaultImgpath : defaultImg,
+  state() {
+    return {
+      mainLayer: [
+        {pageName: 'Board', pageInfo: {temp: '1234'}, transferObj: {test: '1'}}
+      ],
+      defaultImgpath : defaultImg,
             
-            id : getUserFromCookie() || '',
-            token : getAuthFromCookie() || '',
+      id : getUserFromCookie() || '',
+      token : getAuthFromCookie() || '',
 
-        };
-    },
-    getters,
-    mutations,
-    actions,
+    };
+  },
+  getters,
+  mutations,
+  actions,
 });
 
 export default store;

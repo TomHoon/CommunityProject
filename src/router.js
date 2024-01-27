@@ -3,15 +3,15 @@ import { createWebHistory, createRouter } from 'vue-router';
 import DefaultLayout from "@/components/DefaultLayout";
 
 const routes = [
-    {
-        pate: "/",
-        component: DefaultLayout
-    }
+  {
+    pate: "/",
+    component: DefaultLayout
+  }
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
+  history: createWebHistory(),
+  routes
 });
 
 export default router;

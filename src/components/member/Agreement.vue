@@ -444,8 +444,11 @@ export default {
 .agree2_txt {
   margin-left: 5px;
 }
+/*
 .agreement_wrap {
-}
+
+ }
+*/
 #fregister_term {
   width: 85%;
   margin: 0 auto 30px auto;
