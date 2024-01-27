@@ -79,13 +79,12 @@
 </template>
 
 <script>
-import { addComment, deleteComment, recommendUpDown } from '@/api/index'
+import { addComment, deleteComment, recommendUpDown, getCommentByBoard } from '@/api/index'
 
 export default {
   props: {
     boardDataId : String,
     userId : String,
-    commentList : Array
   },
 
   data() {
@@ -94,10 +93,12 @@ export default {
       comment: true,
       isMobile: true,
       getCommentAll: [],
+      commentList: [],
     }
   },
   mounted() {
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
+    this.updateComment()
   },
   methods: {
     async addComment() {
@@ -162,6 +163,10 @@ export default {
     showComment() {
       this.comment = !this.comment
     },
+    async updateComment() {
+      let res = await getCommentByBoard(this.boardDataId)
+      this.commentList = res.data;
+    }
   },
 }
 </script>

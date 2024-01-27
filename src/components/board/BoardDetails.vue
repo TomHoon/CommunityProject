@@ -50,7 +50,7 @@
       </div>
 
     </div>
-    <Comment :boardDataId="this.boardData.id" :userId="userId" :commentList="commentList"></Comment>
+    <Comment :boardDataId="this.boardData.id" :userId="userId"></Comment>
   </div>
 </template>
 
