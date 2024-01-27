@@ -4,7 +4,6 @@
     <div class="main">
       <div class="title left-align">
         [{{boardData.gubun }}] {{ boardData.title }} <span class="title-comment" v-if="commentList.length > 0"> [{{commentList.length}}] </span>
-        <!-- [{{boardData.gubun }}] {{ boardData.title }} -->
       </div>
 
       <hr>
