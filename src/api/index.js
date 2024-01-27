@@ -41,6 +41,12 @@ function updateHitBoard(payload){
 function getNoteById(payload){
     return instance.post('/getNoteById', payload)
 }
+function findOneNote(payload){
+    return instance.post('/findOneNote', {note_idx:payload})
+}
+function updateReadDate(payload){
+    return instance.post('/updateReadDate', {note_idx:payload})
+}
 
 
 //BoardDetails.vue
@@ -82,7 +88,7 @@ function recommendUpDown(payload){
 
 //BoardModify.vue
 function updateBoard(payload){
-    return instance.post('/updateBoard', payload)
+    return instance.post('/updateBoard', payload);
 }
 
 
@@ -137,5 +143,7 @@ export {
     joinOut,
     memberUpdate,
     getNoteById,
+    findOneNote,
+    updateReadDate,
     // Request,
 }

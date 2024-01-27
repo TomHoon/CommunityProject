@@ -21,7 +21,7 @@
     </div>
     <hr>
     <div class="board-table">
-      <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="detailChain(item)">  
+      <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="detailChain(item)">
         <div class="board-table-cell1">
           <img class="product-img" :src="image_path(item)">
           <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
@@ -77,35 +77,28 @@
       </div>
       <div>
         <button class="ModalNoteInsert" @click="ModalNoteInsert">쪽지보내기</button>
-        <button class="ModalNoteDetail" @click="ModalNoteDetail">쪽지확인</button>
       </div>
       <div class="note_list_chk_area">
         <div class="note_list_check">
           <input type="checkbox" id="note_list_allCheck" class="note_list_allCheck" name="note_list_allCheck">
           <label for="note_list_allCheck">전체선택</label>
         </div>
-        <span class="note_list_allNote">전체쪽지&nbsp; {{noteList.length}}개</span>
+        <span class="note_list_allNote">전체쪽지&nbsp; {{ noteList.length }}개</span>
         <span class="note_list_newNote">새쪽지&nbsp; 개 </span>
       </div>
       <div class="note_list_noteList">
         <div class="note_list_form" v-for="(item, idx) in noteList" :key="idx">
-          <div v-if="noteList.length > 0">
+          <div>
             <hr>
             <div>
               <input type="checkbox" class="note_list_selectChk">
             </div>
-            <div>
+            <div class="note_list_row" @click="ModalNoteDetail(item.note_idx)">
               <strong class="note_list_send_id">{{ item.send_id }}</strong>
-              <div class="note_list_send_date">{{ item.send_date }}</div>
+              <span class="note_list_send_date">{{ item.send_date }}</span>
               <div>
-                <div class="note_list_title">{{ item.note_title }}</div>
+                <span class="note_list_title">{{ item.note_title }}</span>
               </div>
-            </div>
-          </div>
-          <div v-else>
-            <hr>
-            <div>
-              <span>쪽지가 존재하지 않습니다.</span>
             </div>
           </div>
         </div>
@@ -113,8 +106,8 @@
     </div>
   </ModalNoteList>
 
-<!-- 쪽지쓰기 -->
-  <ModalNoteInsert ref="ModalNoteInsert" :width="800" :height="500"  :clickToClose=true>
+  <!-- 쪽지쓰기 -->
+  <ModalNoteInsert ref="ModalNoteInsert" :width="800" :height="500" :clickToClose=true>
     <div class="note_insert_area">
       <span class="note_insert_area_title">쪽지보내기</span>
     </div>
@@ -126,47 +119,51 @@
     </div>
     <div class="note_insert_area_input">
       <div class="note_insert_title_area">
-        <input type="text" placeholder="제목을 입력하세요." v-model="noteInsert.note_title" name="note_title" id="note_title" class="note_title">
+        <input type="text" placeholder="제목을 입력하세요." v-model="noteInsert.note_title" name="note_title" id="note_title"
+               class="note_title">
       </div>
       <div class="send_id_area">
-        <input type="text" placeholder="받는아이디" v-model="noteInsert.send_id" name="send_id" id="send_id" class="send_id" maxlength="13">
-        <button @click="sendIdCheck" class="sendIdCheck">아이디 확인</button>
+        <input type="text" placeholder="받는아이디" v-model="noteInsert.send_id" name="send_id" id="send_id" class="send_id"
+               maxlength="13">
+        <button @click="sendIdCheck()" class="sendIdCheck">아이디 확인</button>
       </div>
       <div class="note_content_area">
-        <textarea placeholder="내용을 입력하세요." v-model="noteInsert.note_content" name="note_content" id="note_content" class="note_content" ></textarea>
+        <textarea placeholder="내용을 입력하세요." v-model="noteInsert.note_content" name="note_content" id="note_content"
+                  class="note_content"></textarea>
       </div>
       <div>
         <button class="note_btn" @click="note_btn">보내기</button>
       </div>
     </div>
   </ModalNoteInsert>
-    <ModalNoteDetail ref="ModalNoteDetail" :width="550" :height="750" :clickToClose=true>
-      <div class="note_detail_area">
-        <div>
-          <marquee direction=right class="note_detail_area_title">[쪽지] data제목 데이터</marquee>
-          <div class="note_detail_deep_hr"></div>
-
-        </div>
-        <div class="note_detail_area_titlePart">
-          <div class="note_detail_send_id">data보낸아이디 데이터</div>
-          <div class="note_detail_send_date">data보낸시간 데이터</div>
-        </div>
-          <div class="note_detail_light_hr"></div>
-        <div class="note_detail_note_title">data쪽지제목 데이터</div>
-          <div class="note_detail_note_content">data쪽지내용 데이터</div>
-        <div class="note_detail_light_hr02"></div>
-          <div class="note_detail_read_date">확인날짜 : data쪽지확인날짜 데이터</div>
-        <div class="note_detail_button">
-          <button class="note_detail_back"  @click="closeModal()">쪽지함</button>
-          <button class="note_detail_delete" @click="note_detail_delete()">삭제</button>
-        </div>
-
+  <ModalNoteDetail ref="ModalNoteDetail" :width="550" :height="750" :clickToClose=true>
+    <div class="note_detail_area">
+      <div>
+        <marquee direction=right class="note_detail_area_title">[쪽지]{{ noteDetail.note_title }}</marquee>
+        <div class="note_detail_deep_hr"></div>
       </div>
+      <div class="note_detail_area_titlePart">
+        <span class="note_detail_send_id">{{ noteDetail.send_id }}</span>
+        <span class="note_detail_send_date">{{ noteDetail.send_date }}</span>
+      </div>
+      <div>
+        <div class="note_detail_light_hr"/>
+        <span class="note_detail_note_title">{{ noteDetail.note_title }}</span>
+        <span class="note_detail_note_content">{{ noteDetail.note_content }}</span>
+        <div class="note_detail_light_hr02"/>
+        <span class="note_detail_read_date">확인날짜 : {{ noteDetail.read_date }}</span>
+      </div>
+      <div class="note_detail_button">
+        <button class="note_detail_back" @click="closeModal()">쪽지함</button>
+        <button class="note_detail_delete" @click="note_detail_delete()">삭제</button>
+      </div>
+
+    </div>
     </ModalNoteDetail>
 
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard, getNoteById,} from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard,updateReadDate,} from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
@@ -197,12 +194,13 @@ import axios from "axios";
         },
         noteGubun: '받은쪽지함',
         noteList: [],
-        send_id: '',
-
-
+        noteDetail: [],
       }
     },
     computed: {},
+    watch: {
+
+    },
     components: {
       ModalNoteInsert,
       ModalNoteList,
@@ -211,17 +209,7 @@ import axios from "axios";
     async mounted() {
       this.$propsWatch();
       this.getBoardAll();
-
-
-      // 함수화시작
-      this.send_id = localStorage.getItem('id');
-      let param = {
-        send_id: this.send_id
-      }
-      const res = await axios.post('/getNoteById', param);
-      console.log("aaa", res.data);
-      this.noteList = res.data;
-      // 함수화 끝
+      this.getNoteById();
     },
     methods: {
       // isLogin() {
@@ -363,9 +351,24 @@ import axios from "axios";
       ModalNoteInsert() {
         this.$refs.ModalNoteInsert.modalOpen();
       },
+      async updateReadDate(payload) {
+        let param = {
+          note_idx: payload,
+        }
+        const res = await axios.post('/updateReadDate', param)
+        this.noteDetail = res.data;
+
+      },
       // 쪽지확인 모달열기
-      ModalNoteDetail() {
+      async ModalNoteDetail(payload) {
         this.$refs.ModalNoteDetail.modalOpen();
+        let param = {
+          note_idx: payload,
+        }
+        updateReadDate(payload);
+        const res = await axios.post('/findOneNote', param)
+        this.noteDetail = res.data;
+
       },
       sendIdCheck() {
         alert("쪽지쓰기 - 아이디 확인")
@@ -373,28 +376,21 @@ import axios from "axios";
       note_btn() {
         alert("쪽지쓰기 - 보내기")
       },
-      note_list_send() {
-        alert("쪽지관리 - 쪽지쓰기")
-      },
-      async getNoteById(payload) {
-        console.log("getNoteById",getNoteById);
-        console.log("payload",payload);
+      async getNoteById() {
+        this.send_id = localStorage.getItem('id');
         let param = {
-          send_id: payload,
+          send_id: this.send_id,
         }
-
-        console.log("param",param);
-
-
-        // this.noteList = res.data;
+        const res = await axios.post('/getNoteById', param);
+        this.noteList = res.data;
       },
       closeModal() {
         this.$refs.ModalNoteDetail.closeModal();
       },
       note_detail_delete() {
         alert("삭제");
-      }
-      }
+      },
+    }
   }
 </script>
 
@@ -633,12 +629,14 @@ import axios from "axios";
     float: left;
   }
   .note_list_send_date {
-    transform: translateX(16rem);
+    text-align: right;
+    display: block;
   }
   .note_list_title {
     text-align: left;
     padding-left: 18px;
     margin-top: 8px;
+    display: block;
 
   }
   .note_detail_area {
@@ -657,12 +655,12 @@ import axios from "axios";
 
   }
   .note_detail_send_id {
-    display: inline-block;
+    display: block;
     float: left;
 
   }
   .note_detail_send_date {
-    display: inline-block;
+    display: block;
     float: right;
 
   }
@@ -673,6 +671,8 @@ import axios from "axios";
   .note_detail_note_title {
     float: left;
     margin: 10px 0;
+    display: block;
+
   }
   .note_detail_note_content {
     width: 100%;
@@ -680,6 +680,9 @@ import axios from "axios";
     margin-top: 40px;
     padding: 10px 15px;
     overflow-y: auto;
+    display: block;
+    text-align: left;
+
   }
   .note_detail_light_hr02 {
     border: rgba(220, 217, 217, 0.2) 1px solid;
@@ -690,6 +693,8 @@ import axios from "axios";
     text-align: right;
     width: 100%;
     margin-top: 10px;
+    display: block;
+
   }
   .note_detail_button {
     float: right;
