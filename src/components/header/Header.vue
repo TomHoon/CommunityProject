@@ -16,9 +16,9 @@
       </div>
 
       <div class="member-area">
-          <button type="button" class="btn mem-btn" v-if="isLogin" @click="memberUpdate">회원수정</button>
-          <button type="button" class="btn log-btn" v-if="isLogin == false" @click="fnJoin">회원가입</button>
-          <button type="button" class="btn log-btn" v-if="isLogin" @click="goChat">채팅테스트</button>
+          <button type="button" class="btn mem-btn" v-if="this.$store.getters.isLogin" @click="memberUpdate">회원수정</button>
+          <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin == false" @click="fnJoin">회원가입</button>
+          <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin" @click="goChat">채팅테스트</button>
           <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
       </div>
     </div>
@@ -31,28 +31,27 @@ import { deleteCookie } from '@/utils/cookies'
   export default {
     data() {
       return {
-        isLogin: false,
         searchWord: '',
         menu: false,
       }
     },
     mounted() {
-      localStorage.getItem("isLogin") ? this.isLogin = true : localStorage.clear();
+      this.$store.getters.isLogin ? this.isLogin = true : this.$store.getters.clearUserAll;
     },
     computed: {
       checkLogin() {
-        return localStorage.getItem("isLogin") ? '로그아웃' : '로그인';
+        return this.$store.getters.isLogin ? '로그아웃' : '로그인';
       },
     },
     methods: {
       searchBoard() {
         this.$emit('searchBoard', this.searchWord);
-        this.$clearLayer( { searchWord : this.searchWord });
+        this.$clearLayer( { searchWord : this.searchWord } );
       },
       async loginOut() {
-        if (this.isLogin) {
-          localStorage.removeItem("isLogin");
-
+        if (this.$store.getters.isLogin) {
+          // localStorage.removeItem("isLogin");
+          
           this.$store.commit('clearId') 
           this.$store.commit('clearToken')
           deleteCookie("token")
@@ -62,8 +61,7 @@ import { deleteCookie } from '@/utils/cookies'
           location.reload();
           return;
         }
-
-        if (!this.isLogin) {
+        else{
           this.$pushContents('Login');
         }
       },
