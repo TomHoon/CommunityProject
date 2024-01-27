@@ -20,7 +20,7 @@ import Header from '@/components/header/Header'
 import HeaderMenu from '@/components/header/HeaderMenu'
 import chat from '@/components/chat'
 import Comment from '@/components/board/Comment'
-import admin from '@/components/admin/adminMain'
+import Admin from '@/components/admin/adminMain'
 
 import defaultImg from '@/assets/defaultImg.png'
 import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies'
@@ -58,7 +58,7 @@ app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
 app.component('BoardModify', BoardModify);
 app.component('Chat', chat);
-app.component('admin', admin)
+app.component('Admin', Admin)
 app.component('Comment', Comment)
 
 app.use(router);

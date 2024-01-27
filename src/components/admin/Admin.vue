@@ -1,7 +1,7 @@
 <template>
 <div>
     관리자 페이지
-    </div>  
+</div>  
 </template>
 
 <script>

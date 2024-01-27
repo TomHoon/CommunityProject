@@ -1,11 +1,16 @@
 import { createWebHistory, createRouter } from 'vue-router';
 
 import DefaultLayout from "@/components/DefaultLayout";
+import Admin from '@/components/admin/Admin'
 
 const routes = [
   {
-    pate: "/",
+    path: "/",
     component: DefaultLayout
+  },
+  {
+    path: '/admin',
+    component: Admin
   }
 ];
 
