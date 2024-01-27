@@ -17,6 +17,7 @@ module.exports = defineConfig({
     proxy: {
       '/': {
         target: 운영,
+        changeOrigin: true,
         ws: true
       }
     }
