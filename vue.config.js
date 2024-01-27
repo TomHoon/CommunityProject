@@ -15,7 +15,7 @@ const 프로토콜 = {
   WS: 'ws://'
 }
 
-const access_point = 운영;  // <-- 🎈🎈 여기만 바꾸면 됨
+const access_point = 개발;  // <-- 🎈🎈 여기만 바꾸면 됨
 
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -27,7 +27,7 @@ module.exports = defineConfig({
         changeOrigin: true,
         ws: false
       },
-      '/ws': {
+      '/ws/chat': {
         target: `${ 프로토콜.WS }${ access_point }`,
         changeOrigin: true,
         ws: true

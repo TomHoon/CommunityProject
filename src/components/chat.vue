@@ -2,14 +2,14 @@
     <div>
         <strong>chatting test</strong>
         <div class="chatting-area">
-            <input type="text" v-model="message">
+            <input type="text" v-model="message" @keyup.enter="send">
             <button @click="send">보내기</button>
         </div>
         <div class="receive-area-wrapper">
            <div class="receive-area">
                 <ul class="receive-area-ul">
                     <!-- TODO: 동적 class명 방법 바꿔야함 -->
-                    <li v-for="(item, index) in receiveMsg" :key="index" :class="{al : 본인아이디 == item.아이디, ar :본인아이디 != item.아이디}">
+                    <li v-for="(item, index) in receiveMsg" :key="index" :class="{ar : 본인아이디 == item.아이디, al :본인아이디 != item.아이디}">
                         <div>
                             <strong :class="{colored: item.아이디 == this.본인아이디}">{{item.아이디 || '익명'}}님 :</strong> {{item.내용}}
                         </div>
@@ -38,7 +38,6 @@ export default {
         setWebSocket() {
             // websocket 생성
             this.websocket = new WebSocket("ws://tomhoon.duckdns.org:18080/ws/chat");
-            // this.websocket = new WebSocket("ws://localhost:8080/ws/chat");
             this.websocket.onmessage = this.onMessage;	// 소켓이 메세지를 받을 때
             this.websocket.onopen = this.onOpen;		// 소켓이 생성될때(클라이언트 접속)
         },
@@ -94,6 +93,7 @@ export default {
         width: 500px;
         height: 500px;
         background:white;
+        overflow-y:scroll
     }
     .receive-area-ul {
         list-style: none;
