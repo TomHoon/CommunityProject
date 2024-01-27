@@ -73,7 +73,7 @@ export default {
                 gubun: this.article.gubun,
                 title: this.article.title,
                 content: this.article.content,
-                writer: localStorage.getItem('id'),
+                writer: this.$store.state.id,
                 recommend: '1',
                 hit: '1',
             };

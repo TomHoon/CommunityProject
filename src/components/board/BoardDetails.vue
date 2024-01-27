@@ -257,7 +257,7 @@ export default {
       }
 
       let param = {
-        member_id: localStorage.getItem('id'),
+        member_id: this.$store.state.id,
         id: this.boardData.id,
         comment_content: this.commentContent
       }
@@ -283,7 +283,7 @@ export default {
        */
       let param = {
         comment_idx: idx,
-        comment_ud_temp_id: localStorage.getItem('id')
+        comment_ud_temp_id: this.$store.state.id
       };
       let key = ['comment_recommend', 'comment_unrecommend'][flag - 1];
       param[key] = 1;
@@ -300,7 +300,7 @@ export default {
       if (!this.$store.getters.isLogin) {
         return false;
       }
-      if (payload == localStorage.getItem('id'))
+      if (payload == this.$store.state.id)
         return true;
 
       return false;
