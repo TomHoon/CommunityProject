@@ -35,7 +35,12 @@ import { updateBoard } from '@/api/index'
 export default {
     data() {
         return {
-            board: {}
+            board: {
+                gubun : '공지',
+                title : '',
+                content : '',
+            }
+
         }
     },
     props: ['pageParams', 'transferObj'],
@@ -44,12 +49,46 @@ export default {
     },
     methods: {
         async modify() {
-            await updateBoard(this.board)
+            if (!this.board.gubun || !this.board.title) {
+                alert("제목, 구분을 모두 채워주세요");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('uploadFile', this.$refs.fileUpload.files[0]);
+            let param = {
+                gubun: this.board.gubun,
+                title: this.board.title,
+                content: this.board.content,
+                writer: this.$store.state.id,
+                recommend: '1',
+                hit: '1',
+            };
+
+            /**
+            * 💕알림1) 
+            * Backend에서 @RequestPart를 사용하기 때문에 
+            * 백엔드 파라미터 변수명과 같이해야함
+            * 
+            * 백엔드에서 받는 파라미터 변수명이
+            * ✨param 이기 때문에 변수명을 그대로 사용해야함
+            * 
+            * 
+            * 💕알림2)
+            * @RequestPart 는 
+            * 데이터 타입을 String으로만 받을 수 있어
+            * stringify 처리함 
+            */
+            formData.append('param', JSON.stringify(param));
+            await updateBoard(formData).catch(error => console.log(error.message));
+            // await addBoard(formData).catch(error => console.log(error.message));
+
             this.$backPage();
         },
         backPage() {
             this.$backPage();
         },
+
     }
 }
 </script>

@@ -79,18 +79,18 @@
 </template>
 
 <script>
-import { getCommentByBoard, addComment, deleteComment, recommendUpDown } from '@/api/index'
+import { addComment, deleteComment, recommendUpDown } from '@/api/index'
 
 export default {
   props: {
     boardDataId : String,
-    userId : String
+    userId : String,
+    commentList : Array
   },
 
   data() {
     return {
       commentContent: '',
-      commentList: [],
       comment: true,
       isMobile: true,
       getCommentAll: [],
@@ -98,13 +98,8 @@ export default {
   },
   mounted() {
     window.innerWidth <= 425 ? this.isMobile = true : this.isMobile = false;
-    this.updateComment()
   },
   methods: {
-    async updateComment() {
-      let res = await getCommentByBoard(this.boardDataId)
-      this.commentList = res.data;
-    },
     async addComment() {
       if (!this.$store.getters.isLogin) {
         alert("로그인 이후 이용 가능합니다.");

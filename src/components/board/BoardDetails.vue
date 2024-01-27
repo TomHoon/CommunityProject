@@ -3,7 +3,8 @@
     <Header></Header>
     <div class="main">
       <div class="title left-align">
-        <!-- [{{boardData.gubun }}] {{ boardData.title }} <span class="title-comment" v-if="commentList.length > 0"> [{{commentList.length}}] </span> -->
+        [{{boardData.gubun }}] {{ boardData.title }} <span class="title-comment" v-if="commentList.length > 0"> [{{commentList.length}}] </span>
+        <!-- [{{boardData.gubun }}] {{ boardData.title }} -->
       </div>
 
       <hr>
@@ -49,13 +50,13 @@
       </div>
 
     </div>
-    <Comment :boardDataId="this.boardData.id" :userId="userId"></Comment>
+    <Comment :boardDataId="this.boardData.id" :userId="userId" :commentList="commentList"></Comment>
   </div>
 </template>
 
 <script>
 import {
-  getOneMember, getOneFile, getBoardById, deleteBoard, updateRecommendBoard
+  getOneMember, getOneFile, getBoardById, deleteBoard, updateRecommendBoard, getCommentByBoard
 }
 from '@/api/index'
 
@@ -67,7 +68,8 @@ export default {
       userInfo: {},
       fileInfo: {},
       imgPath: this.$store.state.defaultImgpath,
-      userId: ''
+      userId: '',
+      commentList: []
     }
   },
   computed: {
@@ -97,6 +99,8 @@ export default {
     if (this.userInfo.userImgPath) {
       this.imgPath = this.userInfo.userImgPath
     }
+
+    this.updateComment()
   },
 
   props: ['pageParams'],
@@ -151,6 +155,10 @@ export default {
       this.hit = data.hit;
       this.recommend = data.recommend;
     },
+    async updateComment() {
+      let res = await getCommentByBoard(this.boardData.id)
+      this.commentList = res.data;
+    }
   },
 }
 </script>
