@@ -10,5 +10,9 @@ export default {
   },
   clearToken(state){
     state.token = '';
-  }
+  },
+  clearUserAll(state){
+    state.token = '';
+    state.id = '';
+  },
 }

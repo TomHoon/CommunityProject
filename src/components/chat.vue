@@ -32,7 +32,7 @@ export default {
     },
     mounted() {
         this.setWebSocket();
-        this.본인아이디 = localStorage.getItem('id');
+        this.본인아이디 = this.$store.state.id
     },
     methods: {
         setWebSocket() {

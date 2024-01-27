@@ -138,7 +138,7 @@ export default {
     };
   },
   async mounted() {
-    const getOneMemberRes = await getOneMember(localStorage.getItem('id'))
+    const getOneMemberRes = await getOneMember(this.$store.state.id)
     this.memberInfo = getOneMemberRes.data;
 
     const getOneFileRes = await getOneFile(this.memberInfo.file_idx)
@@ -184,7 +184,7 @@ export default {
         const res = await joinOut({ member_id:this.memberInfo.member_id, member_pw:this.memberInfo.member_pw })
         if(res.data == "삭제완료"){
           alert("회원 탈퇴 처리 되었습니다.")
-          localStorage.clear();
+          // localStorage.clear();
           this.$clearLayer();
         }else{
           alert("회원 탈퇴 처리에 실패했습니다.")

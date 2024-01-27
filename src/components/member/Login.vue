@@ -43,7 +43,7 @@ export default {
     transferObj: Object,
   },
   mounted() {
-    localStorage.getItem("isLogin") ? this.$pushContents('Board') : '';
+    this.$store.getters.isLogin ? this.$pushContents('Board') : '';
   },
   // 💕메소드 첫 알파벳은 소문자로 표기
   methods: {
@@ -66,8 +66,8 @@ export default {
       if(res.data.result == 0 || res.data.result == -1){
         alert("아이디 또는 비밀번호가 틀렸습니다. \n다시 입력해주세요.")
         }else{
-          localStorage.setItem("isLogin", true)
-          localStorage.setItem("id", res.data.userid)
+          // localStorage.setItem("isLogin", true)
+          // localStorage.setItem("id", res.data.userid)
 
           this.$store.commit('setToken', res.data.token)
           this.$store.commit('setId', res.data.userid)
