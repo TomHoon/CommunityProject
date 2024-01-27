@@ -139,7 +139,7 @@
   <ModalNoteDetail ref="ModalNoteDetail" :width="550" :height="750" :clickToClose=true>
     <div class="note_detail_area">
       <div>
-        <marquee direction=right class="note_detail_area_title">[쪽지]{{ noteDetail.note_title }}</marquee>
+        <div direction=right class="note_detail_area_title">[쪽지]{{ noteDetail.note_title }}</div>
         <div class="note_detail_deep_hr"></div>
       </div>
       <div class="note_detail_area_titlePart">
@@ -263,8 +263,8 @@ import axios from "axios";
         }
         this.$pushContents('BoardWrite');
       },
-      goDetails(payload) {
-        this.$pushContents('BoardDetails', {boardData: payload});
+      goDetails(item) {
+        this.$pushContents('BoardDetails', {boardData: item});
       },
       async upHit(payload) {
         let param = {
