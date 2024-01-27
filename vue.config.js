@@ -1,8 +1,8 @@
 const { defineConfig } = require('@vue/cli-service')
 
-const 사설ip = 'http://192.168.25.28:18080';
-const 운영 = 'http://tomhoon.duckdns.org:18080';
-const 개발 = 'http://localhost:8082';
+const 사설ip = '192.168.25.28:18080';
+const 운영 = 'tomhoon.duckdns.org:18080';
+const 개발 = 'localhost:8082';
 
 /**
  * 프론트개발시 - 운영
@@ -10,16 +10,28 @@ const 개발 = 'http://localhost:8082';
  * 튜브만 해당 - 사설ip
  */
 
+const 프로토콜 = {
+  API: 'http://',
+  WS: 'ws://'
+}
+
+const access_point = 운영;  // <-- 🎈🎈 여기만 바꾸면 됨
+
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave:false,
   devServer: {
     proxy: {
       '/': {
-        target: 운영,
+        target: `${ 프로토콜.API }${ access_point }`,
+        changeOrigin: true,
+        ws: false
+      },
+      '/ws': {
+        target: `${ 프로토콜.WS }${ access_point }`,
         changeOrigin: true,
         ws: true
-      }
+      },
     }
   },
 })
