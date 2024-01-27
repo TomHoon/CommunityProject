@@ -20,7 +20,7 @@ import Header from '@/components/header/Header'
 import HeaderMenu from '@/components/header/HeaderMenu'
 import chat from '@/components/chat'
 import Comment from '@/components/board/Comment'
-import Admin from '@/components/admin/adminMain'
+import Admin from '@/components/admin/Admin'
 
 import defaultImg from '@/assets/defaultImg.png'
 import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies'
