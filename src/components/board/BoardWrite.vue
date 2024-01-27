@@ -65,7 +65,6 @@ export default {
             if (file) {
                 // 이미지 파일이 선택된 경우, ImgPath 변수에 파일 경로를 저장
                 this.ImgPath = URL.createObjectURL(file);
-                console.log(this.ImgPath)
             }
         },
         backPage() {
