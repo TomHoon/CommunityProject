@@ -117,7 +117,7 @@ export default {
 
       let param = {
         member_id: this.$store.state.id,
-        id: this.boardData.id,
+        id: this.boardDataId,
         comment_content: this.commentContent
       }
       await addComment(param)
