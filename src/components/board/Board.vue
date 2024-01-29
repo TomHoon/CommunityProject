@@ -123,7 +123,7 @@
                class="note_title">
       </div>
       <div class="send_id_area">
-        <input type="text" placeholder="받는아이디" v-model="noteInsert.send_id" name="send_id" id="send_id" class="send_id"
+        <input type="text" placeholder="받는아이디" v-model="noteInsert.recv_id" name="recv_id" id="recv_id" class="recv_id"
                maxlength="13">
         <button @click="sendIdCheck()" class="sendIdCheck">아이디 확인</button>
       </div>
@@ -143,7 +143,7 @@
         <div class="note_detail_deep_hr"></div>
       </div>
       <div class="note_detail_area_titlePart">
-        <span class="note_detail_send_id">{{ noteDetail.send_id }}</span>
+        <strong class="note_detail_send_id">{{ noteDetail.send_id }}</strong>
         <span class="note_detail_send_date">{{ noteDetail.send_date }}</span>
       </div>
       <div>
@@ -151,11 +151,12 @@
         <span class="note_detail_note_title">{{ noteDetail.note_title }}</span>
         <span class="note_detail_note_content">{{ noteDetail.note_content }}</span>
         <div class="note_detail_light_hr02"/>
-        <span class="note_detail_read_date">확인날짜 : {{ noteDetail.read_date }}</span>
+        <span class="note_detail_read_date">확인날짜 : {{noteDetail.read_date}}</span>
+        <span class="note_detail_read_date">확인날짜 : {{ noteDetail.read_last_date }}</span>
       </div>
       <div class="note_detail_button">
         <button class="note_detail_back" @click="closeModal()">쪽지함</button>
-        <button class="note_detail_delete" @click="note_detail_delete()">삭제</button>
+        <button class="note_detail_delete" @click="deleteNote(payload)">삭제</button>
       </div>
 
     </div>
@@ -163,7 +164,7 @@
 
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard,updateReadDate,} from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, updateReadDate, deleteNote, deleteBoard} from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
@@ -188,13 +189,14 @@ import axios from "axios";
         default_image_path: comhubImg,
         hovering: false,
         noteInsert: {
-          send_id: '',
+          recv_id: '',
           note_title: '',
           note_content: '',
         },
         noteGubun: '받은쪽지함',
         noteList: [],
         noteDetail: [],
+        findId: 'N',
       }
     },
     computed: {},
@@ -210,6 +212,7 @@ import axios from "axios";
       this.$propsWatch();
       this.getBoardAll();
       this.getNoteById();
+
     },
     methods: {
       // isLogin() {
@@ -345,11 +348,18 @@ import axios from "axios";
       },
       // 쪽지리스트 모달열기
       ModalNoteList() {
+        if (!this.$store.getters.isLogin) {
+          alert("로그인 이후 이용 가능합니다.");
+          return;
+        }
         this.$refs.ModalNoteList.modalOpen();
+        console.log("localStorage.getItem('id') = ", this.$store.state.id,);
+
       },
       // 쪽지쓰기 모달열기
       ModalNoteInsert() {
         this.$refs.ModalNoteInsert.modalOpen();
+
       },
       async updateReadDate(payload) {
         let param = {
@@ -357,6 +367,7 @@ import axios from "axios";
         }
         const res = await axios.post('/updateReadDate', param)
         this.noteDetail = res.data;
+        console.log("noteDetailnoteDetail = ", this.noteDetail);
 
       },
       // 쪽지확인 모달열기
@@ -368,16 +379,50 @@ import axios from "axios";
         updateReadDate(payload);
         const res = await axios.post('/findOneNote', param)
         this.noteDetail = res.data;
+        console.log("res.detail data", res.data);
 
       },
-      sendIdCheck() {
-        alert("쪽지쓰기 - 아이디 확인")
+      async sendIdCheck() {
+        if(this.noteInsert.recv_id == ''){
+          alert("아이디를 입력해주세요.")
+          return false;
+        }
+        let param = {
+          member_id: this.noteInsert.recv_id,
+        }
+        const res = await axios.post('/findIdNote', param);
+        if (res.data == '1') {
+          this.findId = 'Y';
+          alert("확인되었습니다.")
+
+        } else {
+          alert("잘못된 아이디 입니다.")
+
+        }
+
       },
-      note_btn() {
-        alert("쪽지쓰기 - 보내기")
+
+      async note_btn() {
+        if(this.findId == 'N') {
+          alert("아이디 확인 바랍니다.")
+          return false;
+        }
+        this.send_id = this.$store.state.id;
+
+        let noteParam = {
+          send_id: this.send_id,
+          note_title : this.noteInsert.note_title,
+          recv_id : this.noteInsert.recv_id,
+          note_content : this.noteInsert.note_content,
+        };
+
+        const res = await axios.post('/insertNote', noteParam);
+        this.noteList = res.data;
+        location.reload();
+
       },
       async getNoteById() {
-        this.send_id = localStorage.getItem('id');
+        this.send_id = this.$store.state.id;
         let param = {
           send_id: this.send_id,
         }
@@ -387,8 +432,14 @@ import axios from "axios";
       closeModal() {
         this.$refs.ModalNoteDetail.closeModal();
       },
-      note_detail_delete() {
-        alert("삭제");
+      async deleteNote(payload) {
+        if (confirm("체크 된 쪽지를 삭제하시겠습니까?")) {
+          await (deleteNote(this.noteDetail.note_idx))
+          alert("쪽지가 삭제되었습니다.");
+          location.reload();
+        }else
+          alert("취소하였습니다.")
+
       },
     }
   }
@@ -528,7 +579,7 @@ import axios from "axios";
   .send_id_area {
     margin-bottom: 10px;
   }
-  .send_id {
+  .recv_id {
     width: 500px;
     margin-right: 60px;
     height: 40px;

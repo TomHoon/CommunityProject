@@ -50,6 +50,12 @@ function updateReadDate(payload){
 function deleteNote(payload){
     return instance.post('/deleteNote', {note_idx:payload})
 }
+function insertNote(payload){
+    return instance.post('/insertNote', payload)
+}
+function findIdNote(payload){
+    return instance.post('/findIdNote', payload)
+}
 
 
 //BoardDetails.vue
@@ -149,5 +155,7 @@ export {
     findOneNote,
     updateReadDate,
     deleteNote,
+    insertNote,
+    findIdNote,
     // Request,
 }
