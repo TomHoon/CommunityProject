@@ -3,7 +3,7 @@
     <img src="@/assets/comhub.png" class="logo">
     <div class="tit" title="로그인">관리자</div>
   </div>
-  <form @submit.prevent="login">
+  <form @submit.prevent="login" class="login_form">
       <div class="id_form">
         <input type="text" id="id" v-model="id" class="id" placeholder="아이디"
               autocomplete="off">
@@ -45,7 +45,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
 }
 .logo{
   margin-right: 5px;
