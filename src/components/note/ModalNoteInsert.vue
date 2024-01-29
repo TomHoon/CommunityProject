@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-if="isOpen" @click="closeModalOutside">
+  <div class="modal" v-if="isOpen">
 
     <div class="modal-content" :style="{ width: width+'px', height: height+'px' }">
       <i class="fa-solid fa-x modal-close" @click="closeModal"></i>
