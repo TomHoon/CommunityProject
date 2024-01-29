@@ -1,6 +1,8 @@
 <template>
 <div>
-    관리자 페이지
+    <!-- <form> -->
+        메인페이지
+    <!-- </form> -->
 </div>  
 </template>
 
