@@ -5,8 +5,14 @@
 </template>
 
 <script>
-export default {
+import { getBoardAll } from '@/api/index'
 
+export default {
+    data() {
+        return {
+            
+        }
+    },
 }
 </script>
 

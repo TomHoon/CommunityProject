@@ -4,6 +4,7 @@ import DefaultLayout from "@/components/DefaultLayout";
 import Admin from '@/components/admin/Admin'
 import AdminLogin from '@/components/admin/AdminLogin'
 import NotFound from '@/components/admin/NotFound'
+import Error from '@/components/admin/Error'
 
 const routes = [
   {
@@ -21,6 +22,10 @@ const routes = [
   {
     path: '/NotFound',
     component: NotFound
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: Error
   }
 ];
 
