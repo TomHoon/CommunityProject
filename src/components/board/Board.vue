@@ -170,6 +170,7 @@ import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
 import ModalNoteDetail from '@/components/note/ModalNoteDetail.vue';
 import axios from "axios";
+import dayjs from 'dayjs'
 
   export default {
     props: ['pageParams', 'transferObj'],
@@ -197,6 +198,7 @@ import axios from "axios";
         noteList: [],
         noteDetail: [],
         findId: 'N',
+        recruit_endperiod: dayjs().format("YYYY/MM/DD"),
       }
     },
     computed: {},
@@ -207,12 +209,13 @@ import axios from "axios";
       ModalNoteInsert,
       ModalNoteList,
       ModalNoteDetail,
+      dayjs,
     },
     async mounted() {
       this.$propsWatch();
       this.getBoardAll();
       this.getNoteById();
-
+      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
     },
     methods: {
       // isLogin() {
@@ -361,13 +364,15 @@ import axios from "axios";
         this.$refs.ModalNoteInsert.modalOpen();
 
       },
+      // 쪽지 상세클릭(데이터변경)
       async updateReadDate(payload) {
         let param = {
           note_idx: payload,
+          read_last_date : this.currentDate
         }
         const res = await axios.post('/updateReadDate', param)
         this.noteDetail = res.data;
-        console.log("noteDetailnoteDetail = ", this.noteDetail);
+        // console.log("noteDetailnoteDetail = ", this.noteDetail);
 
       },
       // 쪽지확인 모달열기
@@ -375,13 +380,15 @@ import axios from "axios";
         this.$refs.ModalNoteDetail.modalOpen();
         let param = {
           note_idx: payload,
+
         }
-        updateReadDate(payload);
+        await this.updateReadDate(payload);
         const res = await axios.post('/findOneNote', param)
         this.noteDetail = res.data;
         console.log("res.detail data", res.data);
 
       },
+      // 쪽지보내기 - 아이디 확인
       async sendIdCheck() {
         if(this.noteInsert.recv_id == ''){
           alert("아이디를 입력해주세요.")
@@ -397,23 +404,24 @@ import axios from "axios";
 
         } else {
           alert("잘못된 아이디 입니다.")
-
         }
 
       },
-
+      // 쪽지보내기 - 보내기버튼
       async note_btn() {
         if(this.findId == 'N') {
           alert("아이디 확인 바랍니다.")
           return false;
         }
-        this.send_id = this.$store.state.id;
 
+        this.send_id = this.$store.state.id;
         let noteParam = {
           send_id: this.send_id,
           note_title : this.noteInsert.note_title,
           recv_id : this.noteInsert.recv_id,
           note_content : this.noteInsert.note_content,
+          read_yn : false,
+          read_date : this.currentDate,
         };
 
         const res = await axios.post('/insertNote', noteParam);
@@ -421,6 +429,7 @@ import axios from "axios";
         location.reload();
 
       },
+      // 쪽지리스트 불러오기
       async getNoteById() {
         this.send_id = this.$store.state.id;
         let param = {
@@ -429,9 +438,11 @@ import axios from "axios";
         const res = await axios.post('/getNoteById', param);
         this.noteList = res.data;
       },
+      // 쪽지상세보기 닫기
       closeModal() {
         this.$refs.ModalNoteDetail.closeModal();
       },
+      // 쪽지 삭제
       async deleteNote(payload) {
         if (confirm("체크 된 쪽지를 삭제하시겠습니까?")) {
           await (deleteNote(this.noteDetail.note_idx))
