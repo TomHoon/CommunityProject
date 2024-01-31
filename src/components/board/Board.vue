@@ -70,19 +70,15 @@
         <span class="note_list_area_title">쪽지함</span>
       </div>
       <div>
-        <select class="note_select" v-model="noteGubun" aria-label="Default select example">
-          <option value="받은쪽지함">받은쪽지함</option>
-          <option value="보낸쪽지함">보낸쪽지함</option>
+        <select class="note_select" @change="noteGubun($event)" aria-label="Default select example">
+          <option value="recvNote" :value="recvNote" selected>받은쪽지함</option>
+          <option value="sendNote" :value="sendNote">보낸쪽지함</option>
         </select>
       </div>
       <div>
         <button class="ModalNoteInsert" @click="ModalNoteInsert">쪽지보내기</button>
       </div>
       <div class="note_list_chk_area">
-        <div class="note_list_check">
-          <input type="checkbox" id="note_list_allCheck" class="note_list_allCheck" name="note_list_allCheck">
-          <label for="note_list_allCheck">전체선택</label>
-        </div>
         <span class="note_list_allNote">전체쪽지&nbsp; {{ noteList.length }}개</span>
         <span class="note_list_newNote">새쪽지&nbsp; 개 </span>
       </div>
@@ -90,9 +86,6 @@
         <div class="note_list_form" v-for="(item, idx) in noteList" :key="idx">
           <div>
             <hr>
-            <div>
-              <input type="checkbox" class="note_list_selectChk">
-            </div>
             <div class="note_list_row" @click="ModalNoteDetail(item.note_idx)">
               <strong class="note_list_send_id">{{ item.send_id }}</strong>
               <span class="note_list_send_date">{{ item.send_date }}</span>
@@ -120,11 +113,11 @@
     <div class="note_insert_area_input">
       <div class="note_insert_title_area">
         <input type="text" placeholder="제목을 입력하세요." v-model="noteInsert.note_title" name="note_title" id="note_title"
-               class="note_title">
+               class="note_title" autocomplete="off">
       </div>
       <div class="send_id_area">
         <input type="text" placeholder="받는아이디" v-model="noteInsert.recv_id" name="recv_id" id="recv_id" class="recv_id"
-               maxlength="13">
+               maxlength="13" :disabled="findId == 'Y'" autocomplete="off">
         <button @click="sendIdCheck()" class="sendIdCheck">아이디 확인</button>
       </div>
       <div class="note_content_area">
@@ -152,11 +145,11 @@
         <span class="note_detail_note_content">{{ noteDetail.note_content }}</span>
         <div class="note_detail_light_hr02"/>
         <span class="note_detail_read_date">확인날짜 : {{noteDetail.read_date}}</span>
-        <span class="note_detail_read_date">확인날짜 : {{ noteDetail.read_last_date }}</span>
       </div>
       <div class="note_detail_button">
         <button class="note_detail_back" @click="closeModal()">쪽지함</button>
-        <button class="note_detail_delete" @click="deleteNote(payload)">삭제</button>
+        <button class="note_detail_delete" v-show="recvShow" @click="deleteRecv()">삭제</button>
+        <button class="note_detail_delete" v-show="!recvShow" @click="deleteSend()">삭제</button>
       </div>
 
     </div>
@@ -164,7 +157,7 @@
 
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard, updateReadDate, deleteNote, deleteBoard} from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend} from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
@@ -194,11 +187,12 @@ import dayjs from 'dayjs'
           note_title: '',
           note_content: '',
         },
-        noteGubun: '받은쪽지함',
         noteList: [],
         noteDetail: [],
         findId: 'N',
-        recruit_endperiod: dayjs().format("YYYY/MM/DD"),
+        sendList: [],
+        recvList: [],
+        recvShow: true,
       }
     },
     computed: {},
@@ -215,7 +209,7 @@ import dayjs from 'dayjs'
       this.$propsWatch();
       this.getBoardAll();
       this.getNoteById();
-      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')+"";
     },
     methods: {
       // isLogin() {
@@ -356,13 +350,10 @@ import dayjs from 'dayjs'
           return;
         }
         this.$refs.ModalNoteList.modalOpen();
-        console.log("localStorage.getItem('id') = ", this.$store.state.id,);
-
       },
       // 쪽지쓰기 모달열기
       ModalNoteInsert() {
         this.$refs.ModalNoteInsert.modalOpen();
-
       },
       // 쪽지 상세클릭(데이터변경)
       async updateReadDate(payload) {
@@ -372,21 +363,17 @@ import dayjs from 'dayjs'
         }
         const res = await axios.post('/updateReadDate', param)
         this.noteDetail = res.data;
-        // console.log("noteDetailnoteDetail = ", this.noteDetail);
-
       },
-      // 쪽지확인 모달열기
+      // 쪽지상세확인 모달열기
       async ModalNoteDetail(payload) {
         this.$refs.ModalNoteDetail.modalOpen();
         let param = {
           note_idx: payload,
-
         }
         await this.updateReadDate(payload);
         const res = await axios.post('/findOneNote', param)
         this.noteDetail = res.data;
         console.log("res.detail data", res.data);
-
       },
       // 쪽지보내기 - 아이디 확인
       async sendIdCheck() {
@@ -401,57 +388,89 @@ import dayjs from 'dayjs'
         if (res.data == '1') {
           this.findId = 'Y';
           alert("확인되었습니다.")
-
         } else {
           alert("잘못된 아이디 입니다.")
         }
-
       },
       // 쪽지보내기 - 보내기버튼
       async note_btn() {
-        if(this.findId == 'N') {
+        if (this.findId == 'N') {
           alert("아이디 확인 바랍니다.")
           return false;
         }
-
+        if (this.noteInsert.note_title == '') {
+          alert("제목을 입력해주세요.")
+          return false;
+        }
+        if (this.noteInsert.note_content == '') {
+          alert("내용을 입력해주세요.")
+          return false;
+        }
         this.send_id = this.$store.state.id;
         let noteParam = {
           send_id: this.send_id,
-          note_title : this.noteInsert.note_title,
-          recv_id : this.noteInsert.recv_id,
-          note_content : this.noteInsert.note_content,
-          read_yn : false,
-          read_date : this.currentDate,
+          note_title: this.noteInsert.note_title,
+          recv_id: this.noteInsert.recv_id,
+          note_content: this.noteInsert.note_content,
+          read_yn: false,
+          read_date: this.currentDate,
+          read_last_date: this.currentDate
         };
-
         const res = await axios.post('/insertNote', noteParam);
         this.noteList = res.data;
         location.reload();
-
       },
       // 쪽지리스트 불러오기
       async getNoteById() {
-        this.send_id = this.$store.state.id;
-        let param = {
-          send_id: this.send_id,
+        this.recv_id = this.$store.state.id;
+        let recvParam = {
+          recv_id: this.recv_id,
         }
-        const res = await axios.post('/getNoteById', param);
+        const res = await axios.post('/recvList', recvParam);
         this.noteList = res.data;
+      },
+      async noteGubun($event) {
+        if ($event.target.value == 'recvNote') { // 받은편지함 불러오기
+          let recvParam = {
+            recv_id: this.$store.state.id
+          }
+          this.recvShow = true; // 받은편지함 삭제버튼
+          const res = await axios.post('/recvList', recvParam);
+          this.noteList = res.data;
+        }
+        if ($event.target.value == 'sendNote') { // 보낸편지함 불러오기
+          let sendParam = {
+            send_id: this.$store.state.id
+          }
+          this.recvShow = false; // 보낸편지함 삭제버튼
+          const res = await axios.post('/sendList', sendParam);
+          this.noteList = res.data;
+        }
       },
       // 쪽지상세보기 닫기
       closeModal() {
         this.$refs.ModalNoteDetail.closeModal();
       },
       // 쪽지 삭제
-      async deleteNote(payload) {
-        if (confirm("체크 된 쪽지를 삭제하시겠습니까?")) {
-          await (deleteNote(this.noteDetail.note_idx))
+      async deleteRecv() {
+        if (confirm("쪽지를 삭제하시겠습니까?")) {
+          await (deleteRecv(this.noteDetail.note_idx))
           alert("쪽지가 삭제되었습니다.");
           location.reload();
-        }else
+        } else
           alert("취소하였습니다.")
 
       },
+      async deleteSend() {
+        if (confirm("쪽지를 삭제하시겠습니까?")) {
+          await (deleteSend(this.noteDetail.note_idx))
+          alert("쪽지가 삭제되었습니다.");
+          location.reload();
+        } else
+          alert("취소하였습니다.")
+
+      },
+
     }
   }
 </script>
@@ -661,13 +680,6 @@ import dayjs from 'dayjs'
   .note_list_chk_area{
     margin-top: 15px;
   }
-  .note_list_check {
-    float: left;
-
-  }
-  .note_list_allCheck {
-    margin-right: 5px;
-  }
   .note_list_newNote {
     float: right;
     margin-right: 15px;
@@ -681,13 +693,8 @@ import dayjs from 'dayjs'
   .note_list_form {
     margin-top: 10px;
   }
-  .note_list_selectChk {
-    float: left;
-    margin-top: 4px;
-    margin-right: 5px;
-
-  }
   .note_list_send_id {
+    margin-left: 17px;
     float: left;
   }
   .note_list_send_date {

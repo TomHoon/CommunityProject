@@ -38,8 +38,11 @@ function updateHitBoard(payload){
     return instance.post('/updateHitBoard', payload)
 }
 
-function getNoteById(payload){
-    return instance.post('/getNoteById', payload)
+function sendList(payload){
+    return instance.post('/sendList', payload)
+}
+function recvList(payload){
+    return instance.post('/recvList', payload)
 }
 function findOneNote(payload){
     return instance.post('/findOneNote', {note_idx:payload})
@@ -47,8 +50,11 @@ function findOneNote(payload){
 function updateReadDate(payload){
     return instance.post('/updateReadDate', {note_idx:payload})
 }
-function deleteNote(payload){
-    return instance.post('/deleteNote', {note_idx:payload})
+function deleteRecv(payload){
+    return instance.post('/deleteRecv', {note_idx:payload})
+}
+function deleteSend(payload){
+    return instance.post('/deleteSend', {note_idx:payload})
 }
 function insertNote(payload){
     return instance.post('/insertNote', payload)
@@ -151,10 +157,12 @@ export {
     loginMember,
     joinOut,
     memberUpdate,
-    getNoteById,
+    sendList,
+    recvList,
     findOneNote,
     updateReadDate,
-    deleteNote,
+    deleteRecv,
+    deleteSend,
     insertNote,
     findIdNote,
     // Request,
