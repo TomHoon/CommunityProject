@@ -3,9 +3,10 @@
   <div class="board-container">
     <div class="top-box">
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
-      <span class="message_image note_modalOpen" @mouseover="hovering = true" @mouseout="hovering = false"  @click="ModalNoteList">
-        <img src="@/assets/icons8-message_white-48.png" v-show="!hovering" alt="쪽지함" class="message_white_btn" title="쪽지함">
-        <img src="@/assets/icons8-message_black-64.png" v-show="hovering" alt="쪽지함" class="message_black_btn" title="쪽지함">
+      <span class="message_image note_modalOpen"  @click="ModalNoteList">
+        <img src="@/assets/icons8-message_white-48.png" alt="쪽지함" class="message_white_btn" title="쪽지함">
+        <span class="countRecvChk">1</span>
+
       </span>
       <button type="button" class="btn btn-primary right-btn" @click="changeBest">베스트</button>
       <button type="button" class="btn btn-primary right-btn" @click="changeCreateTime">날짜순</button>
@@ -181,7 +182,6 @@ import dayjs from 'dayjs'
         bestToggle: false,
         searchData: '',
         default_image_path: comhubImg,
-        hovering: false,
         noteInsert: {
           recv_id: '',
           note_title: '',
@@ -564,17 +564,25 @@ import dayjs from 'dayjs'
     margin-left: 20px;
     width: 40px;
     height: 40px;
-  }
-  .message_image:hover {
-    background-image: url('@/assets/icons8-message_black-64.png');
+    z-index: 1;
+
   }
   .message_white_btn {
     width: 50px;
     height: 55px;
     transform: translate(-3px, -5px);
+    cursor: pointer;
   }
-  .message_black_btn {
-    transform: translate(-10px, -10px);
+  .countRecvChk {
+    box-sizing: border-box;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background-color: #cb0303;
+    z-index: 2;
+    transform: translate(2rem, -4rem);
+    display: block;
+    color: white;
   }
   .note_insert_area_title {
     color: #0d6efd;
