@@ -362,9 +362,10 @@ import dayjs from 'dayjs'
       async updateReadDate(payload) {
         let param = {
           note_idx: payload,
-          read_date : this.currentDate,
-          read_last_date : this.currentDate
+          read_date: this.currentDate,
+          read_last_date: this.currentDate
         }
+        //------------------------------------------------------------------------처리중
         const res = await axios.post('/updateReadDate', param)
         this.noteDetail = res.data;
         console.log("res" ,res)
@@ -378,8 +379,12 @@ import dayjs from 'dayjs'
           note_idx: payload,
         }
         await this.updateReadDate(payload); // 쪽지 상세클릭(데이터변경) 함수
-        this.countReadYN(); // 새쪽지 카운터 함수
+
+        await this.countReadYN(); // 새쪽지 카운터 함수
         const res = await axios.post('/findOneNote', param)
+        // if(res.data.read_yn == 1) {
+        //   res.data.read_date = '';
+        // }
         this.noteDetail = res.data;
         console.log("res.detail data", res.data);
       },
@@ -420,6 +425,7 @@ import dayjs from 'dayjs'
           note_title: this.noteInsert.note_title,
           recv_id: this.noteInsert.recv_id,
           note_content: this.noteInsert.note_content,
+          send_date: this.currentDate,
           read_yn: false,
         };
         const res = await axios.post('/insertNote', noteParam);
@@ -458,7 +464,7 @@ import dayjs from 'dayjs'
         this.$refs.ModalNoteDetail.closeModal();
       },
       // 쪽지 삭제
-      async deleteRecv() {
+      async deleteRecv() { // 받은쪽지함 삭제
         if (confirm("쪽지를 삭제하시겠습니까?")) {
           await (deleteRecv(this.noteDetail.note_idx))
           alert("쪽지가 삭제되었습니다.");
@@ -467,7 +473,7 @@ import dayjs from 'dayjs'
           alert("취소하였습니다.")
 
       },
-      async deleteSend() {
+      async deleteSend() { // 보낸쪽지함 삭제
         if (confirm("쪽지를 삭제하시겠습니까?")) {
           await (deleteSend(this.noteDetail.note_idx))
           alert("쪽지가 삭제되었습니다.");
@@ -475,6 +481,7 @@ import dayjs from 'dayjs'
         } else
           alert("취소하였습니다.")
       },
+      // 새쪽지 갯수
       async countReadYN() {
         let countParam = {
           recv_id: this.$store.state.id
