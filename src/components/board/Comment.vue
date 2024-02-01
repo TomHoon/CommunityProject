@@ -27,23 +27,24 @@
                 <td>
                   <div class="thumbs-area">
                     <div class="thumbs-area-buttons">
-                      <button @click="recommendUpDown(1, item.comment_idx)" >
+                      <button @click="recommendUpDown(1, item.comment_idx)" class="up-btn">
                         <!-- 색상 안들어간 따봉 up -->
                         <i class="bi bi-hand-thumbs-up" v-if="(!item.comment_up_id_list.includes(userId))"></i>
                         <!-- 색상 들어간 따봉 up-->
                         <i class="bi bi-hand-thumbs-up-fill" v-else></i>
                         <span>{{item.comment_recommend}}</span>
                       </button>
-                      <button @click="recommendUpDown(2, item.comment_idx)">
+
+                      <button @click="recommendUpDown(2, item.comment_idx)" class="down-btn">
                         <!-- 색상 안 들어간 따봉 up-->
                         <i class="bi bi-hand-thumbs-down" v-if="(!item.comment_down_id_list.includes(userId))" ></i>
                         <!-- 색상 들어간 따봉 down-->
                         <i class="bi bi-hand-thumbs-down-fill" v-else></i>
                         <span>{{item.comment_unrecommend}}</span>
                       </button>
-                      <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">X</button>
+                    <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">x</button>
                     </div>
-                    <div>
+                    <div class="comment-reg-date">
                       {{item.comment_reg_date}}
                     </div>
                   </div>
@@ -220,14 +221,24 @@ export default {
 }
 
 .thumbs-area button {
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  text-decoration: none;
+  border:none;
 }
 
 .thumbs-area-buttons {
   width: 100%;
+  text-align: center;
+}
+
+.up-btn{
+  color:#0d6efd
+}
+
+.down-btn{
+  color: red;
+}
+
+.comment-reg-date {
+  text-align: center;
 }
 
 .comment-write-area {
@@ -237,7 +248,6 @@ export default {
 
 .comment-form {
   box-sizing: border-box;
-  /* border: 1px solid gray; */
   width: 900px;
   height: 200px;
   margin: 30px auto;
