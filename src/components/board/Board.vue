@@ -165,7 +165,6 @@ import ModalNoteList from '@/components/note/ModalNoteList.vue';
 import ModalNoteDetail from '@/components/note/ModalNoteDetail.vue';
 import axios from "axios";
 import dayjs from 'dayjs'
-
   export default {
     props: ['pageParams', 'transferObj'],
     data() {
@@ -195,6 +194,7 @@ import dayjs from 'dayjs'
         recvShow: true,
         readCount: '',
         NoteSelected: 'recvNote',
+        // newNote : this.readCount,
       }
     },
     computed: {
@@ -213,6 +213,7 @@ import dayjs from 'dayjs'
       this.getNoteById(); // 쪽지리스트
       this.countReadYN(); // 받은쪽지갯수
       this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      console.log("this.readCount" , this.readCount.data)
     },
     methods: {
       // isLogin() {
@@ -368,9 +369,6 @@ import dayjs from 'dayjs'
         //------------------------------------------------------------------------처리중
         const res = await axios.post('/updateReadDate', param)
         this.noteDetail = res.data;
-        console.log("res" ,res)
-        console.log("res.data" ,res.data)
-        console.log("noteDteail" ,this.noteDetail)
       },
       // 쪽지상세확인 모달열기
       async ModalNoteDetail(payload) {
@@ -386,7 +384,7 @@ import dayjs from 'dayjs'
         //   res.data.read_date = '';
         // }
         this.noteDetail = res.data;
-        console.log("res.detail data", res.data);
+
       },
       // 쪽지보내기 - 아이디 확인
       async sendIdCheck() {
@@ -490,7 +488,6 @@ import dayjs from 'dayjs'
         const res = await axios.post('/countReadYN', countParam);
         console.log("res.data111", res.data);
         this.readCount = res.data;
-        console.log("res.readCount", this.readCount);
       }
     }
   }
@@ -720,9 +717,13 @@ import dayjs from 'dayjs'
   }
   .note_list_noteList {
     margin-top: 45px;
+    height: 400px;
+    overflow-y: auto;
+    padding-right: 15px;
   }
   .note_list_form {
     margin-top: 10px;
+
   }
   .note_list_send_id {
     margin-left: 17px;
