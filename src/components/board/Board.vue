@@ -5,7 +5,7 @@
       <button type="button" class="btn btn-primary write-btn" @click="goWrite">글쓰기</button>
       <span class="message_image note_modalOpen"  @click="ModalNoteList">
         <img src="@/assets/icons8-message_white-48.png" alt="쪽지함" class="message_white_btn" title="쪽지함">
-        <span class="countRecvChk">1</span>
+        <span class="countRecvChk" v-if="this.$store.getters.isLogin">{{readCount}}</span>
 
       </span>
       <button type="button" class="btn btn-primary right-btn" @click="changeBest">베스트</button>
@@ -71,9 +71,9 @@
         <span class="note_list_area_title">쪽지함</span>
       </div>
       <div>
-        <select class="note_select" @change="noteGubun($event)" aria-label="Default select example">
-          <option value="recvNote" :value="recvNote" selected>받은쪽지함</option>
-          <option value="sendNote" :value="sendNote">보낸쪽지함</option>
+        <select class="note_select" @change="noteGubun($event)" v-model="NoteSelected" aria-label="Default select example">
+          <option value="recvNote">받은쪽지함</option>
+          <option value="sendNote">보낸쪽지함</option>
         </select>
       </div>
       <div>
@@ -81,7 +81,7 @@
       </div>
       <div class="note_list_chk_area">
         <span class="note_list_allNote">전체쪽지&nbsp; {{ noteList.length }}개</span>
-        <span class="note_list_newNote">새쪽지&nbsp; 개 </span>
+        <span class="note_list_newNote" :class="{'noteNone': NoteSelected === 'sendNote'}">새쪽지&nbsp;{{readCount}} 개 </span>
       </div>
       <div class="note_list_noteList">
         <div class="note_list_form" v-for="(item, idx) in noteList" :key="idx">
@@ -158,7 +158,7 @@
 
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend} from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, countReadYN } from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
@@ -193,6 +193,8 @@ import dayjs from 'dayjs'
         sendList: [],
         recvList: [],
         recvShow: true,
+        readCount: '',
+        NoteSelected: 'recvNote',
       }
     },
     computed: {},
@@ -208,8 +210,9 @@ import dayjs from 'dayjs'
     async mounted() {
       this.$propsWatch();
       this.getBoardAll();
-      this.getNoteById();
-      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')+"";
+      this.getNoteById(); // 쪽지리스트
+      this.countReadYN(); // 받은쪽지갯수
+      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
     },
     methods: {
       // isLogin() {
@@ -468,9 +471,15 @@ import dayjs from 'dayjs'
           location.reload();
         } else
           alert("취소하였습니다.")
-
       },
-
+      async countReadYN() {
+        let countParam = {
+          recv_id: this.$store.state.id
+        }
+        this.recvShow = false; // 보낸편지함 삭제버튼
+        const res = await axios.post('/countReadYN', countParam);
+        this.readCount = res.data;
+      }
     }
   }
 </script>
@@ -575,14 +584,15 @@ import dayjs from 'dayjs'
   }
   .countRecvChk {
     box-sizing: border-box;
-    width: 25px;
-    height: 25px;
+    width: 1.3rem;
+    height: 1.3rem;
     border-radius: 100%;
     background-color: #cb0303;
     z-index: 2;
     transform: translate(2rem, -4rem);
     display: block;
     color: white;
+    font-size: 0.9rem;
   }
   .note_insert_area_title {
     color: #0d6efd;
@@ -691,6 +701,9 @@ import dayjs from 'dayjs'
   .note_list_newNote {
     float: right;
     margin-right: 15px;
+  }
+  .noteNone {
+    display: none;
   }
   .note_list_allNote {
     float: right;

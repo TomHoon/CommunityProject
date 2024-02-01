@@ -62,6 +62,9 @@ function insertNote(payload){
 function findIdNote(payload){
     return instance.post('/findIdNote', payload)
 }
+function countReadYN(payload){
+    return instance.post('/countReadYN', {note_idx:payload})
+}
 
 
 //BoardDetails.vue
@@ -165,5 +168,6 @@ export {
     deleteSend,
     insertNote,
     findIdNote,
+    countReadYN,
     // Request,
 }
