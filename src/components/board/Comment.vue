@@ -31,33 +31,16 @@
                         <!-- 색상 안들어간 따봉 up -->
                         <i class="bi bi-hand-thumbs-up" v-if="(!item.comment_up_id_list.includes(userId))"></i>
                         <!-- 색상 들어간 따봉 up-->
-                        <i class="bi bi-hand-thumbs-up-fill" v-else @click="updateRecommendComment(item.comment_idx)"></i>
+                        <i class="bi bi-hand-thumbs-up-fill" v-else></i>
                         <span>{{item.comment_recommend}}</span>
-
                       </button>
                       <button @click="recommendUpDown(2, item.comment_idx)">
                         <!-- 색상 안 들어간 따봉 up-->
                         <i class="bi bi-hand-thumbs-down" v-if="(!item.comment_down_id_list.includes(userId))" ></i>
                         <!-- 색상 들어간 따봉 down-->
-                        <i class="bi bi-hand-thumbs-down-fill" v-else @click="updateRecommendComment(item.comment_idx)"></i>
+                        <i class="bi bi-hand-thumbs-down-fill" v-else></i>
                         <span>{{item.comment_unrecommend}}</span>
                       </button>
-                      <!--                          <button @click="recommendUpDown(1, item.comment_idx)" >
-                                                &lt;!&ndash; 색상 안들어간 따봉 up &ndash;&gt;
-                                                <i class="bi bi-hand-thumbs-up"></i>
-
-                                                &lt;!&ndash; 색상 들어간 따봉 up&ndash;&gt;
-                                                &lt;!&ndash; <i class="bi bi-hand-thumbs-up-fill"></i> &ndash;&gt;
-                                                <span>{{item.comment_recommend}}</span>
-                                              </button>
-                                              <button @click="recommendUpDown(2, item.comment_idx)">
-                                                &lt;!&ndash; 색상 들어간 따봉 up&ndash;&gt;
-                                                <i class="bi bi-hand-thumbs-down"></i>
-
-                                                &lt;!&ndash; 색상 들어간 따봉 down&ndash;&gt;
-                                                &lt;!&ndash; <i class="bi bi-hand-thumbs-down-fill"></i> &ndash;&gt;
-                                                <span>{{item.comment_unrecommend}}</span>
-                                              </button>-->
                       <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">X</button>
                     </div>
                     <div>

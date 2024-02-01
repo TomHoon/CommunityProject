@@ -1,6 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 
-const 사설ip = '192.168.25.28:18080';
+const 사설ip = '192.168.0.4:18080';
 const 운영 = 'tomhoon.duckdns.org:18080';
 const 개발 = 'localhost:8082';
 
@@ -15,7 +15,7 @@ const 프로토콜 = {
   WS: 'ws://'
 }
 
-const access_point = 개발;  // <-- 🎈🎈 여기만 바꾸면 됨
+const access_point = 운영;  // <-- 🎈🎈 여기만 바꾸면 됨
 
 module.exports = defineConfig({
   transpileDependencies: true,
