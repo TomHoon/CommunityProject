@@ -89,7 +89,8 @@
             <hr>
             <div class="note_list_row" @click="ModalNoteDetail(item.note_idx)">
               <strong class="note_list_send_id">{{ item.send_id }}</strong>
-              <img src="@/assets/icons8-new-24.png" alt="new" class="NewNoteImg" v-bind:class="{'newNote': item.read_yn === true}">
+              <img src="@/assets/icons8-new-24.png" alt="new" class="NewNoteImg"
+                   v-bind:class="{'newNote': item.read_yn === true,'noteNone': NoteSelected === 'sendNote'}"/>
               <span class="note_list_send_date">{{ item.send_date }}</span>
               <div>
                 <span class="note_list_title">{{ item.note_title }}</span>
@@ -194,10 +195,10 @@ import dayjs from 'dayjs';
         recvShow: true,
         readCount: '',
         NoteSelected: 'recvNote',
-        // newNote : this.readCount,
       }
     },
     computed: {
+
     },
     watch: {
     },
@@ -206,6 +207,7 @@ import dayjs from 'dayjs';
       ModalNoteList,
       ModalNoteDetail,
       dayjs,
+
     },
     async mounted() {
       this.$propsWatch();
@@ -480,7 +482,7 @@ import dayjs from 'dayjs';
         this.recvShow = false; // 보낸편지함 삭제버튼
         const res = await axios.post('/countReadYN', countParam);
         this.readCount = res.data;
-      }
+      },
     }
   }
 </script>
@@ -747,7 +749,10 @@ import dayjs from 'dayjs';
     padding-left: 18px;
     margin-top: 8px;
     display: block;
-
+  }
+  .infiniteScrollObserver {
+    height: 5px;
+    position: relative;
   }
   .note_detail_area {
     width: 450px;
