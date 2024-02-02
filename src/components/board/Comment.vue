@@ -15,16 +15,15 @@
           </div> <!-- comment-info -->
           <br/>
           <div class="comment-area" v-show="comment">
-            <table>
-              <tbody>
-              <tr v-for="(item, idx) in commentList" :key="idx">
-                <td>
+            <div class="comment-box">
+              <div v-for="(item, idx) in commentList" :key="idx" class="comment-data">
+                <div class="comment-id">
                   <strong>{{item.member_id}}</strong>
-                </td>
-                <td class="comment-content">
+                </div>
+                <div class="comment-content">
                   {{item.comment_content}}
-                </td>
-                <td>
+                </div>
+                <div>
                   <div class="thumbs-area">
                     <div class="thumbs-area-buttons">
                       <button @click="recommendUpDown(1, item.comment_idx)" class="up-btn">
@@ -42,16 +41,15 @@
                         <i class="bi bi-hand-thumbs-down-fill" v-else></i>
                         <span>{{item.comment_unrecommend}}</span>
                       </button>
-                    <button v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">x</button>
+                    <button class="delete-btn" v-if="commentOwner(item.member_id) == true" @click="deleteComment(item.comment_idx)">x</button>
                     </div>
                     <div class="comment-reg-date">
                       {{item.comment_reg_date}}
                     </div>
                   </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+                </div>
+              </div>
+              </div>
             <div class="comment-write-area">
               <textarea v-model="commentContent" name="" id="" cols="120" rows="2" class="comment-textarea" />
               <button class="comment-btn" @click="addComment">등록</button>
@@ -190,34 +188,30 @@ export default {
   display: inline-block;
 }
 
-.comment-area table {
-  border-top: 1px solid #c2c2c2;
-  border-left: 1px solid #c2c2c2;
-  border-right: 1px solid #c2c2c2;
+.comment-box{
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
-.comment-area table tr {
-  height: 60px;
+.comment-data{
+  display: flex;
+  align-items: center;
 }
 
-.comment-area table tr td {
-  width: 7%;
-  text-align: left;
-  padding: 10px;
-  border: 1px solid black;
-}
-
-.comment-area table tr td:nth-child(1) {
-  background-color: #dfe5f5 !important;
-  width: 1%;
-}
-
-.comment-area table tr td:nth-child(2) {
-  width: 45%;
+.comment-id{
+  width:200px;
+  word-wrap: break-word;
 }
 
 .comment-content {
-  white-space: pre-wrap;
+  width: 100%;
+}
+
+.thumbs-area {
+  width: 100%;
+  border: 1px;
+  padding: 10px;
 }
 
 .thumbs-area button {
@@ -225,16 +219,22 @@ export default {
 }
 
 .thumbs-area-buttons {
-  width: 100%;
+  width: 100px;
   text-align: center;
 }
 
 .up-btn{
-  color:#0d6efd
+  color:#0d6efd;
+  background-color: transparent;
 }
 
 .down-btn{
   color: red;
+  background-color: transparent;
+}
+
+.delete-btn{
+  background-color: transparent;
 }
 
 .comment-reg-date {
@@ -259,8 +259,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   width: 100%;
   border: none;
-  /* background-color:#f1f1f1; */
-  /* max-width:1050px; */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .comment-btn {
