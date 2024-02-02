@@ -14,8 +14,11 @@
 				<div class="mb-4" v-if="ImgPath">
                     <img :src="ImgPath" alt="" class="content-img">
                 </div>
+                <!-- <div id="editor" contenteditable="true"> -->
+
+                <!-- </div> -->
 				<div class="mb-4">
-					<textarea class="form-control" v-model="article.content" rows="10" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+					<textarea contenteditable="true" class="form-control" v-model="article.content" rows="10" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 				</div>
 				<div>
                     <label for="fileUpload" type="button">
