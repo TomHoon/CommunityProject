@@ -89,6 +89,7 @@
             <hr>
             <div class="note_list_row" @click="ModalNoteDetail(item.note_idx)">
               <strong class="note_list_send_id">{{ item.send_id }}</strong>
+              <img src="@/assets/icons8-new-24.png" alt="new" class="NewNoteImg" v-bind:class="{'newNote': item.read_yn === true}">
               <span class="note_list_send_date">{{ item.send_date }}</span>
               <div>
                 <span class="note_list_title">{{ item.note_title }}</span>
@@ -152,7 +153,6 @@
         <button class="note_detail_delete" v-show="recvShow" @click="deleteRecv()">삭제</button>
         <button class="note_detail_delete" v-show="!recvShow" @click="deleteSend()">삭제</button>
       </div>
-
     </div>
     </ModalNoteDetail>
 
@@ -164,7 +164,7 @@ import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
 import ModalNoteDetail from '@/components/note/ModalNoteDetail.vue';
 import axios from "axios";
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
   export default {
     props: ['pageParams', 'transferObj'],
     data() {
@@ -213,7 +213,6 @@ import dayjs from 'dayjs'
       this.getNoteById(); // 쪽지리스트
       this.countReadYN(); // 받은쪽지갯수
       this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
-      console.log("this.readCount" , this.readCount.data)
     },
     methods: {
       // isLogin() {
@@ -364,11 +363,10 @@ import dayjs from 'dayjs'
         let param = {
           note_idx: payload,
           read_date: this.currentDate,
-          read_last_date: this.currentDate
         }
-        //------------------------------------------------------------------------처리중
         const res = await axios.post('/updateReadDate', param)
         this.noteDetail = res.data;
+        //------------------------------------------------------------------------처리중
       },
       // 쪽지상세확인 모달열기
       async ModalNoteDetail(payload) {
@@ -377,14 +375,9 @@ import dayjs from 'dayjs'
           note_idx: payload,
         }
         await this.updateReadDate(payload); // 쪽지 상세클릭(데이터변경) 함수
-
         await this.countReadYN(); // 새쪽지 카운터 함수
         const res = await axios.post('/findOneNote', param)
-        // if(res.data.read_yn == 1) {
-        //   res.data.read_date = '';
-        // }
         this.noteDetail = res.data;
-
       },
       // 쪽지보내기 - 아이디 확인
       async sendIdCheck() {
@@ -423,8 +416,8 @@ import dayjs from 'dayjs'
           note_title: this.noteInsert.note_title,
           recv_id: this.noteInsert.recv_id,
           note_content: this.noteInsert.note_content,
-          send_date: this.currentDate,
           read_yn: false,
+          send_date: this.currentDate,
         };
         const res = await axios.post('/insertNote', noteParam);
         this.noteList = res.data;
@@ -486,7 +479,6 @@ import dayjs from 'dayjs'
         }
         this.recvShow = false; // 보낸편지함 삭제버튼
         const res = await axios.post('/countReadYN', countParam);
-        console.log("res.data111", res.data);
         this.readCount = res.data;
       }
     }
@@ -589,6 +581,11 @@ import dayjs from 'dayjs'
     height: 55px;
     transform: translate(-3px, -5px);
     cursor: pointer;
+    transition: all 0.2s linear;
+    overflow: hidden;
+  }
+  .message_white_btn:hover {
+    transform: scale(1.1) translate(-3px,-3px);
   }
   .countRecvChk {
     box-sizing: border-box;
@@ -717,9 +714,11 @@ import dayjs from 'dayjs'
   }
   .note_list_noteList {
     margin-top: 45px;
+    margin-bottom: 10px;
     height: 400px;
     overflow-y: auto;
     padding-right: 15px;
+    overscroll-behavior: contain;
   }
   .note_list_form {
     margin-top: 10px;
@@ -728,6 +727,16 @@ import dayjs from 'dayjs'
   .note_list_send_id {
     margin-left: 17px;
     float: left;
+  }
+  .newNote {
+    display: none;
+  }
+  .NewNoteImg {
+    float: left;
+    margin-left: 5px;
+    margin-top: 4px;
+    width: 21px;
+    height: 17px;
   }
   .note_list_send_date {
     text-align: right;
