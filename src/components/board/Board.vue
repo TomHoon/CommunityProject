@@ -213,6 +213,7 @@ export default {
     this.getNoteById(); // 쪽지리스트
     this.countReadYN(); // 받은쪽지갯수
     this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    console.log("this.$store.state,", this.$store.state)
   },
   methods: {
     // isLogin() {
