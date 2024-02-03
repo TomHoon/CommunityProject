@@ -139,6 +139,11 @@ function memberUpdate(payload){
   return instance.post("/memberUpdate", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
 }
 
+//admin
+function getMemberAll(){
+  return instance.get("/getMemberAll")
+}
+
 
 export {
   getBoardAll,
@@ -169,5 +174,6 @@ export {
   insertNote,
   findIdNote,
   countReadYN,
+  getMemberAll,
   // Request,
 }

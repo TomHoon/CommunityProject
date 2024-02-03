@@ -2,7 +2,7 @@
   <div class="title">
     <img src="@/assets/comhub.png" class="logo">
     <div class="title">
-      홈페이지 주소를 확인해주세요.
+      잘못된 페이지 주소 입니다.
     </div>
   </div>
 </template>

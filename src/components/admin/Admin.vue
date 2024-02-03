@@ -17,9 +17,11 @@
                 최신 게시글
             </div>
             <div v-for="(item, idx) in boardData" :key="idx" class="posts">
-                <div>[{{ item.gubun }}] </div>
-                <div>{{item.title}}</div>
-                <div>{{item.image_path}}</div>
+                <div>[{{ item.gubun }}]</div>
+                <div class="post-content">{{item.title}}</div>
+                <div class="post-img-box">
+                  <img class="post-img" :src="image_path(item)">
+                </div>
             </div>
         </div>
 
@@ -34,10 +36,16 @@
         </div>
     </div>
 
-    <div>
+    <div class="manage-container">
         <div class="member-container">
             <div>
-                회원
+                <div v-for="(item, idx) in memberData" :key="idx" class="posts">
+                <div>/ 아이디 : {{item.member_id}} /</div>
+                <div>/ 이름 : {{item.member_name}} /</div>
+                <div>/ 닉네임 : {{item.member_nickname}} /</div> 
+                <div>/ phone : {{item.member_phone}} /</div>
+                <div>/ 가입일 : {{item.member_reg_data}} /</div>
+            </div>
             </div>
         </div>
 
@@ -52,22 +60,37 @@
 </template>
 
 <script>
-import { getBoardAll } from '@/api/index'
+import { getBoardAll, getMemberAll } from '@/api/index'
+import comhubImg from '@/assets/comhub.png'
 
 export default {
     mounted() {
         this.getBoardAll()
+        this.getMemberAll()
     },
     data() {
         return {
             boardData : '',
+            memberData : '',
+            default_image_path : comhubImg,
         }
     },
     methods: {
         async getBoardAll() {
             const res = await getBoardAll(0)
             this.boardData = res.data
-        }
+        },
+        async getMemberAll() {
+            const res = await getMemberAll()
+            this.memberData = res.data
+            console.log(res.data)
+        },
+        image_path(item) {
+            if (item.image_path) {
+                return item.image_path
+            }
+            return this.default_image_path
+        },
     },
 }
 </script>
@@ -97,7 +120,9 @@ export default {
 
 .post-container{
     width: 600px;
+    max-height: 800px;
     border: 1px solid black;
+    background-color: white;
 }
 
 .new-posts{
@@ -105,17 +130,37 @@ export default {
     font-weight: bold;
     text-align: left;
     padding:10px;
-    
 }
 
 .posts{
     display: flex;
+    align-items: center;
     padding: 10px;
+    font-size: x-large;
+    color:black;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.post-content{
+    margin: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.post-img-box{
+    width: 200px;
+}
+
+.post-img{
+    width:150px;
 }
 
 .comment-container{
     width: 600px;
     border: 1px solid black;
+    background-color: white;
+    max-height: 800px;
 }
 
 .new-comments{
@@ -128,6 +173,20 @@ export default {
 .comments{
     display: flex;
     padding: 10px;
+}
+
+.manage-container{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.member-container{
+    width: 600px;
+}
+
+.notice-container{
+    width: 600px;
 }
 
 </style>
