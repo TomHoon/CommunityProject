@@ -86,7 +86,7 @@ export default {
 
     kakaoLogin() {
       window.Kakao.Auth.login({
-        scope: "profile_nickname, profile_image",
+        scope: "profile_nickname, profile_image, account_email",
         success: this.getKakaoAccount,
       });
     },
@@ -96,14 +96,15 @@ export default {
         success: (res) => {
           console.log('res >>> ' , res);
           const kakao_account = res.kakao_account;
-          const profile_nickname = kakao_account.profile.nickname;
-          const profile_image = kakao_account.profile.profile_image_url;
-          console.log("profile_nickname", profile_nickname);
-          console.log("profile_image", profile_image);
+          const email = kakao_account.email;
 
-          //로그인처리구현
-
+          // 로그인처리구현
+          this.$store.commit('setId', email)
+          saveUserToCookie(email)
+          console.log("email", email)
           alert("로그인 성공!");
+          this.$pushContents("Board", {from: '로그인에서'})
+
         },
         fail: (error) => {
           console.log(error);
