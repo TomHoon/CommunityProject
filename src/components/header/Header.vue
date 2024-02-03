@@ -107,11 +107,11 @@ import { deleteCookie } from '@/utils/cookies'
       width: 1100px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
     .burger{
       width: 25px;
       height: 25px;
-      margin-top:10px;
     }
     .logo{
       width: 150px; /* 150px */
