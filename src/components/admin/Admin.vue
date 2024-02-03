@@ -17,11 +17,17 @@
                 최신 게시글
             </div>
             <div v-for="(item, idx) in boardData" :key="idx" class="posts">
-                <div>[{{ item.gubun }}]</div>
+                <div class="post-gubun">[{{ item.gubun }}]</div>
                 <div class="post-content">{{item.title}}</div>
                 <div class="post-img-box">
-                  <img class="post-img" :src="image_path(item)">
+                    <img class="post-img" :src="image_path(item)">
                 </div>
+            </div>
+
+            <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
+
+            <div class="pagenations">
+
             </div>
         </div>
 
@@ -70,6 +76,8 @@ export default {
     },
     data() {
         return {
+            dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
+            curPageNum: 1, //현재 페이지
             boardData : '',
             memberData : '',
             default_image_path : comhubImg,
@@ -90,6 +98,15 @@ export default {
                 return item.image_path
             }
             return this.default_image_path
+        },
+        startPage() {
+            return ((this.curPageNum - 1) * this.dataPerPage);
+        },
+        endPage() {
+            return ("end", this.startPage() + this.dataPerPage);
+        },
+        numOfPages() {
+            return Math.ceil(this.boardData.length / this.dataPerPage); // 페이지 갯수
         },
     },
 }
@@ -114,42 +131,53 @@ export default {
 
 .content-container{
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 
 .post-container{
     width: 600px;
     max-height: 800px;
-    border: 1px solid black;
+    border: 1px solid #e5e5e5;
     background-color: white;
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .new-posts{
     font-size: 25px;
     font-weight: bold;
     text-align: left;
-    padding:10px;
+    padding: 50px 0px 20px 50px;
 }
 
 .posts{
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 10px 50px 5px 50px;
     font-size: x-large;
     color:black;
     white-space: nowrap;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .post-content{
-    margin: 5px;
     white-space: nowrap;
     overflow: hidden;
+    width: 100%;
+    text-align: left;
+    margin-left: 5px;
+    /* border-bottom: 1px solid black; */
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    text-indent: 5px;
 }
 
 .post-img-box{
     width: 200px;
+    padding: 0 0px 0 10px;
 }
 
 .post-img{
