@@ -98,6 +98,7 @@
             </div>
           </div>
         </div>
+        <!--        Scroll-->
       </div>
     </div>
   </ModalNoteList>
@@ -159,340 +160,338 @@
 
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, countReadYN } from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, countReadYN} from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
 import ModalNoteDetail from '@/components/note/ModalNoteDetail.vue';
 import axios from "axios";
 import dayjs from 'dayjs';
-  export default {
-    props: ['pageParams', 'transferObj'],
-    data() {
-      return {
-        dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
-        curPageNum: 1, //현재 페이지
-        boardList: [],
-        noticeList: [],
-        funnyList: [],
-        gameList: [],
-        studyList: [],
-        tempList: [],
-        bestList: [],
-        bestToggle: false,
-        searchData: '',
-        default_image_path: comhubImg,
-        noteInsert: {
-          recv_id: '',
-          note_title: '',
-          note_content: '',
-        },
-        noteList: [],
-        noteDetail: [],
-        findId: 'N',
-        sendList: [],
-        recvList: [],
-        recvShow: true,
-        readCount: '',
-        NoteSelected: 'recvNote',
+export default {
+  props: ['pageParams', 'transferObj'],
+  data() {
+    return {
+      dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
+      curPageNum: 1, //현재 페이지
+      boardList: [],
+      noticeList: [],
+      funnyList: [],
+      gameList: [],
+      studyList: [],
+      tempList: [],
+      bestList: [],
+      bestToggle: false,
+      searchData: '',
+      default_image_path: comhubImg,
+      noteInsert: {
+        recv_id: '',
+        note_title: '',
+        note_content: '',
+      },
+      noteList: [],
+      noteDetail: [],
+      findId: 'N',
+      sendList: [],
+      recvList: [],
+      recvShow: true,
+      readCount: '',
+      NoteSelected: 'recvNote',
+    }
+  },
+  computed: { },
+  watch: { },
+  components: {
+    ModalNoteInsert,
+    ModalNoteList,
+    ModalNoteDetail,
+    dayjs,
+
+  },
+  async mounted() {
+    this.$propsWatch();
+    this.getBoardAll();
+    this.getNoteById(); // 쪽지리스트
+    this.countReadYN(); // 받은쪽지갯수
+    this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+  },
+  methods: {
+    // isLogin() {
+    // console.log("로그인?",this.$store.getters.isLogin)
+    // console.log("id값?",this.$store.state.id)
+    // },
+    async getBoardAll() {
+      const res = await getBoardAll(0)
+
+      this.boardList = res.data;
+      this.tempList = res.data;
+
+      this.boardSort()
+
+      if (this.transferObj?.boardChange) {
+        this.boardChange(this.transferObj.boardChange)
+      }
+      if (this.transferObj?.searchWord) {
+        const res = await searchBoard(this.transferObj.searchWord)
+        this.boardList = res.data.reverse()
       }
     },
-    computed: {
+    boardSort() {
+      const gubunType = ['공지', '유머', '게임', '공부']
+      const lists = {'공지': this.noticeList, '유머': this.funnyList, '게임': this.gameList, '공부': this.studyList,}
 
+      this.boardList.forEach(board => {
+        if (gubunType.includes(board.gubun)) {
+          lists[board.gubun].push(board);
+        }
+        if (board.recommend >= 10) {
+          this.bestList.push(board)
+        }
+      })
     },
-    watch: {
+    async searchBoard(emitData) {
+      const res = await searchBoard(emitData)
+      this.boardList = res.data.reverse()
     },
-    components: {
-      ModalNoteInsert,
-      ModalNoteList,
-      ModalNoteDetail,
-      dayjs,
-
+    detailChain(item) {
+      this.goDetails(item);
+      this.upHit(item.id);
     },
-    async mounted() {
-      this.$propsWatch();
-      this.getBoardAll();
-      this.getNoteById(); // 쪽지리스트
-      this.countReadYN(); // 받은쪽지갯수
-      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    backPage() {
+      this.$backPage({test: 'hello'});
     },
-    methods: {
-      // isLogin() {
-      // console.log("로그인?",this.$store.getters.isLogin)
-      // console.log("id값?",this.$store.state.id)
-      // },
-      async getBoardAll() {
-        const res = await getBoardAll(0)
+    goWrite() {
+      if (!this.$store.getters.isLogin) {
+        alert("로그인 이후 이용 가능합니다.");
+        return;
+      }
+      this.$pushContents('BoardWrite');
+    },
+    goDetails(item) {
+      this.$pushContents('BoardDetails', {boardData: item});
+    },
+    async upHit(payload) {
+      let param = {
+        id: payload
+      }
+      await updateHitBoard(param)
+    },
 
-        this.boardList = res.data;
-        this.tempList = res.data;
-
-        this.boardSort()
-
-        if (this.transferObj?.boardChange) {
-          this.boardChange(this.transferObj.boardChange)
-        }
-        if (this.transferObj?.searchWord) {
-          const res = await searchBoard(this.transferObj.searchWord)
-          this.boardList = res.data.reverse()
-        }
-      },
-      boardSort() {
-        const gubunType = ['공지', '유머', '게임', '공부']
-        const lists = {'공지': this.noticeList, '유머': this.funnyList, '게임': this.gameList, '공부': this.studyList,}
-
-        this.boardList.forEach(board => {
-          if (gubunType.includes(board.gubun)) {
-            lists[board.gubun].push(board);
-          }
-          if (board.recommend >= 10) {
-            this.bestList.push(board)
-          }
-        })
-      },
-      async searchBoard(emitData) {
-        const res = await searchBoard(emitData)
-        this.boardList = res.data.reverse()
-      },
-      detailChain(item) {
-        this.goDetails(item);
-        this.upHit(item.id);
-      },
-      backPage() {
-        this.$backPage({test: 'hello'});
-      },
-      goWrite() {
-        if (!this.$store.getters.isLogin) {
-          alert("로그인 이후 이용 가능합니다.");
-          return;
-        }
-        this.$pushContents('BoardWrite');
-      },
-      goDetails(item) {
-        this.$pushContents('BoardDetails', {boardData: item});
-      },
-      async upHit(payload) {
-        let param = {
-          id: payload
-        }
-        await updateHitBoard(param)
-      },
-
-      startPage() {
-        return ((this.curPageNum - 1) * this.dataPerPage);
-      },
-      endPage() {
-        return ("end", this.startPage() + this.dataPerPage);
-      },
-      numOfPages() {
-        return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
-      },
-      calData() {
-        return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
-      },
-      propsChanged() {
-        console.log(this.transferObj);
-      },
-      changeCreateTime() {
-        this.boardList.reverse()
-      },
-      changeGubun(event) { // 게시판 변경을 위한 메소드
-        if (event.target.value === 'all') {
-          this.boardList = this.tempList
-        }
-        if (event.target.value === 'notice') {
-          this.boardList = this.noticeList
-        }
-        if (event.target.value === 'funny') {
-          this.boardList = this.funnyList
-        }
-        if (event.target.value === 'game') {
-          this.boardList = this.gameList
-        }
-        if (event.target.value === 'study') {
-          this.boardList = this.studyList
-        }
-      },
-      changeBest() {
-        if (this.bestToggle == false) {
-          this.boardList = this.bestList
-          this.bestToggle = true
-        } else {
-          this.boardList = this.tempList
-          this.bestToggle = false
-        }
-      },
-      allBoard() {
+    startPage() {
+      return ((this.curPageNum - 1) * this.dataPerPage);
+    },
+    endPage() {
+      return ("end", this.startPage() + this.dataPerPage);
+    },
+    numOfPages() {
+      return Math.ceil(this.boardList.length / this.dataPerPage); // 페이지 갯수
+    },
+    calData() {
+      return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
+    },
+    propsChanged() {
+      console.log(this.transferObj);
+    },
+    changeCreateTime() {
+      this.boardList.reverse()
+    },
+    changeGubun(event) { // 게시판 변경을 위한 메소드
+      if (event.target.value === 'all') {
         this.boardList = this.tempList
-      },
-      boardChange(event) { // 햄버거 버튼을 위한 메소드
-        if (event == 'all') {
-          this.boardList = this.tempList
-        }
-        if (event == 'notice') {
-          this.boardList = this.noticeList
-        }
-        if (event == 'funny') {
-          this.boardList = this.funnyList
-        }
-        if (event == 'game') {
-          this.boardList = this.gameList
-        }
-        if (event == 'study') {
-          this.boardList = this.studyList
-        }
-      },
-      image_path(item) {
-        if (item.image_path) {
-          return item.image_path
-        }
-        return this.default_image_path
-      },
-      // 쪽지리스트 모달열기
-      ModalNoteList() {
-        if (!this.$store.getters.isLogin) {
-          alert("로그인 이후 이용 가능합니다.");
-          return;
-        }
-        this.$refs.ModalNoteList.modalOpen();
-      },
-      // 쪽지쓰기 모달열기
-      ModalNoteInsert() {
-        this.$refs.ModalNoteInsert.modalOpen();
-      },
-      // 쪽지 상세클릭(데이터변경)
-      async updateReadDate(payload) {
-        let param = {
-          note_idx: payload,
-          read_date: this.currentDate,
-        }
-        const res = await axios.post('/updateReadDate', param)
-        this.noteDetail = res.data;
-        //------------------------------------------------------------------------처리중
-      },
-      // 쪽지상세확인 모달열기
-      async ModalNoteDetail(payload) {
-        this.$refs.ModalNoteDetail.modalOpen();
-        let param = {
-          note_idx: payload,
-        }
-        await this.updateReadDate(payload); // 쪽지 상세클릭(데이터변경) 함수
-        await this.countReadYN(); // 새쪽지 카운터 함수
-        const res = await axios.post('/findOneNote', param)
-        this.noteDetail = res.data;
-      },
-      // 쪽지보내기 - 아이디 확인
-      async sendIdCheck() {
-        if(this.noteInsert.recv_id == ''){
-          alert("아이디를 입력해주세요.")
-          return false;
-        }
-        let param = {
-          member_id: this.noteInsert.recv_id,
-        }
-        const res = await axios.post('/findIdNote', param);
-        if (res.data == '1') {
-          this.findId = 'Y';
-          alert("확인되었습니다.")
-        } else {
-          alert("잘못된 아이디 입니다.")
-        }
-      },
-      // 쪽지보내기 - 보내기버튼
-      async note_btn() {
-        if (this.findId == 'N') {
-          alert("아이디 확인 바랍니다.")
-          return false;
-        }
-        if (this.noteInsert.note_title == '') {
-          alert("제목을 입력해주세요.")
-          return false;
-        }
-        if (this.noteInsert.note_content == '') {
-          alert("내용을 입력해주세요.")
-          return false;
-        }
-        this.send_id = this.$store.state.id;
-        let noteParam = {
-          send_id: this.send_id,
-          note_title: this.noteInsert.note_title,
-          recv_id: this.noteInsert.recv_id,
-          note_content: this.noteInsert.note_content,
-          read_yn: false,
-          send_date: this.currentDate,
-        };
-        const res = await axios.post('/insertNote', noteParam);
-        this.noteList = res.data;
-        location.reload();
-      },
-      // 쪽지리스트 불러오기
-      async getNoteById() {
-        this.recv_id = this.$store.state.id;
+      }
+      if (event.target.value === 'notice') {
+        this.boardList = this.noticeList
+      }
+      if (event.target.value === 'funny') {
+        this.boardList = this.funnyList
+      }
+      if (event.target.value === 'game') {
+        this.boardList = this.gameList
+      }
+      if (event.target.value === 'study') {
+        this.boardList = this.studyList
+      }
+    },
+    changeBest() {
+      if (this.bestToggle == false) {
+        this.boardList = this.bestList
+        this.bestToggle = true
+      } else {
+        this.boardList = this.tempList
+        this.bestToggle = false
+      }
+    },
+    allBoard() {
+      this.boardList = this.tempList
+    },
+    boardChange(event) { // 햄버거 버튼을 위한 메소드
+      if (event == 'all') {
+        this.boardList = this.tempList
+      }
+      if (event == 'notice') {
+        this.boardList = this.noticeList
+      }
+      if (event == 'funny') {
+        this.boardList = this.funnyList
+      }
+      if (event == 'game') {
+        this.boardList = this.gameList
+      }
+      if (event == 'study') {
+        this.boardList = this.studyList
+      }
+    },
+    image_path(item) {
+      if (item.image_path) {
+        return item.image_path
+      }
+      return this.default_image_path
+    },
+    // 쪽지리스트 모달열기
+    ModalNoteList() {
+      if (!this.$store.getters.isLogin) {
+        alert("로그인 이후 이용 가능합니다.");
+        return;
+      }
+      this.$refs.ModalNoteList.modalOpen();
+    },
+    // 쪽지쓰기 모달열기
+    ModalNoteInsert() {
+      this.$refs.ModalNoteInsert.modalOpen();
+    },
+    // 쪽지 상세클릭(데이터변경)
+    async updateReadDate(payload) {
+      let param = {
+        note_idx: payload,
+        read_date: this.currentDate,
+      }
+      const res = await axios.post('/updateReadDate', param)
+      this.noteDetail = res.data;
+      //------------------------------------------------------------------------처리중
+    },
+    // 쪽지상세확인 모달열기
+    async ModalNoteDetail(payload) {
+      this.$refs.ModalNoteDetail.modalOpen();
+      let param = {
+        note_idx: payload,
+      }
+      await this.updateReadDate(payload); // 쪽지 상세클릭(데이터변경) 함수
+      await this.countReadYN(); // 새쪽지 카운터 함수
+      const res = await axios.post('/findOneNote', param)
+      this.noteDetail = res.data;
+    },
+    // 쪽지보내기 - 아이디 확인
+    async sendIdCheck() {
+      if (this.noteInsert.recv_id == '') {
+        alert("아이디를 입력해주세요.")
+        return false;
+      }
+      let param = {
+        member_id: this.noteInsert.recv_id,
+      }
+      const res = await axios.post('/findIdNote', param);
+      if (res.data == '1') {
+        this.findId = 'Y';
+        alert("확인되었습니다.")
+      } else {
+        alert("잘못된 아이디 입니다.")
+      }
+    },
+    // 쪽지보내기 - 보내기버튼
+    async note_btn() {
+      if (this.findId == 'N') {
+        alert("아이디 확인 바랍니다.")
+        return false;
+      }
+      if (this.noteInsert.note_title == '') {
+        alert("제목을 입력해주세요.")
+        return false;
+      }
+      if (this.noteInsert.note_content == '') {
+        alert("내용을 입력해주세요.")
+        return false;
+      }
+      this.send_id = this.$store.state.id;
+      let noteParam = {
+        send_id: this.send_id,
+        note_title: this.noteInsert.note_title,
+        recv_id: this.noteInsert.recv_id,
+        note_content: this.noteInsert.note_content,
+        read_yn: false,
+        send_date: this.currentDate,
+      };
+      const res = await axios.post('/insertNote', noteParam);
+      this.noteList = res.data;
+      location.reload();
+    },
+    // 쪽지리스트 불러오기
+    async getNoteById() {
+      this.recv_id = this.$store.state.id;
+      let recvParam = {
+        recv_id: this.recv_id,
+      }
+      const res = await axios.post('/recvList', recvParam);
+      this.noteList = res.data;
+    },
+    async noteGubun($event) {
+      if ($event.target.value == 'recvNote') { // 받은편지함 불러오기
         let recvParam = {
-          recv_id: this.recv_id,
-        }
-        const res = await axios.post('/recvList', recvParam);
-        this.noteList = res.data;
-      },
-      async noteGubun($event) {
-        if ($event.target.value == 'recvNote') { // 받은편지함 불러오기
-          let recvParam = {
-            recv_id: this.$store.state.id
-          }
-          this.recvShow = true; // 받은편지함 삭제버튼
-          const res = await axios.post('/recvList', recvParam);
-          this.noteList = res.data;
-        }
-        if ($event.target.value == 'sendNote') { // 보낸편지함 불러오기
-          let sendParam = {
-            send_id: this.$store.state.id
-          }
-          this.recvShow = false; // 보낸편지함 삭제버튼
-          const res = await axios.post('/sendList', sendParam);
-          this.noteList = res.data;
-        }
-      },
-      // 쪽지상세보기 닫기
-      closeModal() {
-        this.$refs.ModalNoteDetail.closeModal();
-      },
-      // 쪽지 삭제
-      async deleteRecv() { // 받은쪽지함 삭제
-        if (confirm("쪽지를 삭제하시겠습니까?")) {
-          await (deleteRecv(this.noteDetail.note_idx))
-          alert("쪽지가 삭제되었습니다.");
-          location.reload();
-        } else
-          alert("취소하였습니다.")
-
-      },
-      async deleteSend() { // 보낸쪽지함 삭제
-        if (confirm("쪽지를 삭제하시겠습니까?")) {
-          await (deleteSend(this.noteDetail.note_idx))
-          alert("쪽지가 삭제되었습니다.");
-          location.reload();
-        } else
-          alert("취소하였습니다.")
-      },
-      // 새쪽지 갯수
-      async countReadYN() {
-        let countParam = {
           recv_id: this.$store.state.id
         }
+        this.recvShow = true; // 받은편지함 삭제버튼
+        const res = await axios.post('/recvList', recvParam);
+        this.noteList = res.data;
+      }
+      if ($event.target.value == 'sendNote') { // 보낸편지함 불러오기
+        let sendParam = {
+          send_id: this.$store.state.id
+        }
         this.recvShow = false; // 보낸편지함 삭제버튼
-        const res = await axios.post('/countReadYN', countParam);
-        this.readCount = res.data;
-      },
-    }
-  }
+        const res = await axios.post('/sendList', sendParam);
+        this.noteList = res.data;
+      }
+    },
+    // 쪽지상세보기 닫기
+    closeModal() {
+      this.$refs.ModalNoteDetail.closeModal();
+    },
+    // 쪽지 삭제
+    async deleteRecv() { // 받은쪽지함 삭제
+      if (confirm("쪽지를 삭제하시겠습니까?")) {
+        await (deleteRecv(this.noteDetail.note_idx))
+        alert("쪽지가 삭제되었습니다.");
+        location.reload();
+      } else
+        alert("취소하였습니다.")
+
+    },
+    async deleteSend() { // 보낸쪽지함 삭제
+      if (confirm("쪽지를 삭제하시겠습니까?")) {
+        await (deleteSend(this.noteDetail.note_idx))
+        alert("쪽지가 삭제되었습니다.");
+        location.reload();
+      } else
+        alert("취소하였습니다.")
+    },
+    // 새쪽지 갯수
+    async countReadYN() {
+      let countParam = {
+        recv_id: this.$store.state.id
+      }
+      const res = await axios.post('/countReadYN', countParam);
+      this.readCount = res.data;
+    },
+
+  }, // method
+}
 </script>
 
 <style>
-  .top-box{
-    height: 50px;
-    }
-  .write-btn {
-    float: left;
+.top-box {
+  height: 50px;
+}
+
+.write-btn {
+  float: left;
     margin-top: 5px;
   }
   .right-btn{
@@ -749,10 +748,6 @@ import dayjs from 'dayjs';
     padding-left: 18px;
     margin-top: 8px;
     display: block;
-  }
-  .infiniteScrollObserver {
-    height: 5px;
-    position: relative;
   }
   .note_detail_area {
     width: 450px;
