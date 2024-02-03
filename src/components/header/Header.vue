@@ -96,6 +96,7 @@ import { deleteCookie } from '@/utils/cookies'
     .header-container{
       display: flex;
       justify-content: center;
+      margin:5px;
     }
 
     .navbar {
