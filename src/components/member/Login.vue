@@ -115,7 +115,7 @@ export default {
       window.Kakao.API.request({
         url: '/v1/user/unlink',
         success: function (response) {
-          console.log(response);
+          console.log("response", response);
         },
         fail: function (error) {
           console.log(error);
