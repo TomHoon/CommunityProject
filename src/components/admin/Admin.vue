@@ -1,5 +1,4 @@
 <template>
-<div>
 <div class="main-container">
     <div class="header-container">
         <div>
@@ -12,12 +11,18 @@
     </div>
 
     <div class="content-container">
-        <div class="post-container">
-            <div class="new-posts">
-                최신 게시글
+        <div class="content-space">
+            <div class="title">
+                <div>
+                    최신 게시글
+                </div>
+                <!-- <div>
+                    삭제
+                </div> -->
             </div>
-            <div class="post-box">
-                <div v-for="(item, idx) in calData()" :key="idx" class="posts">
+            <div class="content-box">
+                <div v-for="(item, idx) in calData(boardData)" :key="idx" class="contents">
+                    <!-- <input class="check-btn" type="checkbox"> -->
                     <div class="post-gubun">[{{ item.gubun }}]</div>
                     <div class="post-content">{{item.title}}</div>
                     <div class="post-img-box">
@@ -27,43 +32,62 @@
             </div>
 
             <div class="pagenations">
-                <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
+                <span class="page-num" v-for="i in numOfPages(boardData)" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
             </div>
-            
         </div>
 
-        <div class="comment-container">
-            <div class="new-comments">
+        <div class="content-space">
+            <div class="title">
                 최근 댓글
             </div>
+            <div class="content-box">
+                <div class="contents">
+                    댓글 내용
+                </div>
+            </div>
 
-            <div>
-
+            <div class="pagenations">
+                <!-- <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span> -->
+                <span>1</span>
             </div>
         </div>
     </div>
 
-    <div class="manage-container">
-        <div class="member-container">
-            <div>
-                <div v-for="(item, idx) in memberData" :key="idx" class="posts">
-                <div>/ 아이디 : {{item.member_id}} /</div>
-                <div>/ 이름 : {{item.member_name}} /</div>
-                <div>/ 닉네임 : {{item.member_nickname}} /</div> 
-                <div>/ phone : {{item.member_phone}} /</div>
-                <div>/ 가입일 : {{item.member_reg_data}} /</div>
+    <div class="content-container">
+        <div class="mini-space">
+            <div class="title">
+                회원 목록
             </div>
+            <div class="content-box">
+                <div v-for="(item, idx) in calData(memberData)" :key="idx" class="contents">
+                    <div>/ 아이디 : {{item.member_id}} /</div>
+                    <div>/ 이름 : {{item.member_name}} /</div>
+                    <div>/ 닉네임 : {{item.member_nickname}} /</div> 
+                    <div>/ phone : {{item.member_phone}} /</div>
+                    <div>/ 가입일 : {{item.member_reg_data}} /</div>
+                </div>
+            </div>
+
+            <div class="pagenations">
+                <span class="page-num" v-for="i in numOfPages(memberData)" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
             </div>
         </div>
 
-        <div class="notice-container">
-            <div>
+        <div class="mini-space">
+            <div class="title">
                 공지사항
+            </div>
+            <div class="mini-box">
+
+            </div>
+
+            <div class="pagenations">
+                <!-- <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span> -->
+                <span>1</span>
             </div>
         </div>
     </div>
 </div>  
-</div>
 </template>
 
 <script>
@@ -77,10 +101,12 @@ export default {
     },
     data() {
         return {
-            dataPerPage: 10, //한 페이지에서 볼 수 있는 게시물 개수
+            dataPerPage: 8, //한 페이지에서 볼 수 있는 게시물 개수
             curPageNum: 1, //현재 페이지
             boardData : '',
+            commentData : '',
             memberData : '',
+            noticeData : '',
             default_image_path : comhubImg,
         }
     },
@@ -100,18 +126,19 @@ export default {
             }
             return this.default_image_path
         },
-        startPage() {
-            return ((this.curPageNum - 1) * this.dataPerPage);
+        startPage(name) {
+            return (this.curPageNum -1) * this.dataPerPage; 
         },
         endPage() {
-            return ("end", this.startPage() + this.dataPerPage);
+            // return "end", this.startPage() + this.dataPerPage;
+            return this.startPage() + this.dataPerPage;
         },
-        numOfPages() {
-            return Math.ceil(this.boardData.length / this.dataPerPage); // 페이지 갯수
+        numOfPages(payload) {
+            return Math.ceil(payload.length / this.dataPerPage); // 페이지 갯수
         },
-        calData() {
-            return this.boardData.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
-        }
+        calData(payload, name) {
+            return payload.slice(this.startPage(name), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
+        },
     },
 }
 </script>
@@ -137,11 +164,12 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 0px 10px 0px;
 }
 
-.post-container{
+.content-space{
     width: 600px;
-    height: 800px;
+    height: 450px;
     border: 1px solid #e5e5e5;
     background-color: white;
     border-radius: 5px;
@@ -149,28 +177,42 @@ export default {
     overflow: hidden;
 }
 
-.post-box{
-    height: 620px;
+.mini-space{
+    width: 600px;
+    height: 450px;
+    border: 1px solid #e5e5e5;
+    background-color: white;
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.new-posts{
+.content-box{
+    height: 310px;
+}
+
+.title{
     font-size: 25px;
     font-weight: bold;
     text-align: left;
-    padding: 50px 0px 20px 50px;
-    
+    padding: 30px 0px 20px 30px;
+    display: flex;
+    justify-content: space-between;
 }
 
-
-.posts{
+.contents{
     display: flex;
     align-items: center;
-    padding: 10px 50px 5px 50px;
-    font-size: x-large;
+    padding: 5px 30px 0px 30px;
+    font-size: 15px;
     color:black;
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
+}
+
+.check-btn{
+    margin: 0px 5px 0px 5px;
 }
 
 .post-content{
@@ -179,52 +221,19 @@ export default {
     width: 100%;
     text-align: left;
     margin-left: 5px;
-    /* border-bottom: 1px solid black; */
     border-left: 1px solid #e5e5e5;
     border-right: 1px solid #e5e5e5;
     text-indent: 5px;
+    /* border-bottom: 1px solid black; */
 }
 
 .post-img-box{
-    width: 200px;
-    padding: 0 0px 0 10px;
+    width: 100px;
+    height: 30px;
 }
 
 .post-img{
-    width:150px;
+    width: 100px;
+    height: 30px;
 }
-
-.comment-container{
-    width: 600px;
-    border: 1px solid black;
-    background-color: white;
-    max-height: 800px;
-}
-
-.new-comments{
-    font-size: 25px;
-    font-weight: bold;
-    text-align: left;
-    padding:10px;
-}
-
-.comments{
-    display: flex;
-    padding: 10px;
-}
-
-.manage-container{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.member-container{
-    width: 600px;
-}
-
-.notice-container{
-    width: 600px;
-}
-
 </style>
