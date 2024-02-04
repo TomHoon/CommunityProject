@@ -28,7 +28,7 @@
                     <div class="thumbs-area-buttons">
                       <button @click="recommendUpDown(1, item.comment_idx)" class="up-btn">
                         <!-- 색상 안들어간 따봉 up -->
-                        <i class="bi bi-hand-thumbs-up" v-if="(!item.comment_up_id_list.includes(userId))"></i>
+                        <i class="bi bi-hand-thumbs-up" v-if="(!item.comment_up_id_list.split(',').includes(userId))"></i>
                         <!-- 색상 들어간 따봉 up-->
                         <i class="bi bi-hand-thumbs-up-fill" v-else></i>
                         <span>{{item.comment_recommend}}</span>
@@ -36,7 +36,7 @@
 
                       <button @click="recommendUpDown(2, item.comment_idx)" class="down-btn">
                         <!-- 색상 안 들어간 따봉 up-->
-                        <i class="bi bi-hand-thumbs-down" v-if="(!item.comment_down_id_list.includes(userId))" ></i>
+                        <i class="bi bi-hand-thumbs-down" v-if="(!item.comment_down_id_list.split(',').includes(userId))" ></i>
                         <!-- 색상 들어간 따봉 down-->
                         <i class="bi bi-hand-thumbs-down-fill" v-else></i>
                         <span>{{item.comment_unrecommend}}</span>
