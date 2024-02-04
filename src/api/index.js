@@ -65,6 +65,12 @@ function findIdNote(payload){
 function countReadYN(payload){
   return instance.post('/countReadYN', {note_idx:payload})
 }
+function countRecv(payload){
+  return instance.post('/countRecv', {note_idx:payload})
+}
+function countSend(payload){
+  return instance.post('/countSend', {note_idx:payload})
+}
 
 
 //BoardDetails.vue
@@ -175,5 +181,7 @@ export {
   findIdNote,
   countReadYN,
   getMemberAll,
+  countRecv,
+  countSend,
   // Request,
 }

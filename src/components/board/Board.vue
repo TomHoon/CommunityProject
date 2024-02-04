@@ -79,26 +79,60 @@
       <div>
         <button class="ModalNoteInsert" @click="ModalNoteInsert">쪽지보내기</button>
       </div>
-      <div class="note_list_chk_area">
-        <span class="note_list_allNote">전체쪽지&nbsp;<strong>{{ noteList.length }}</strong> 개</span>
-        <span class="note_list_newNote" :class="{'noteNone': NoteSelected === 'sendNote'}">새쪽지&nbsp;<strong>{{readCount}}</strong> 개 </span>
-      </div>
-      <div class="note_list_noteList">
-        <div class="note_list_form" v-for="(item, idx) in noteList" :key="idx">
-          <div>
-            <hr>
-            <div class="note_list_row" @click="ModalNoteDetail(item.note_idx)">
-              <strong class="note_list_send_id">{{ item.send_id }}</strong>
-              <img src="@/assets/icons8-new-24.png" alt="new" class="NewNoteImg"
-                   v-bind:class="{'newNote': item.read_yn === true,'noteNone': NoteSelected === 'sendNote'}"/>
-              <span class="note_list_send_date">{{ item.send_date }}</span>
-              <div>
-                <span class="note_list_title">{{ item.note_title }}</span>
+      <!--      받은쪽지함      -->
+      <div :class="{'noteRecvNone': NoteSelected === 'sendNote'}">
+        <div class="note_list_chk_area">
+          <span class="note_list_allNote">전체쪽지&nbsp;<strong>{{ countRecvList }}</strong> 개</span>
+          <span class="note_list_newNote"
+                :class="{'noteRecvNone': NoteSelected === 'sendNote'}">새쪽지&nbsp;<strong>{{ readCount }}</strong> 개 </span>
+        </div>
+        <div class="note_list_noteList">
+          <div class="note_list_form" v-for="(item, idx) in recvList" :key="idx">
+            <div>
+              <hr>
+              <div class="note_list_row" @click="ModalNoteDetail(item.note_idx)">
+                <span class="note_list_send_id">보낸이 : <strong>{{ item.send_id }}</strong></span>
+                <img src="@/assets/icons8-new-24.png" alt="new" class="NewNoteImg"
+                     v-bind:class="{'newNote': item.read_yn === true,'noteRecvNone': NoteSelected === 'sendNote'}"/>
+                <span class="note_list_send_date">{{ item.send_date }}</span>
+                <div>
+                  <span class="note_list_title">{{ item.note_title }}</span>
+                </div>
               </div>
             </div>
           </div>
+          <div class="currentPageArea">
+            <button @click="previousRecvPage" :disabled="currentRecvPage <= 1" class="previousRecvPage">&lt;</button>
+            <span class="currentPage">{{ currentRecvPage }}</span>
+            <button @click="nextRecvPage" :disabled="currentRecvPage >= pageRecvCount" class="nextRecvPage">&gt;</button>
+          </div>
         </div>
-        <!--        Scroll-->
+      </div>
+      <!--      보낸쪽지함      -->
+      <div :class="{'noteSendNone': NoteSelected === 'recvNote'}">
+        <div class="note_list_chk_area">
+          <span class="note_list_allNote">전체쪽지&nbsp;<strong>{{ countSendList }}</strong> 개</span>
+          <span class="note_list_newNote"></span>
+        </div>
+        <div class="note_list_noteList">
+          <div class="note_list_form" v-for="(item, idx) in sendList" :key="idx">
+            <div>
+              <hr>
+              <div class="note_list_row" @click="ModalNoteDetail(item.note_idx)">
+                <span class="note_list_send_id">보낸이 : <strong>{{ item.send_id }}</strong></span>
+                <span class="note_list_send_date">{{ item.send_date }}</span>
+                <div>
+                  <span class="note_list_title">{{ item.note_title }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="currentPageArea">
+            <button @click="previousSendPage" :disabled="currentSendPage <= 1" class="previousSendPage">&lt;</button>
+            <span class="currentPage">{{ currentSendPage }}</span>
+            <button @click="nextSendPage" :disabled="currentSendPage >= pageSendCount" class="nextSendPage">&gt;</button>
+          </div>
+        </div>
       </div>
     </div>
   </ModalNoteList>
@@ -140,15 +174,15 @@
         <div class="note_detail_deep_hr"></div>
       </div>
       <div class="note_detail_area_titlePart">
-        <strong class="note_detail_send_id">{{ noteDetail.send_id }}</strong>
-        <span class="note_detail_send_date">{{ noteDetail.send_date }}</span>
+        <span class="note_detail_send_id">보낸이 : <strong>{{ noteDetail.send_id }}</strong></span>
+        <span class="note_detail_send_date">보낸시간 : {{ noteDetail.send_date }}</span>
       </div>
       <div>
         <div class="note_detail_light_hr"/>
-        <span class="note_detail_note_title">{{ noteDetail.note_title }}</span>
+        <span class="note_detail_note_title">제목 : {{ noteDetail.note_title }}</span>
         <span class="note_detail_note_content">{{ noteDetail.note_content }}</span>
         <div class="note_detail_light_hr02"/>
-        <span class="note_detail_read_date">확인날짜 : {{noteDetail.read_date}}</span>
+        <span class="note_detail_read_date">확인 : {{noteDetail.read_date}}</span>
       </div>
       <div class="note_detail_button">
         <button class="note_detail_back" @click="closeModal()">쪽지함</button>
@@ -156,17 +190,22 @@
         <button class="note_detail_delete" v-show="!recvShow" @click="deleteSend()">삭제</button>
       </div>
     </div>
-    </ModalNoteDetail>
+  </ModalNoteDetail>
 
+  <div>
+    <button @click="openAlert">알림창 열기</button>
+    <CustomAlert ref="alert" />
+  </div>
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, countReadYN} from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend} from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
 import ModalNoteDetail from '@/components/note/ModalNoteDetail.vue';
 import axios from "axios";
 import dayjs from 'dayjs';
+import CustomAlert from '@/components/note/CustomAlert.vue';
 export default {
   props: ['pageParams', 'transferObj'],
   data() {
@@ -196,15 +235,41 @@ export default {
       recvShow: true,
       readCount: '',
       NoteSelected: 'recvNote',
+      perRecvPage: 5,
+      currentRecvPage: 1,
+      perSendPage: 5,
+      currentSendPage: 1,
+      countRecvList: '',
+      countSendList: '',
+      message: '',
     }
   },
-  computed: { },
+  computed: {
+    // 쪽지함 페이징
+    recvList() {
+      const start = (this.currentRecvPage - 1) * this.perRecvPage;
+      const end = start + this.perRecvPage;
+      return this.recvList.slice(start, end);
+    },
+    pageRecvCount() {
+      return Math.ceil(this.recvList.length / this.perRecvPage);
+    },
+    sendList() {
+      const start = (this.currentSendPage - 1) * this.perSendPage;
+      const end = start + this.perSendPage;
+      return this.sendList.slice(start, end);
+    },
+    pageSendCount() {
+      return Math.ceil(this.sendList.length / this.perSendPage);
+    },
+  },
   watch: { },
   components: {
     ModalNoteInsert,
     ModalNoteList,
     ModalNoteDetail,
     dayjs,
+    CustomAlert,
 
   },
   async mounted() {
@@ -212,6 +277,8 @@ export default {
     this.getBoardAll();
     this.getNoteById(); // 쪽지리스트
     this.countReadYN(); // 받은쪽지갯수
+    this.countSend(); // 받은쪽지 총갯수
+    this.countRecv(); // 보낸쪽지 총갯수
     this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
     console.log("this.$store.state,", this.$store.state)
   },
@@ -262,7 +329,7 @@ export default {
     },
     goWrite() {
       if (!this.$store.getters.isLogin) {
-        alert("로그인 이후 이용 가능합니다.");
+        this.openAlert(this.message= '로그인 후 이용 가능합니다..')
         return;
       }
       this.$pushContents('BoardWrite');
@@ -350,7 +417,8 @@ export default {
     // 쪽지리스트 모달열기
     ModalNoteList() {
       if (!this.$store.getters.isLogin) {
-        alert("로그인 이후 이용 가능합니다.");
+        this.openAlert(this.message= '로그인 후 이용 가능합니다.')
+
         return;
       }
       this.$refs.ModalNoteList.modalOpen();
@@ -377,14 +445,18 @@ export default {
       }
       await this.updateReadDate(payload); // 쪽지 상세클릭(데이터변경) 함수
       await this.countReadYN(); // 새쪽지 카운터 함수
+      await this.countRecv(); // 새쪽지 카운터 함수
       const res = await axios.post('/findOneNote', param)
       this.noteDetail = res.data;
     },
     // 쪽지보내기 - 아이디 확인
     async sendIdCheck() {
       if (this.noteInsert.recv_id == '') {
-        alert("아이디를 입력해주세요.")
+        // alert("아이디를 입력해주세요.")
+        this.openAlert(this.message= '아이디를 입력해주세요.')
+
         return false;
+
       }
       let param = {
         member_id: this.noteInsert.recv_id,
@@ -392,23 +464,24 @@ export default {
       const res = await axios.post('/findIdNote', param);
       if (res.data == '1') {
         this.findId = 'Y';
-        alert("확인되었습니다.")
+        this.openAlert(this.message= '확인되었습니다.')
+
       } else {
-        alert("잘못된 아이디 입니다.")
+        this.openAlert(this.message= '잘못된 아이디 입니다.')
       }
     },
     // 쪽지보내기 - 보내기버튼
     async note_btn() {
       if (this.findId == 'N') {
-        alert("아이디 확인 바랍니다.")
+        this.openAlert(this.message= '아이디 확인 바랍니다.')
         return false;
       }
       if (this.noteInsert.note_title == '') {
-        alert("제목을 입력해주세요.")
+        this.openAlert(this.message= '제목을 입력해주세요.')
         return false;
       }
       if (this.noteInsert.note_content == '') {
-        alert("내용을 입력해주세요.")
+        this.openAlert(this.message= '내용을 입력해주세요.')
         return false;
       }
       this.send_id = this.$store.state.id;
@@ -431,7 +504,7 @@ export default {
         recv_id: this.recv_id,
       }
       const res = await axios.post('/recvList', recvParam);
-      this.noteList = res.data;
+      this.recvList = res.data.reverse();
     },
     async noteGubun($event) {
       if ($event.target.value == 'recvNote') { // 받은편지함 불러오기
@@ -440,7 +513,7 @@ export default {
         }
         this.recvShow = true; // 받은편지함 삭제버튼
         const res = await axios.post('/recvList', recvParam);
-        this.noteList = res.data;
+        this.recvList = res.data.reverse();
       }
       if ($event.target.value == 'sendNote') { // 보낸편지함 불러오기
         let sendParam = {
@@ -448,7 +521,7 @@ export default {
         }
         this.recvShow = false; // 보낸편지함 삭제버튼
         const res = await axios.post('/sendList', sendParam);
-        this.noteList = res.data;
+        this.sendList = res.data.reverse();
       }
     },
     // 쪽지상세보기 닫기
@@ -459,19 +532,19 @@ export default {
     async deleteRecv() { // 받은쪽지함 삭제
       if (confirm("쪽지를 삭제하시겠습니까?")) {
         await (deleteRecv(this.noteDetail.note_idx))
-        alert("쪽지가 삭제되었습니다.");
+        this.openAlert(this.message= '쪽지가 삭제되었습니다.')
         location.reload();
       } else
-        alert("취소하였습니다.")
+        this.openAlert(this.message= '취소하였습니다.')
 
     },
     async deleteSend() { // 보낸쪽지함 삭제
       if (confirm("쪽지를 삭제하시겠습니까?")) {
         await (deleteSend(this.noteDetail.note_idx))
-        alert("쪽지가 삭제되었습니다.");
+        this.openAlert(this.message= '쪽지가 삭제되었습니다.')
         location.reload();
       } else
-        alert("취소하였습니다.")
+        this.openAlert(this.message= '취소하였습니다.')
     },
     // 새쪽지 갯수
     async countReadYN() {
@@ -481,6 +554,48 @@ export default {
       const res = await axios.post('/countReadYN', countParam);
       this.readCount = res.data;
     },
+    // 받은쪽지 총 갯수
+    async countRecv() {
+      let countParam = {
+        recv_id: this.$store.state.id
+      }
+      const res = await axios.post('/countRecv', countParam);
+      this.countRecvList = res.data;
+    },
+    // 보낸쪽지 총 갯수
+    async countSend() {
+      let countParam = {
+        send_id: this.$store.state.id
+      }
+      const res = await axios.post('/countSend', countParam);
+      this.countSendList = res.data;
+    },
+    // 받은쪽지 페이징
+    nextRecvPage() {
+      if (this.currentRecvPage < this.pageRecvCount) {
+        this.currentRecvPage++;
+      }
+    },
+    previousRecvPage() {
+      if (this.currentRecvPage > 1) {
+        this.currentRecvPage--;
+      }
+    },
+    // 보낸쪽지 페이징
+    nextSendPage() {
+      if (this.currentSendPage < this.pageSendCount) {
+        this.currentSendPage++;
+      }
+    },
+    previousSendPage() {
+      if (this.currentSendPage > 1) {
+        this.currentSendPage--;
+      }
+    },
+    openAlert() {
+      this.$refs.alert.showAlert(this.message);
+    },
+
 
   }, // method
 }
@@ -708,15 +823,18 @@ export default {
     float: right;
     margin-right: 15px;
   }
-  .noteNone {
+  .noteRecvNone {
+    display: none;
+  }
+  .noteSendNone {
     display: none;
   }
   .note_list_allNote {
     float: right;
+    margin-bottom: 5px;
   }
   .note_list_noteList {
-    margin-top: 45px;
-    margin-bottom: 10px;
+    width: 100%;
     height: 400px;
     overflow-y: auto;
     padding-right: 15px;
@@ -729,6 +847,10 @@ export default {
   .note_list_send_id {
     margin-left: 17px;
     float: left;
+    font-size: 14px;
+  }
+  .note_list_send_id>strong {
+    font-size: 16px;
   }
   .newNote {
     display: none;
@@ -750,6 +872,48 @@ export default {
     margin-top: 8px;
     display: block;
   }
+  .currentPageArea {
+    margin: 15px 0 10px 0;
+  }
+  .currentPage {
+    margin: 0 10px;
+  }
+  .previousRecvPage {
+    box-sizing: border-box;
+    border-radius: 99%;
+    border: none;
+    background-color: #0d6efd;
+    color : white;
+    width: 27px;
+    height: 27px;
+  }
+  .nextRecvPage {
+    box-sizing: border-box;
+    border-radius: 99%;
+    border: none;
+    background-color: #0d6efd;
+    color : white;
+    width: 27px;
+    height: 27px;
+  }
+  .previousSendPage {
+    box-sizing: border-box;
+    border-radius: 99%;
+    border: none;
+    background-color: #0d6efd;
+    color : white;
+    width: 27px;
+    height: 27px;
+  }
+  .nextSendPage {
+    box-sizing: border-box;
+    border-radius: 99%;
+    border: none;
+    background-color: #0d6efd;
+    color : white;
+    width: 27px;
+    height: 27px;
+  }
   .note_detail_area {
     width: 450px;
     margin: 0 auto;
@@ -768,12 +932,14 @@ export default {
   .note_detail_send_id {
     display: block;
     float: left;
-
+    font-size: 14px;
+  }
+  .note_detail_send_id > strong {
+    font-size: 16px;
   }
   .note_detail_send_date {
     display: block;
     float: right;
-
   }
   .note_detail_light_hr {
     border: rgba(220, 217, 217, 0.2) 1px solid;
