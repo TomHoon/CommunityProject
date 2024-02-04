@@ -95,12 +95,14 @@ export default {
         url: "/v2/user/me",
         success: (res) => {
           console.log('res >>> ' , res);
-          const kakao_account = res.kakao_account;
-          const email = kakao_account.email;
+          const email = res.kakao_account.email;
+          const profile_nickname = res.kakao_account.profile.nickname
 
           // 로그인처리구현
           this.$store.commit('setId', email)
+          // this.$store.commit('setToken', res1.data.token)
           saveUserToCookie(email)
+          // saveAuthToCookie(res.data.token)
           console.log("email", email)
           alert("로그인 성공!");
           this.$pushContents("Board", {from: '로그인에서'})
