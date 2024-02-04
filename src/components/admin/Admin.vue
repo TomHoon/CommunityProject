@@ -16,19 +16,20 @@
             <div class="new-posts">
                 최신 게시글
             </div>
-            <div v-for="(item, idx) in boardData" :key="idx" class="posts">
-                <div class="post-gubun">[{{ item.gubun }}]</div>
-                <div class="post-content">{{item.title}}</div>
-                <div class="post-img-box">
-                    <img class="post-img" :src="image_path(item)">
+            <div class="post-box">
+                <div v-for="(item, idx) in calData()" :key="idx" class="posts">
+                    <div class="post-gubun">[{{ item.gubun }}]</div>
+                    <div class="post-content">{{item.title}}</div>
+                    <div class="post-img-box">
+                        <img class="post-img" :src="image_path(item)">
+                    </div>
                 </div>
             </div>
 
-            <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
-
             <div class="pagenations">
-
+                <span class="page-num" v-for="i in numOfPages()" :key="i" @click="curPageNum = i"> {{ i }} &nbsp; </span>
             </div>
+            
         </div>
 
         <div class="comment-container">
@@ -108,6 +109,9 @@ export default {
         numOfPages() {
             return Math.ceil(this.boardData.length / this.dataPerPage); // 페이지 갯수
         },
+        calData() {
+            return this.boardData.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
+        }
     },
 }
 </script>
@@ -137,7 +141,7 @@ export default {
 
 .post-container{
     width: 600px;
-    max-height: 800px;
+    height: 800px;
     border: 1px solid #e5e5e5;
     background-color: white;
     border-radius: 5px;
@@ -145,12 +149,18 @@ export default {
     overflow: hidden;
 }
 
+.post-box{
+    height: 620px;
+}
+
 .new-posts{
     font-size: 25px;
     font-weight: bold;
     text-align: left;
     padding: 50px 0px 20px 50px;
+    
 }
+
 
 .posts{
     display: flex;
