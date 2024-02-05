@@ -67,6 +67,15 @@ import {getMemberAll, getOneMember} from "@/api";
           return;
         }
         else{
+            window.Kakao.API.request({
+              url: '/v1/user/unlink',
+              success: function (response) {
+                console.log("response", response);
+              },
+              fail: function (error) {
+                console.log(error);
+              },
+            });
           this.$pushContents('Login');
         }
       },

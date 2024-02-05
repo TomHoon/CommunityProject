@@ -96,7 +96,7 @@ export default {
         success: (res) => {
           console.log('res >>> ' , res);
           const email = res.kakao_account.email;
-          const profile_nickname = res.kakao_account.profile.nickname
+          // const profile_nickname = res.kakao_account.profile.nickname
 
           // 로그인처리구현
           this.$store.commit('setId', email)
@@ -113,17 +113,7 @@ export default {
         },
       });
     },
-    kakaoLogout() {
-      window.Kakao.API.request({
-        url: '/v1/user/unlink',
-        success: function (response) {
-          console.log("response", response);
-        },
-        fail: function (error) {
-          console.log(error);
-        },
-      });
-    },
+
   }
 }
 </script>
