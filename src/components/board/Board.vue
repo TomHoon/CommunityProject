@@ -155,7 +155,7 @@
       </div>
       <div class="send_id_area">
         <input type="text" placeholder="받는아이디" v-model="noteInsert.recv_id" name="recv_id" id="recv_id" class="recv_id"
-               maxlength="13" :disabled="findId == 'Y'" autocomplete="off">
+               maxlength="30" :disabled="findId == 'Y'" autocomplete="off">
         <button @click="sendIdCheck()" class="sendIdCheck">아이디 확인</button>
       </div>
       <div class="send_id_list_area">
@@ -165,7 +165,7 @@
         </select>
 
         <div class="send_chk_area">
-          <input type="checkbox" class="send_check" id="send_chk" v-model="send_chk" :value="send_chk1" @change="sendMyChk()">
+          <input type="checkbox" class="send_check" id="send_chk" v-model="send_chk" @change="sendMyChk()">
           <label for="send_chk">나에게 보내기</label>
         </div>
       </div>
@@ -186,14 +186,15 @@
       </div>
       <div class="note_detail_area_titlePart">
         <span class="note_detail_send_id">보낸이 : <strong>{{ noteDetail.send_id }}</strong></span>
-        <span class="note_detail_send_date">보낸시간 : {{ noteDetail.send_date }}</span>
+        <span class="note_detail_send_date">보낸시간 : <span>{{ noteDetail.send_date }}</span></span>
       </div>
       <div>
         <div class="note_detail_light_hr"/>
         <span class="note_detail_note_title">제목 : {{ noteDetail.note_title }}</span>
         <span class="note_detail_note_content">{{ noteDetail.note_content }}</span>
         <div class="note_detail_light_hr02"/>
-        <span class="note_detail_read_date">확인 : {{noteDetail.read_date}}</span>
+        <span class="note_detail_recv_id">받는이 : <span>{{noteDetail.recv_id}}</span></span>
+        <span class="note_detail_read_date">확인 : <span>{{noteDetail.read_date}}</span></span>
       </div>
       <div class="note_detail_button">
         <button class="note_detail_back" @click="closeModal()">쪽지함</button>
@@ -203,10 +204,9 @@
     </div>
   </ModalNoteDetail>
 
-  <div>
-    <button @click="sendListChk">알림창 열기</button>
-    <CustomAlert ref="alert" />
-  </div>
+  <!--Custom alert-->
+  <CustomAlert ref="alert" />
+
 </template>
 <script>
 import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, sendListChk} from '@/api/index'
@@ -294,7 +294,6 @@ export default {
     this.countSend(); // 받은쪽지 총갯수
     this.countRecv(); // 보낸쪽지 총갯수
     this.sendListChk(); // 보낸쪽지 아이디리스트
-    console.log("this.sendListChk1", this.sendListChk1)
     this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
     console.log("this.$store.state,", this.$store.state)
 
@@ -469,11 +468,8 @@ export default {
     // 쪽지보내기 - 아이디 확인
     async sendIdCheck() {
       if (this.noteInsert.recv_id == '') {
-        // alert("아이디를 입력해주세요.")
-        this.openAlert(this.message= '아이디를 입력해주세요.')
-
-        return false;
-
+          this.openAlert(this.message= '아이디를 입력해주세요.')
+          return false;
       }
       let param = {
         member_id: this.noteInsert.recv_id,
@@ -1002,9 +998,12 @@ export default {
     display: block;
     float: right;
     font-size: 14px;
-    padding-top: 3px;
   }
-  .note_detail_light_hr {
+  .note_detail_send_date span{
+    font-size: 16px;
+  }
+
+.note_detail_light_hr {
     border: rgba(220, 217, 217, 0.2) 1px solid;
     margin-top: 50px;
   }
@@ -1027,20 +1026,29 @@ export default {
   .note_detail_light_hr02 {
     border: rgba(220, 217, 217, 0.2) 1px solid;
     margin-top: 10px;
-
+  }
+  .note_detail_recv_id {
+    display: block;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 10px;
+  }
+  .note_detail_recv_id span{
+    font-size: 16px;
   }
   .note_detail_read_date {
-    text-align: right;
-    width: 100%;
-    margin-top: 10px;
     display: block;
-
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: left;
+  }
+  .note_detail_read_date span{
+    font-size: 16px;
   }
   .note_detail_button {
     float: right;
     margin-top: 20px;
     margin-right: 15px;
-
   }
   .note_detail_delete {
     margin-left: 15px;
