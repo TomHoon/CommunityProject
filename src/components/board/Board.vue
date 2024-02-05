@@ -138,7 +138,7 @@
   </ModalNoteList>
 
   <!-- 쪽지쓰기 -->
-  <ModalNoteInsert ref="ModalNoteInsert" :width="800" :height="500" :clickToClose=true>
+  <ModalNoteInsert ref="ModalNoteInsert" :width="800" :height="550" :clickToClose=true>
     <div class="note_insert_area">
       <span class="note_insert_area_title">쪽지보내기</span>
     </div>
@@ -157,6 +157,17 @@
         <input type="text" placeholder="받는아이디" v-model="noteInsert.recv_id" name="recv_id" id="recv_id" class="recv_id"
                maxlength="13" :disabled="findId == 'Y'" autocomplete="off">
         <button @click="sendIdCheck()" class="sendIdCheck">아이디 확인</button>
+      </div>
+      <div class="send_id_list_area">
+        <select class="send_select" aria-label="Default select example" @change="sendListchange($event)" v-model="send_select">
+          <option selected :value="null" :class="{'noteRecvNone': send_select != null}" >보낸아이디 목록</option>
+          <option v-for="(item, idx) in sendIdListChk" :value="item.recv_id" :key="idx">{{item.recv_id}}</option>
+        </select>
+
+        <div class="send_chk_area">
+          <input type="checkbox" class="send_check" id="send_chk" v-model="send_chk" :value="send_chk1" @change="sendMyChk()">
+          <label for="send_chk">나에게 보내기</label>
+        </div>
       </div>
       <div class="note_content_area">
         <textarea placeholder="내용을 입력하세요." v-model="noteInsert.note_content" name="note_content" id="note_content"
@@ -193,12 +204,12 @@
   </ModalNoteDetail>
 
   <div>
-    <button @click="openAlert">알림창 열기</button>
+    <button @click="sendListChk">알림창 열기</button>
     <CustomAlert ref="alert" />
   </div>
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend} from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, sendListChk} from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';
@@ -242,6 +253,9 @@ export default {
       countRecvList: '',
       countSendList: '',
       message: '',
+      sendIdListChk: [],
+      send_select: null,
+      send_chk: false,
     }
   },
   computed: {
@@ -279,8 +293,11 @@ export default {
     this.countReadYN(); // 받은쪽지갯수
     this.countSend(); // 받은쪽지 총갯수
     this.countRecv(); // 보낸쪽지 총갯수
+    this.sendListChk(); // 보낸쪽지 아이디리스트
+    console.log("this.sendListChk1", this.sendListChk1)
     this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
     console.log("this.$store.state,", this.$store.state)
+
   },
   methods: {
     // isLogin() {
@@ -595,6 +612,32 @@ export default {
     openAlert() {
       this.$refs.alert.showAlert(this.message);
     },
+    async sendListChk() {
+      let sendListParam = {
+        send_id: this.$store.state.id
+      }
+      const res = await axios.post('/sendListChk', sendListParam);
+      this.sendIdListChk = res.data;
+    },
+    async sendListchange($event) {
+      if ($event.target.value) { // 보낸쪽지 아이디리스트
+        this.noteInsert.recv_id = $event.target.value;
+      }
+      if(this.send_chk === true) {
+        this.send_chk = false;
+      }
+    },
+    async sendMyChk() {
+      if(this.send_chk === true){
+        this.noteInsert.recv_id = this.$store.state.id;
+        this.send_select = null;
+
+      }else if (this.send_chk === false){
+        this.noteInsert.recv_id = "";
+        this.send_select = null;
+      }
+    },
+
 
 
   }, // method
@@ -764,6 +807,24 @@ export default {
     height: 42px;
     border-radius: 4px;
     font-size: 14px;
+  }
+  .send_id_list_area {
+    width: 53%;
+    margin-bottom: 10px;
+  }
+  .send_select {
+    width: 200px;
+    height: 40px;
+    outline: none;
+    padding: 0 10px;
+    border: #c2c2c2 1px solid;
+  }
+  .send_chk_area {
+    margin-top: 7px;
+    float: right;
+  }
+  .send_check {
+    margin-right: 10px;
   }
   .note_content {
     width: 650px;
@@ -940,6 +1001,8 @@ export default {
   .note_detail_send_date {
     display: block;
     float: right;
+    font-size: 14px;
+    padding-top: 3px;
   }
   .note_detail_light_hr {
     border: rgba(220, 217, 217, 0.2) 1px solid;

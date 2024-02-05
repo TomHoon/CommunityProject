@@ -71,6 +71,9 @@ function countRecv(payload){
 function countSend(payload){
   return instance.post('/countSend', {note_idx:payload})
 }
+function sendListChk(payload){
+  return instance.post('/sendListChk', payload)
+}
 
 
 //BoardDetails.vue
@@ -183,5 +186,6 @@ export {
   getMemberAll,
   countRecv,
   countSend,
+  sendListChk,
   // Request,
 }
