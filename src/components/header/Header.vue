@@ -16,7 +16,7 @@
       </div>
 
       <div class="member-area">
-          <button type="button" class="btn mem-btn" v-if="this.$store.getters.isLogin" @click="memberUpdate">회원수정</button>
+          <button type="button" class="btn mem-btn" v-if="this.$store.getters.isLogin, this.memberData.kakao_YN == 'N'" @click="memberUpdate">회원수정</button>
           <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin == false" @click="fnJoin">회원가입</button>
           <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin" @click="goChat">채팅테스트</button>
                     <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
@@ -27,15 +27,20 @@
 </template>
 <script>
 import { deleteCookie } from '@/utils/cookies'
+import {getMemberAll, getOneMember} from "@/api";
 
   export default {
     data() {
       return {
         searchWord: '',
         menu: false,
+        memberData: '',
       }
     },
-    mounted() {
+    async mounted() {
+      const getOneMemberRes = await getOneMember(this.$store.state.id)
+      this.memberData = getOneMemberRes.data;
+      console.log("this.memberData", this.memberData);
       this.$store.getters.isLogin ? this.isLogin = true : this.$store.getters.clearUserAll;
     },
     computed: {
@@ -87,7 +92,7 @@ import { deleteCookie } from '@/utils/cookies'
       },
       goTest() {
         this.$router.push('/admin');
-      }
+      },
     },
     emits: ['searchBoard', 'allBoard','boardChange'],
   }
