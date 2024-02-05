@@ -11,8 +11,8 @@ const 개발 = 'localhost:8082';
  */
 
 const 프로토콜 = {
-  API: 'https://',
-  WS: 'wss://'
+  API: 'http://',
+  WS: 'ws://'
 }
 
 const access_point = 운영;  // <-- 🎈🎈 여기만 바꾸면 됨

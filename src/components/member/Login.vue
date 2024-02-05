@@ -20,6 +20,7 @@
         <img src="@/assets/kakao_login_medium_narrow.png" title="카카오로 가입하기" class="kakaoLogin" @click="kakaoLogin()">
       </div>
       <div class="join" @click="fnJoin"><span class="join_btn" title="개인회원 가입하기">개인회원 가입하기</span></div>
+      <div class="google" @click="socialLogin"><span class="join_btn" title="개인회원 가입하기">구글 로그인하기</span></div>
       <button title="카카오 로그아웃" class="kakaoLogout" @click="kakaoLogout()">카카오 로그아웃</button>
 
 
@@ -43,10 +44,14 @@ export default {
     transferObj: Object,
   },
   mounted() {
+    
     this.$store.getters.isLogin ? this.$pushContents('Board') : '';
   },
   // 💕메소드 첫 알파벳은 소문자로 표기
   methods: {
+    socialLogin() {
+      location.href = 'https://accounts.google.com/o/oauth2/auth?client_id=139943607073-4qjupl7rokl09hplgr05a9nd8bb7srsj.apps.googleusercontent.com&redirect_uri=http://tomhoon.duckdns.org:18080/login/oauth2/code/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email';
+    },
     async fnLogin() {
       let 로그인파라미터 = {
         member_id : this.member_id,
@@ -199,9 +204,25 @@ export default {
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
-
 }
 .join_btn {
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 45px;
+}
+.google {
+  font-size: 12px;
+  color: black;
+  box-sizing: border-box;
+  background-color:#ffffff;
+  width: 183px;
+  height: 45px;
+  margin: 20px auto;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.google_btn {
   cursor: pointer;
   font-size: 15px;
   line-height: 45px;
