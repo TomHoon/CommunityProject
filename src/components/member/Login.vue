@@ -21,15 +21,22 @@
       </div>
       <div class="join" @click="fnJoin"><span class="join_btn" title="개인회원 가입하기">개인회원 가입하기</span></div>
       <div class="google" @click="socialLogin"><span class="join_btn" title="개인회원 가입하기">구글 로그인하기</span></div>
-      <button title="카카오 로그아웃" class="kakaoLogout" @click="kakaoLogout()">카카오 로그아웃</button>
-
+          <!--img src="@/assets/btnG_naverLogin.png" class="naverLogin"/>-->
+<!--
+        <div>
+        <div id="naverIdLogin"></div>
+        <button type="button" @click="logout">로그아웃</button>
+      </div>
+-->
 
     </div>
 
 </template>
 <script>
-import { loginMember, } from '@/api/index'
+import {joinMember, loginMember,} from '@/api/index'
 import { saveAuthToCookie, saveUserToCookie} from '@/utils/cookies'
+import axios from "axios";
+
 
 export default {
   name: "Login",
@@ -37,15 +44,52 @@ export default {
     return {
       member_id: '',
       member_pw: '',
+      // naverLogin: null,
     };
+  },
+  components: {
   },
   props: {
     pageParams: Object,
     transferObj: Object,
   },
   mounted() {
-    
     this.$store.getters.isLogin ? this.$pushContents('Board') : '';
+
+    // 네이버로그인은 잠시 보류
+    /*this.naverLogin = new window.naver.LoginWithNaverId({
+      clientId: "SFxDgBLFfkWkbaprMhoV", //개발자센터에 등록한 ClientID
+      callbackUrl: "http://localhost:8081", //개발자센터에 등록한 callback Url
+      isPopup: false, //팝업을 통한 연동처리 여부
+      loginButton: { color: "green", type: 3, height: 45 }, //로그인 버튼의 타입을 지정
+    });
+
+    //설정정보를 초기화하고 연동을 준비
+    this.naverLogin.init();
+
+    this.naverLogin.getLoginStatus((status) => {
+      if (status) {
+        console.log("status", status);
+        console.log("this.naverLogin.user",this.naverLogin.user);
+
+        //필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크
+        var email = this.naverLogin.user.getEmail();
+        if (email == undefined || email == null) {
+          alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
+          //사용자 정보 재동의를 위하여 다시 네아로 동의페이지로 이동함
+          this.naverLogin.reprompt();
+          return;
+        }
+        this.$store.commit('setId', email)
+        saveUserToCookie(email)
+
+        // saveAuthToCookie(res.data.token)
+        console.log("email", email)
+      } else {
+        console.log("callback 처리에 실패하였습니다.");
+      }
+
+    });*/
   },
   // 💕메소드 첫 알파벳은 소문자로 표기
   methods: {
@@ -101,7 +145,7 @@ export default {
         success: (res) => {
           console.log('res >>> ' , res);
           const email = res.kakao_account.email;
-          // const profile_nickname = res.kakao_account.profile.nickname
+          const profile_nickname = res.kakao_account.profile.nickname
 
           // 로그인처리구현
           this.$store.commit('setId', email)
@@ -111,15 +155,25 @@ export default {
           console.log("email", email)
           alert("로그인 성공!");
           this.$pushContents("Board", {from: '로그인에서'})
-
         },
         fail: (error) => {
           console.log(error);
         },
       });
     },
+    // 네이버 로그인을 위한 url 이동
+    /*
+    logout() {
+      const accessToken = this.naverLogin.accessToken.accessToken;
+      const url = `/oauth2.0/token?grant_type=delete&client_id=SFxDgBLFfkWkbaprMhoV&client_secret=4pgXg1Ybwn&access_token=${accessToken}&service_provider=NAVER`;
+      console.log("logout");
+      axios.get(url).then((res) => {
+        console.log(res.data);
+      });
 
-  }
+    },*/
+  }, // methods
+
 }
 </script>
 
@@ -233,6 +287,10 @@ export default {
   float: left;
   display: inline;
 
+}
+.naverLogin {
+  width: 183px;
+  height: 45px;
 }
 
 /*모바일 반응형*/
