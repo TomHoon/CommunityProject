@@ -1,5 +1,7 @@
 import store from '@/main'
 import { checkToken } from '@/api/index';
+import { deleteCookie } from '@/utils/cookies'
+
 
 export function setInterceptors(instance) {
   // Add a request interceptor
@@ -10,8 +12,15 @@ export function setInterceptors(instance) {
     const res = await checkToken(store.state.id, store.state.token)
     if(res.data !== "유효한 토큰입니다"){
       alert("잘못된 토큰입니다")
+      // this.$pushContents('Login')
+      store.commit('clearId') 
+      store.commit('clearToken')
+      deleteCookie("token")
+      deleteCookie("id")
+      //pushcontents 가 들어갈 공간
       // return Promise.reject(new Error("Invalid token"))
-      return new Promise(() => {})
+      return new Promise(() => {
+      })
     }
 
     return config;
