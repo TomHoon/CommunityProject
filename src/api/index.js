@@ -26,52 +26,63 @@ const instance = createInstance();
 
 // const newInterceptors = setInterceptors()
 
-
+//Board.vue
 function getBoardAll(payload) {
-  return instance.post('/getBoardAll', {order : payload})
+  return axios.post('/getBoardAll', {order : payload})
 }
 
 function searchBoard(payload) {
-  return instance.post('/searchBoard', {title: payload})
+  return axios.post('/searchBoard', {title: payload})
 }
 
 function updateHitBoard(payload){
-  return instance.post('/updateHitBoard', payload)
+  return axios.post('/updateHitBoard', payload)
 }
 
 function sendList(payload){
   return instance.post('/sendList', payload)
 }
+
 function recvList(payload){
   return instance.post('/recvList', payload)
 }
+
 function findOneNote(payload){
   return instance.post('/findOneNote', {note_idx:payload})
 }
+
 function updateReadDate(payload){
   return instance.post('/updateReadDate', {note_idx:payload})
 }
+
 function deleteRecv(payload){
   return instance.post('/deleteRecv', {note_idx:payload})
 }
+
 function deleteSend(payload){
   return instance.post('/deleteSend', {note_idx:payload})
 }
+
 function insertNote(payload){
   return instance.post('/insertNote', payload)
 }
+
 function findIdNote(payload){
   return instance.post('/findIdNote', payload)
 }
+
 function countReadYN(payload){
   return instance.post('/countReadYN', {note_idx:payload})
 }
+
 function countRecv(payload){
   return instance.post('/countRecv', {note_idx:payload})
 }
+
 function countSend(payload){
   return instance.post('/countSend', {note_idx:payload})
 }
+
 function sendListChk(payload){
   return instance.post('/sendListChk', payload)
 }
@@ -99,7 +110,7 @@ function updateRecommendBoard(payload){
 }
 
 function getCommentByBoard(payload){
-  return instance.post('/getCommentByBoard', {id: payload});
+  return axios.post('/getCommentByBoard', {id: payload});
 }
 
 function addComment(payload){
@@ -132,7 +143,7 @@ function tempImg(payload){
 }
 
 function joinMember(payload){
-  return instance.post("/joinMember", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
+  return axios.post("/joinMember", payload, { headers: { 'Content-Type': 'multipart/form-data' } } )
 }
 
 
@@ -156,7 +167,7 @@ function getMemberAll(){
 
 //all
 function checkToken(id,token) {
-  return instance.get('/checkToken', {id:id, token:token})
+  return instance.post('/checkToken', {id:id, token:token})
 }
 
 
