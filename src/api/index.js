@@ -26,6 +26,7 @@ const instance = createInstance();
 
 // const newInterceptors = setInterceptors()
 
+
 function getBoardAll(payload) {
   return instance.post('/getBoardAll', {order : payload})
 }
@@ -153,6 +154,11 @@ function getMemberAll(){
   return instance.get("/getMemberAll")
 }
 
+//all
+function checkToken(id,token) {
+  return instance.get('/checkToken', {id:id, token:token})
+}
+
 
 export {
   getBoardAll,
@@ -187,5 +193,6 @@ export {
   countRecv,
   countSend,
   sendListChk,
+  checkToken,
   // Request,
 }
