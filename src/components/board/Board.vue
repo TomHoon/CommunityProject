@@ -25,7 +25,6 @@
       <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="detailChain(item)">
         <div class="board-table-cell1">
           <img class="product-img" :src="image_path(item)">
-          <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
         </div>
         <div class="board-table-cell2">
           <div>
@@ -286,7 +285,7 @@ export default {
     CustomAlert,
 
   },
-  async mounted() {
+  mounted() {
     this.$propsWatch();
     this.getBoardAll();
     this.getNoteById(); // 쪽지리스트
@@ -295,8 +294,6 @@ export default {
     this.countRecv(); // 보낸쪽지 총갯수
     this.sendListChk(); // 보낸쪽지 아이디리스트
     this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
-    console.log("this.$store.state,", this.$store.state)
-
   },
   methods: {
     // isLogin() {
