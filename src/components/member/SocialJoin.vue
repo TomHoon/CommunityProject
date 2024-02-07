@@ -41,6 +41,7 @@
         </span>
     </div>
     <input type="hidden" v-model="member_del_yn">
+    <input type="hidden" v-model="file_idx">
     <div class="buttons">
       <button class="join_btn" @click="home">뒤로가기</button>
       <button class="join_btn" @click="join">가입</button>
@@ -51,7 +52,7 @@
 </template>
 
 <script>
-import {joinMember, findIdNote} from '@/api/index';
+import {joinMember, findIdNote,} from '@/api/index';
 import Vue from 'vue'
 import axios from 'axios'; //axios 호출
 
@@ -69,6 +70,7 @@ export default {
       extraAddress: "",
       member_del_yn: "",
       checkPhone_memo : false,
+      file_idx: '',
     };
   },
   props: {
@@ -106,8 +108,8 @@ export default {
         member_address: this.member_address + " " + this.detailAddress, //this.extraAddress,
         member_email: this.$store.state.id,
         member_del_yn: 'N',
-        file_idx: this.$store.state.profile_image_url,
         kakao_YN: 'Y',
+        file_idx: this.$store.state.profile_image_url,
       };
       if (this.member_phone == '') {
         alert("전화번호를 입력해주세요.")
@@ -145,17 +147,6 @@ export default {
         this.checkPhone_memo = false
       }
     },
-    checkEmail() {
-      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z\\-]+/
-      this.checkEmail_memo = false
-      if (!validateEmail.test(this.member_email) || !this.member_email) {
-        this.checkEmail_memo = true
-        return false;
-      }else {
-        this.checkEmail_memo = false
-      }
-    },
-
     execDaumPostcode() {
       new window.daum.Postcode({
         oncomplete: (data) => {
