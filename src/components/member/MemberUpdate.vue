@@ -5,7 +5,8 @@
   <div class="join_form">
     <div class="profile_form">
       <span class="profile_label">프로필</span>
-      <img :src="imgPath" class="profile_Img" alt='프로필' />
+      <img v-if="this.memberInfo.kakao_YN === 'Y'" :src="imgPathKakao" class="profile_Img" alt='프로필' />
+      <img v-else :src="imgPath" class="profile_Img" alt='프로필' />
       <label for="member_profile">+</label>
       <span class="float-right">
           <input type="file" ref="fileUpload" @change="temporaryImg" id="member_profile" class="member_profile" accept="image/*">
@@ -52,7 +53,7 @@
     <div class="name_form">
       <label for="member_name">이름</label>
       <span class="float-right">
-          <input type="text" id="member_name" readonly v-model="memberInfo.member_name" class="member_name" autocomplete="off" ref="member_name">
+          <input type="text" id="member_name" v-model="memberInfo.member_name" class="member_name" autocomplete="off" ref="member_name">
         </span>
     </div>
     <div class="nickname_form">
@@ -95,6 +96,7 @@
       <span class="member_delete_btn" @click="memberDelete">회원탈퇴</span>
     </div>
     <input type="hidden" v-model="member_del_yn">
+    <input type="hidden" v-model="file_idx">
     <div class="buttons">
       <button class="join_btn" @click="backPage">뒤로가기</button>
       <button class="join_btn" @click="join">수정하기</button>
@@ -106,6 +108,7 @@
 
 <script>
 import { getOneMember, getOneFile, tempImg, joinOut, memberUpdate } from '@/api/index'
+import {includes} from "core-js/internals/array-includes";
 
 export default {
   name: "Join",
@@ -114,6 +117,7 @@ export default {
     return {
       isShowPw1: false,
       isShowPw2: false,
+      imgPathKakao: this.$store.state.profile_image_url,
       imgPath: this.$store.state.defaultImgpath,
       memberInfo: {
         member_id: '',
@@ -135,12 +139,13 @@ export default {
       member_del_yn: "",
       checkPhone_memo : false,
       checkEmail_memo : false,
+      file_idx: '',
     };
   },
   async mounted() {
     const getOneMemberRes = await getOneMember(this.$store.state.id)
     this.memberInfo = getOneMemberRes.data;
-
+    console.log("this.memberInfo",this.memberInfo)
     const getOneFileRes = await getOneFile(this.memberInfo.file_idx)
     getOneFileRes.data.file_path ? this.imgPath = getOneFileRes.data.file_path : ''
 
@@ -163,6 +168,7 @@ export default {
 
   },
   methods: {
+    includes,
     showPw(flag) {
       if (flag == 1) {
         this.$refs.member_pw.type = this.$refs.member_pw.type == 'text' ? 'password' : 'text';
@@ -208,7 +214,7 @@ export default {
         member_phone: this.memberInfo.member_phone,
         member_email: this.memberInfo.member_email,
         member_address: this.memberInfo.member_address + " " + this.memberInfo.detailAddress,
-        member_del_yn: 'N',
+        file_idx: this.file_idx,
       };
       if (this.memberInfo.member_pw == '') {
         alert("비밀번호를 입력해주세요.")
@@ -610,7 +616,6 @@ export default {
   color: rgba(66, 64, 64, 0.75);
   font-size: 15px;
   margin-top: 12px;
-  background-color: #d3d2d2;
 
 }
 

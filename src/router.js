@@ -5,6 +5,7 @@ import Admin from '@/components/admin/Admin'
 import AdminLogin from '@/components/admin/AdminLogin'
 import NotFound from '@/components/admin/NotFound'
 import Error from '@/components/admin/Error'
+import SocialJoin from '@/components/member/SocialJoin'
 
 const routes = [
   {
@@ -27,7 +28,12 @@ const routes = [
   },
   {
     path: '/:catchAll(.*)',
-    component: Error
+    component: Error,
+  },
+  {
+    path: '/SocialJoin',
+    component: SocialJoin,
+    props: true,
   }
 ];
 

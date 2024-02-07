@@ -145,16 +145,20 @@ export default {
         success: (res) => {
           console.log('res >>> ' , res);
           const email = res.kakao_account.email;
+          const profile_image_url = res.kakao_account.profile.profile_image_url
           const profile_nickname = res.kakao_account.profile.nickname
 
           // 로그인처리구현
           this.$store.commit('setId', email)
+          this.$store.commit('setProfile_nickname', profile_nickname)
+          this.$store.commit('setProfile_image_url', profile_image_url)
+
           // this.$store.commit('setToken', res1.data.token)
           saveUserToCookie(email)
           // saveAuthToCookie(res.data.token)
           console.log("email", email)
-          alert("로그인 성공!");
-          this.$pushContents("Board", {from: '로그인에서'})
+          this.$router.push('/SocialJoin');
+
         },
         fail: (error) => {
           console.log(error);

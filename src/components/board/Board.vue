@@ -6,7 +6,6 @@
       <span class="message_image note_modalOpen"  @click="ModalNoteList">
         <img src="@/assets/icons8-message_white-48.png" alt="쪽지함" class="message_white_btn" title="쪽지함">
         <span class="countRecvChk" v-if="this.$store.getters.isLogin">{{readCount}}</span>
-
       </span>
       <button type="button" class="btn btn-primary right-btn" @click="changeBest">베스트</button>
       <button type="button" class="btn btn-primary right-btn" @click="changeCreateTime">날짜순</button>
@@ -208,7 +207,7 @@
 
 </template>
 <script>
-import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, sendListChk} from '@/api/index'
+import {getBoardAll, searchBoard, updateHitBoard, deleteRecv, deleteSend, } from '@/api/index'
 import comhubImg from '@/assets/comhub.png'
 import ModalNoteInsert from '@/components/note/ModalNoteInsert.vue';
 import ModalNoteList from '@/components/note/ModalNoteList.vue';

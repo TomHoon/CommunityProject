@@ -174,6 +174,7 @@ export default {
         member_address: this.member_address + " " + this.detailAddress, //this.extraAddress,
         //detailAddress: this.detailAddress,
         member_del_yn: 'N',
+        kakao_YN: 'N',
       };
       if (this.member_id == '') {
         alert("아이디를 입력해주세요.")
