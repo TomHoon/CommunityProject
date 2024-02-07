@@ -9,7 +9,9 @@ export function setInterceptors(instance) {
     // Do something before request is sent
     config.headers.Authorization = store.state.token;
 
+    const pushContent = window.$app.config.globalProperties.$pushContents;
     const res = await checkToken(store.state.id, store.state.token)
+
     if(res.data !== "유효한 토큰입니다"){
       alert("잘못된 토큰입니다")
       // this.$pushContents('Login')
@@ -17,7 +19,8 @@ export function setInterceptors(instance) {
       store.commit('clearToken')
       deleteCookie("token")
       deleteCookie("id")
-      //pushcontents 가 들어갈 공간
+      pushContent('Login')
+
       // return Promise.reject(new Error("Invalid token"))
       return new Promise(() => {
       })
