@@ -20,7 +20,7 @@
             <div class="id_check_memo">아이디는 영문+숫자 포함 6~12자 이하</div>
         </span>
     </div>
-    <div class="pw_form">
+    <div class="pw_form" v-if="this.memberInfo.kakao_YN === 'N'">
       <label for="member_pw">비밀번호</label>
       <span class="float-right">
           <input type="password" id="member_pw" v-model="memberInfo.member_pw" class="member_pw"
@@ -36,7 +36,7 @@
           <div class="pw_check_memo">비밀번호는 영문+숫자+특수기호 포함 8자 이상</div>
       </span>
     </div>
-    <div class="pw_check_form">
+    <div class="pw_check_form"  v-if="this.memberInfo.kakao_YN === 'N'">
       <label for="member_pw_check">비밀번호확인</label>
       <span class="float-right">
           <input type="password" id="member_pw_check" v-model="member_pw_check" class="member_pw_check"
@@ -50,7 +50,7 @@
           </span>
         </span>
     </div>
-    <div class="name_form">
+    <div class="name_form"  v-if="this.memberInfo.kakao_YN === 'N'">
       <label for="member_name">이름</label>
       <span class="float-right">
           <input type="text" id="member_name" v-model="memberInfo.member_name" class="member_name" autocomplete="off" ref="member_name">
@@ -85,11 +85,11 @@
       <span class="float-right">
           <input type="text" v-model="postcode" class="postcode" placeholder="우편번호">
           <input type="button" @click="execDaumPostcode()" class="execDaumPostcode" value="우편번호 찾기"><br>
-          <input type="text" id="detailAddress" v-model="memberInfo.detailAddress" class="detailAddress" placeholder="상세주소"
+          <input type="text" id="detailAddress" v-model="detailAddress" class="detailAddress" placeholder="상세주소"
                  autocomplete="off"><br>
           <input type="text" id="member_address" v-model="memberInfo.member_address" class="member_address" placeholder="주소"
-                 autocomplete="off"><br>
-          <input type="text" id="extraAddress" v-model="extraAddress" class="extraAddress" readonly>
+                 autocomplete="off" ref="member_address"><br>
+          <input type="text" id="extraAddress" v-model="memberInfo.extraAddress" class="extraAddress" readonly>
         </span>
     </div>
     <div class="member_delete">
@@ -111,7 +111,7 @@ import { getOneMember, getOneFile, tempImg, joinOut, memberUpdate } from '@/api/
 import {includes} from "core-js/internals/array-includes";
 
 export default {
-  name: "Join",
+  name: "MemberUpdate",
   data() {
     //true
     return {
@@ -139,7 +139,7 @@ export default {
       member_del_yn: "",
       checkPhone_memo : false,
       checkEmail_memo : false,
-      file_idx: '',
+      file_idx: this.$store.state.profile_image_url,
     };
   },
   async mounted() {
@@ -149,7 +149,7 @@ export default {
     const getOneFileRes = await getOneFile(this.memberInfo.file_idx)
     getOneFileRes.data.file_path ? this.imgPath = getOneFileRes.data.file_path : ''
 
-    this.member_pw_check = this.memberInfo.member_pw;
+    // this.member_pw_check = this.memberInfo.member_pw;
   },
   computed: {
     /*
@@ -159,7 +159,7 @@ export default {
     */
   },
   watch: {
-    'memberInfo.member_pw': function () {
+    'member_pw': function () {
       this.checkPw()
     },
     'member_pw_check': function () {
@@ -206,53 +206,60 @@ export default {
       // event.preventDefault();
 
       // 로그인 처리 로직 작성
-      let 회원가입파라미터 = {
-        member_id: this.memberInfo.member_id,
+      let 회원수정파라미터 = {
+        member_id: this.$store.state.id,
         member_pw: this.memberInfo.member_pw,
         member_name: this.memberInfo.member_name,
         member_nickname: this.memberInfo.member_nickname,
         member_phone: this.memberInfo.member_phone,
         member_email: this.memberInfo.member_email,
         member_address: this.memberInfo.member_address + " " + this.memberInfo.detailAddress,
-        file_idx: this.file_idx,
-      };
-      if (this.memberInfo.member_pw == '') {
-        alert("비밀번호를 입력해주세요.")
-        this.$refs.memberInfo.member_pw.focus();
-        return false;
       }
-      if (this.member_pw_check == '') {
-        alert("비밀번호확인을 입력해주세요.")
-        this.$refs.member_pw_check.focus();
-        return false;
+      if(this.memberInfo.kakao_YN === 'N') {
+
+        if (this.memberInfo.member_pw == '' || this.memberInfo.member_pw == null) {
+          alert("비밀번호를 입력해주세요.")
+          this.$refs.member_pw.focus();
+          return false;
+        }
+        if (this.member_pw_check == '' || this.member_pw_check == null) {
+          alert("비밀번호확인을 입력해주세요.")
+          this.$refs.member_pw_check.focus();
+          return false;
+        }
+        if (this.memberInfo.member_name == '' || this.memberInfo.member_name == null) {
+          alert("이름을 입력해주세요.")
+          this.$refs.member_nickname.focus();
+          return false;
+        }
       }
-      if (this.memberInfo.member_nickname == '') {
+      if(this.memberInfo.member_nickname == '' || this.memberInfo.member_nickname == null) {
         alert("닉네임을 입력해주세요.")
-        this.$refs.memberInfo.member_nickname.focus();
+        this.$refs.member_nickname.focus();
         return false;
       }
-      if (this.memberInfo.member_phone == '') {
+      if (this.memberInfo.member_phone == '' || this.memberInfo.member_phone == null) {
         alert("전화번호를 입력해주세요.")
-        this.$refs.memberInfo.member_phone.focus();
+        this.$refs.member_phone.focus();
         return false;
       }
-      if (this.memberInfo.member_email == '') {
+      if (this.memberInfo.member_email == '' || this.memberInfo.member_email == null) {
         alert("이메일을 입력해주세요.")
-        this.$refs.memberInfo.member_email.focus();
+        this.$refs.member_email.focus();
         return false;
       }
-      if (this.memberInfo.member_address == '') {
+      if (this.memberInfo.member_address == '' || this.memberInfo.member_address == null) {
         alert("주소를 입력해주세요.")
         return false;
       }
       if(this.checkPhone_memo == true) {
         alert("올바른 휴대폰번호를 입력해주세요.")
-        this.$refs.memberInfo.member_phone.focus();
+        this.$refs.member_phone.focus();
         return false;
       }
       if(this.checkEmail_memo == true) {
         alert("올바른 이메일 형식을 입력해주세요.")
-        this.$refs.memberInfo.member_email.focus();
+        this.$refs.member_email.focus();
         return false;
       }
       // axios.post("/joinMember", 회원가입파라미터)
@@ -271,10 +278,11 @@ export default {
       //   }
       // })
       const formData = new FormData();
-      formData.append('mFile', this.$refs.fileUpload.files[0]);
-      let param = 회원가입파라미터;
+      if(this.memberInfo.kakao_YN === 'N') {
+        formData.append('mFile', this.$refs.fileUpload.files[0]);
+      }
 
-      formData.append('param', JSON.stringify(param));
+      formData.append('param', JSON.stringify(회원수정파라미터));
       const res = await memberUpdate(formData)
       if (res.data == "수정완료") {
         this.$backPage();
@@ -327,15 +335,15 @@ export default {
     execDaumPostcode() {
       new window.daum.Postcode({
         oncomplete: (data) => {
-          if (this.extraAddress !== "") {
-            this.extraAddress = "";
+          if (this.memberInfo.extraAddress !== "") {
+            this.memberInfo.extraAddress = "";
           }
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
-            this.member_address = data.roadAddress;
+            this.memberInfo.member_address = data.roadAddress;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
-            this.member_address = data.jibunAddress;
+            this.memberInfo.member_address = data.jibunAddress;
           }
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
@@ -343,21 +351,21 @@ export default {
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
             if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-              this.extraAddress += data.bname;
+              this.memberInfo.extraAddress += data.bname;
             }
             // 건물명이 있고, 공동주택일 경우 추가한다.
             if (data.buildingName !== "" && data.apartment === "Y") {
-              this.extraAddress +=
-                  this.extraAddress !== ""
+              this.memberInfo.extraAddress +=
+                  this.memberInfo.extraAddress !== ""
                       ? `, ${data.buildingName}`
                       : data.buildingName;
             }
             // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if (this.extraAddress !== "") {
-              this.extraAddress = `(${this.extraAddress})`;
+            if (this.memberInfo.extraAddress !== "") {
+              this.memberInfo.extraAddress = `(${this.memberInfo.extraAddress})`;
             }
           } else {
-            this.extraAddress = "";
+            this.memberInfo.extraAddress = "";
           }
           // 우편번호를 입력한다.
           this.postcode = data.zonecode;
