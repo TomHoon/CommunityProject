@@ -63,3 +63,8 @@ app.use(router);
 app.use(store);
 app.use(GlobalJs);
 app.mount('#app');
+
+
+// webpack으로 모듈화해서 묶지 않는 파일에서 사용하기 위함
+window.$app = app; 
+window.$store = store;

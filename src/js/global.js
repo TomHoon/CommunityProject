@@ -6,7 +6,8 @@ export default {
         pageInfo: payload,
         transferObj: {}
       }
-      this.$store.state.mainLayer.push(changed);
+      // this.$store.state.mainLayer.push(changed);
+      window.$store.state.mainLayer.push(changed);
     },
     Vue.config.globalProperties.$backPage = function(payload = {}) {
       this.$store.state.mainLayer.pop();
