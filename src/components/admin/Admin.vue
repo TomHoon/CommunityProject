@@ -6,7 +6,7 @@
             <img src="@/assets/comhub.png" class="logo">
         </div>
         <div>
-            관리자님 환영합니다 3 t
+            관리자님 환영합니다
         </div>
     </div>
 
