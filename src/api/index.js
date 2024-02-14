@@ -15,7 +15,6 @@ import { setInterceptors } from '@/api/common/interceptors'
 
 function createInstance() {
   const instance = axios.create({
-    
   });
   return setInterceptors(instance);
 }
