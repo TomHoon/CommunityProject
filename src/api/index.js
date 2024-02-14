@@ -15,6 +15,7 @@ import { setInterceptors } from '@/api/common/interceptors'
 
 function createInstance() {
   const instance = axios.create({
+    baseURL: process.env.VUE_APP_API_URL,
   });
   return setInterceptors(instance);
 }
@@ -28,7 +29,7 @@ const instance = createInstance();
 
 //Board.vue
 function getBoardAll(payload) {
-  return axios.post('/getBoardAll', {order : payload})
+  return instance.post('/getBoardAll', {order : payload, headers: { requiresToken: false } },)
 }
 
 function searchBoard(payload) {

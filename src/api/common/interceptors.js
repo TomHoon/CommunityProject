@@ -8,22 +8,24 @@ export function setInterceptors(instance) {
   instance.interceptors.request.use(async function (config) {
     // Do something before request is sent
     config.headers.Authorization = store.state.token;
+    
+    if( config.headers.requiresToken) {
 
-    const pushContent = window.$app.config.globalProperties.$pushContents;
-    const res = await checkToken(store.state.id, store.state.token)
+      const pushContent = window.$app.config.globalProperties.$pushContents;
+      const res = await checkToken(store.state.id, store.state.token)
+      
+      if(res.data !== "유효한 토큰입니다"){
+        alert("잘못된 토큰입니다")
+        // this.$pushContents('Login')
+        store.commit('clearId') 
+        store.commit('clearToken')
+        deleteCookie("token")
+        deleteCookie("id")
+        pushContent('Login')
 
-    if(res.data !== "유효한 토큰입니다"){
-      alert("잘못된 토큰입니다")
-      // this.$pushContents('Login')
-      store.commit('clearId') 
-      store.commit('clearToken')
-      deleteCookie("token")
-      deleteCookie("id")
-      pushContent('Login')
-
-      // return Promise.reject(new Error("Invalid token"))
-      return new Promise(() => {
-      })
+        // return Promise.reject(new Error("Invalid token"))
+        throw new Error("Invalid token")
+      }
     }
 
     return config;
