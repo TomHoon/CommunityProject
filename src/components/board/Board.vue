@@ -284,7 +284,7 @@ export default {
     CustomAlert,
 
   },
-  mounted() {
+  async mounted() {
     this.$propsWatch();
     this.getBoardAll();
     this.getNoteById(); // 쪽지리스트
@@ -445,8 +445,8 @@ export default {
         note_idx: payload,
         read_date: this.currentDate,
       }
-      const res = await axios.post('/updateReadDate', param)
-      this.noteDetail = res.data;
+      // const res = await axios.post('/updateReadDate', param)
+      // this.noteDetail = res.data;
       //------------------------------------------------------------------------처리중
     },
     // 쪽지상세확인 모달열기
@@ -458,8 +458,8 @@ export default {
       await this.updateReadDate(payload); // 쪽지 상세클릭(데이터변경) 함수
       await this.countReadYN(); // 새쪽지 카운터 함수
       await this.countRecv(); // 새쪽지 카운터 함수
-      const res = await axios.post('/findOneNote', param)
-      this.noteDetail = res.data;
+      // const res = await axios.post('/findOneNote', param)
+      // this.noteDetail = res.data;
     },
     // 쪽지보내기 - 아이디 확인
     async sendIdCheck() {
@@ -470,14 +470,14 @@ export default {
       let param = {
         member_id: this.noteInsert.recv_id,
       }
-      const res = await axios.post('/findIdNote', param);
-      if (res.data == '1') {
-        this.findId = 'Y';
-        this.openAlert(this.message= '확인되었습니다.')
+      // const res = await axios.post('/findIdNote', param);
+      // if (res.data == '1') {
+      //   this.findId = 'Y';
+      //   this.openAlert(this.message= '확인되었습니다.')
 
-      } else {
-        this.openAlert(this.message= '잘못된 아이디 입니다.')
-      }
+      // } else {
+      //   this.openAlert(this.message= '잘못된 아이디 입니다.')
+      // }
     },
     // 쪽지보내기 - 보내기버튼
     async note_btn() {
@@ -502,8 +502,8 @@ export default {
         read_yn: false,
         send_date: this.currentDate,
       };
-      const res = await axios.post('/insertNote', noteParam);
-      this.noteList = res.data;
+      // const res = await axios.post('/insertNote', noteParam);
+      // this.noteList = res.data;
       location.reload();
     },
     // 쪽지리스트 불러오기
@@ -512,8 +512,8 @@ export default {
       let recvParam = {
         recv_id: this.recv_id,
       }
-      const res = await axios.post('/recvList', recvParam);
-      this.recvList = res.data.reverse();
+      // const res = await axios.post('/recvList', recvParam);
+      // this.recvList = res.data.reverse();
     },
     async noteGubun($event) {
       if ($event.target.value == 'recvNote') { // 받은편지함 불러오기
@@ -521,16 +521,16 @@ export default {
           recv_id: this.$store.state.id
         }
         this.recvShow = true; // 받은편지함 삭제버튼
-        const res = await axios.post('/recvList', recvParam);
-        this.recvList = res.data.reverse();
+        // const res = await axios.post('/recvList', recvParam);
+        // this.recvList = res.data.reverse();
       }
       if ($event.target.value == 'sendNote') { // 보낸편지함 불러오기
         let sendParam = {
           send_id: this.$store.state.id
         }
         this.recvShow = false; // 보낸편지함 삭제버튼
-        const res = await axios.post('/sendList', sendParam);
-        this.sendList = res.data.reverse();
+        // const res = await axios.post('/sendList', sendParam);
+        // this.sendList = res.data.reverse();
       }
     },
     // 쪽지상세보기 닫기
@@ -560,24 +560,24 @@ export default {
       let countParam = {
         recv_id: this.$store.state.id
       }
-      const res = await axios.post('/countReadYN', countParam);
-      this.readCount = res.data;
+      // const res = await axios.post('/countReadYN', countParam);
+      // this.readCount = res.data;
     },
     // 받은쪽지 총 갯수
     async countRecv() {
       let countParam = {
         recv_id: this.$store.state.id
       }
-      const res = await axios.post('/countRecv', countParam);
-      this.countRecvList = res.data;
+      // const res = await axios.post('/countRecv', countParam);
+      // this.countRecvList = res.data;
     },
     // 보낸쪽지 총 갯수
     async countSend() {
       let countParam = {
         send_id: this.$store.state.id
       }
-      const res = await axios.post('/countSend', countParam);
-      this.countSendList = res.data;
+      // const res = await axios.post('/countSend', countParam);
+      // this.countSendList = res.data;
     },
     // 받은쪽지 페이징
     nextRecvPage() {
@@ -608,8 +608,8 @@ export default {
       let sendListParam = {
         send_id: this.$store.state.id
       }
-      const res = await axios.post('/sendListChk', sendListParam);
-      this.sendIdListChk = res.data;
+      // const res = await axios.post('/sendListChk', sendListParam);
+      // this.sendIdListChk = res.data;
     },
     async sendListchange($event) {
       if ($event.target.value) { // 보낸쪽지 아이디리스트
