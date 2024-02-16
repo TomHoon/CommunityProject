@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setInterceptors } from '@/api/common/interceptors'
+// import { setInterceptors } from '@/api/common/interceptors'
 
 // class Request {
 //     constructor() {
