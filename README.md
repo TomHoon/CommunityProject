@@ -20,7 +20,7 @@
 
 ### 명세서
  - ###### 프로젝트 공통 문서 [자세히 보기](https://docs.google.com/spreadsheets/d/10M2Ar8JO5JIsCULc3wMjnFurGfgfYRN6HQ5K5oyV60Q/edit#gid=0)
- - ###### TODO LIST [자세히 보기](https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1kEK0/edit#gid=0) 
+ - ###### TODO LIST / 초기 기획 [자세히 보기](https://docs.google.com/spreadsheets/d/1gKA4wQpwGZAg-j6ZEY-5zUMWib4S24Yj4E4QLi1kEK0/edit#gid=0) 
 
 ## SKILL
 <div>
