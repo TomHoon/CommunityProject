@@ -15,7 +15,7 @@ import { setInterceptors } from '@/api/common/interceptors'
 
 function createInstance() {
   let instance = axios.create({
-    baseURL: 'http://ec2-13-125-99-103.ap-northeast-2.compute.amazonaws.com:8080/'
+    baseURL: 'https://back-comhub.shop/'
   });
   return instance;
   // return setInterceptors(instance);
