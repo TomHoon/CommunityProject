@@ -422,6 +422,7 @@ export default {
     },
     image_path(item) {
       if (item.image_path) {
+        console.log(item.image_path)
         return item.image_path
       }
       return this.default_image_path
