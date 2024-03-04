@@ -1,6 +1,6 @@
 # ComHub
 
-- ###### ComHub [바로 가기](http://gnsdl2846.cafe24.com/)
+- ###### ComHub [바로 가기](https://d6wq1fxtf60x0.cloudfront.net/)
 
 ### 프로젝트 주제
  - 자유로운 소통 커뮤니티
