@@ -21,6 +21,7 @@ import HeaderMenu from '@/components/header/HeaderMenu'
 import HeaderUser from '@/components/header/HeaderUser'
 import chat from '@/components/chat'
 import Comment from '@/components/board/Comment'
+import NoteFrame from '@/components/note/NoteFrame'
 
 import defaultImg from '@/assets/defaultImg.png'
 import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies'
@@ -35,7 +36,7 @@ const store = createStore({
             
       id : getUserFromCookie() || '',
       token : getAuthFromCookie() || '',
-
+      showNote: false
     };
   },
   getters,
@@ -59,7 +60,8 @@ app.component('BoardWrite', BoardWrite);
 app.component('BoardDetails', BoardDetails);
 app.component('BoardModify', BoardModify);
 app.component('Chat', chat);
-app.component('Comment', Comment)
+app.component('Comment', Comment);
+app.component('NoteFrame', NoteFrame);
 
 app.use(router);
 app.use(store);

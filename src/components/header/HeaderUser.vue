@@ -4,7 +4,7 @@
     <div class="id"> @{{id}} </div>
     <div class="user-btn" type="button" @click="logOut">로그아웃</div>
     <div class="user-btn" type="button" @click="memberUpdate">회원수정</div>
-    <div class="user-btn" type="button" @click="none">쪽지_beta</div>
+    <div class="user-btn" type="button" @click="noteOpen">쪽지_beta</div>
     <div class="user-btn" type="button" @click="goChat">채팅_test</div>
   </div>
 </template>
@@ -47,6 +47,9 @@ export default {
             this.nickname = getOneMemberRes.data.member_nickname
             console.log('멤버데이터에용',this.memberData)
             this.$store.getters.isLogin ? this.isLogin = true : this.$store.getters.clearUserAll;
+        },
+        noteOpen() {
+            this.$store.state.showNote = true;
         }
     },
 }

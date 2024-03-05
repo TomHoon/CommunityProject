@@ -94,7 +94,7 @@ export default {
   // 💕메소드 첫 알파벳은 소문자로 표기
   methods: {
     socialLogin() {
-      location.href = 'https://accounts.google.com/o/oauth2/auth?client_id=139943607073-4qjupl7rokl09hplgr05a9nd8bb7srsj.apps.googleusercontent.com&redirect_uri=http://tomhoon.duckdns.org:18080/login/oauth2/code/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email';
+      // location.href = 'https://accounts.google.com/o/oauth2/auth?client_id=139943607073-4qjupl7rokl09hplgr05a9nd8bb7srsj.apps.googleusercontent.com&redirect_uri=http://tomhoon.duckdns.org:18080/login/oauth2/code/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email';
     },
     async fnLogin() {
       let 로그인파라미터 = {

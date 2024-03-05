@@ -278,10 +278,10 @@ export default {
       //   }
       // })
       const formData = new FormData();
-      if(this.memberInfo.kakao_YN === 'N') {
-        formData.append('mFile', this.$refs.fileUpload.files[0]);
-      }
-
+      // if(this.memberInfo.kakao_YN === 'N') {
+      //   formData.append('mFile', this.$refs.fileUpload.files[0]);
+      // }
+      formData.append('mFile', this.$refs.fileUpload.files[0]);
       formData.append('param', JSON.stringify(회원수정파라미터));
       const res = await memberUpdate(formData)
       if (res.data == "수정완료") {

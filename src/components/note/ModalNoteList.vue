@@ -28,6 +28,7 @@ export default {
       this.isOpen = false;
     },
     closeModalOutside(event) {
+      this.$emit('close');
       // 모달 바깥을 클릭하면 모달을 닫습니다.
       if (event.target.classList.contains('modal')) {
         if(this.clickToClose == true)
