@@ -1,10 +1,6 @@
 <template>
     <div>
         <strong>chatting test</strong>
-        <div class="chatting-area">
-            <input type="text" v-model="message" @keyup.enter="send">
-            <button @click="send">보내기</button>
-        </div>
         <div class="receive-area-wrapper">
            <div class="receive-area">
                 <ul class="receive-area-ul">
@@ -17,6 +13,11 @@
                 </ul>
            </div>
         </div>
+        <div class="chatting-area">
+            <input type="text" v-model="message" @keyup.enter="send">
+            <button @click="send">보내기</button>
+        </div>
+        <button class="back-btn" @click="backPage"> 뒤로가기 </button>
     </div>
 </template>
 
@@ -71,13 +72,15 @@ export default {
                 if (message != null) {
                     this.websocket.send(JSON.stringify(msg));
                 }
-                
             }
             this.message = '';
         }
     },
     destroyed() {
         this.websocket.onclose = this.onClose;	// 소켓이 닫힐때(클라이언트 접속해제)
+    },
+    backPage() {
+        this.$backPage()
     }
 }
 </script>
@@ -108,5 +111,8 @@ export default {
     }
     .colored {
         color: blue
+    }
+    .back-btn {
+        margin: 20px;
     }
 </style>

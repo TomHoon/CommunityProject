@@ -5,12 +5,6 @@
     </div>
   </transition>
 
-  <transition>
-    <div v-if="userMenu" class="user-menu">
-      <HeaderUser></HeaderUser>
-    </div>
-  </transition>
-
   <div class="header-container">
     <div class="top-header">
       <img src="@/assets/burger.svg" class="burger" type="button" @click="menuStatus">
@@ -26,7 +20,12 @@
           <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin == false" @click="fnJoin">회원가입</button>
           <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin == false" @click="login">로그인</button>
 
-          <img type="button" :src="this.$store.state.defaultImgpath" class="profile-img" v-if="this.$store.getters.isLogin" @click="userMenuStatus">
+          <img type="button" :src="userImg" class="profile-img" v-if="this.$store.getters.isLogin" @click="userMenuStatus">
+          <transition>
+            <div v-if="userMenu" class="user-menu">
+              <HeaderUser></HeaderUser>
+            </div>
+          </transition>
           <!-- <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin" @click="goChat">채팅테스트</button> -->
       </div>
     </div>
@@ -34,7 +33,7 @@
   <hr style="z-index: 2;">
 </template>
 <script>
-import { getOneMember } from "@/api";
+import { getOneMember, getOneFile } from "@/api";
 
   export default {
     data() {
@@ -43,6 +42,7 @@ import { getOneMember } from "@/api";
         menu: false,
         userMenu: false,
         memberData: '',
+        userImg: '',
       }
     },
     async mounted() {
@@ -72,6 +72,14 @@ import { getOneMember } from "@/api";
         this.memberData = getOneMemberRes.data;
         console.log("this.memberData", this.memberData);
         this.$store.getters.isLogin ? this.isLogin = true : this.$store.getters.clearUserAll;
+        this.getOneFile()
+      },
+      async getOneFile() {
+          const getOneFileRes = await getOneFile(this.memberData.file_idx)
+          this.userImg = this.$store.state.defaultImgpath
+          if(getOneFileRes.data.file_path){
+            this.userImg = getOneFileRes.data.file_path
+          }
       },
       closeAll() {
         this.$clearLayer();
@@ -97,6 +105,7 @@ import { getOneMember } from "@/api";
     emits: ['searchBoard', 'allBoard','boardChange'],
   }
 </script>
+
 <style scoped>
     .header-container{
       display: flex;
@@ -126,15 +135,13 @@ import { getOneMember } from "@/api";
     }
     .menu{
       position: absolute;
-      top: 85px;
+      top: 76px;
       z-index: 1;
-      border: 1px;
     }
     .user-menu{
       position: absolute;
-      top: 85px;
-      z-index: 1;
-      right: 330px;
+      top: 76px;
+      z-index: 10;
     }
     .top-header .log-btn:hover .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
@@ -176,9 +183,10 @@ import { getOneMember } from "@/api";
     }
 
     .profile-img{
-      max-width: 50px;
-      max-height: 50px;
-      border-radius: 50px;
+      width: 40px;
+      height: 40px;
+      border-radius: 40px;
+      position: relative;
     }
 
 .v-enter-active,

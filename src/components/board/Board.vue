@@ -23,7 +23,7 @@
     <div class="board-table">
       <div class="board-table-row" v-for="(item, idx) in calData()" :key="idx" @click="detailChain(item)">
         <div class="board-table-cell1">
-          <img class="product-img" :src="image_path(item)">
+          <img :style="productImg(item)" :src="image_path(item)">
         </div>
         <div class="board-table-cell2">
           <div>
@@ -151,10 +151,6 @@ export default {
     // this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
   },
   methods: {
-    // isLogin() {
-    // console.log("로그인?",this.$store.getters.isLogin)
-    // console.log("id값?",this.$store.state.id)
-    // },
     async getBoardAll() {
       const res = await getBoardAll(0)
 
@@ -276,6 +272,13 @@ export default {
         this.boardList = this.studyList
       }
     },
+    productImg(item) {
+      if (item.image_path) {
+        return 'width: 100px; height: 100px; border-radius: 12px;'
+      }else{
+        return 'width: 70px'
+      }
+    },
     image_path(item) {
       if (item.image_path) {
         return item.image_path
@@ -347,18 +350,7 @@ export default {
     width: 70%;
     padding: 10px;
   }
-
-  .product-img {
-    max-width:100px;
-    max-height:100px;
-    border-radius: 12px;
-  }
-
-  .product-img-defalt{
-    width: 50px;
-    max-height: 50px;
-  }
-
+  
   .bottom-box {
     height: 130px;
   }
