@@ -43,11 +43,10 @@ export default {
     color: #055cf4;
     font-size: 30px;
     font-family: 'Pretendard-Black';
-    
 }
 .menu-box{
     width: 300px;
-    height: 1245px;
+    height: 920px;
     background-color: #f1f1f1;
     color: black;
     border-radius: 0 0 10px 0;

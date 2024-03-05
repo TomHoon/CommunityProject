@@ -18,6 +18,7 @@ import BoardModify from '@/components/board/BoardModify'
 import BoardDetails from '@/components/board/BoardDetails'
 import Header from '@/components/header/Header'
 import HeaderMenu from '@/components/header/HeaderMenu'
+import HeaderUser from '@/components/header/HeaderUser'
 import chat from '@/components/chat'
 import Comment from '@/components/board/Comment'
 
@@ -48,6 +49,7 @@ const app = createApp(App);
 
 app.component('Header', Header);
 app.component('HeaderMenu', HeaderMenu);
+app.component('HeaderUser', HeaderUser);
 app.component('Login', Login);
 app.component('Agreement', Agreement);
 app.component('Join', Join);

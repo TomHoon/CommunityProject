@@ -284,7 +284,7 @@ export default {
     CustomAlert,
 
   },
-  async mounted() {
+  mounted() {
     this.$propsWatch();
     this.getBoardAll();
     this.getNoteById(); // 쪽지리스트
@@ -630,9 +630,6 @@ export default {
         this.send_select = null;
       }
     },
-
-
-
   }, // method
 }
 </script>
@@ -701,9 +698,14 @@ export default {
   .product-img {
     max-width:100px;
     max-height:100px;
-    /* max-width:180px; */
-    /* max-height:180px; */
+    border-radius: 12px;
   }
+
+  .product-img-defalt{
+    width: 50px;
+    max-height: 50px;
+  }
+
   .bottom-box {
     height: 130px;
   }

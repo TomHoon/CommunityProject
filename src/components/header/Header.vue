@@ -4,6 +4,13 @@
       <HeaderMenu @boardChange="boardChange"></HeaderMenu>
     </div>
   </transition>
+
+  <transition>
+    <div v-if="userMenu" class="user-menu">
+      <HeaderUser></HeaderUser>
+    </div>
+  </transition>
+
   <div class="header-container">
     <div class="top-header">
       <img src="@/assets/burger.svg" class="burger" type="button" @click="menuStatus">
@@ -16,71 +23,55 @@
       </div>
 
       <div class="member-area">
-          <button type="button" class="btn mem-btn" v-if="this.$store.getters.isLogin" @click="memberUpdate">회원수정</button>
           <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin == false" @click="fnJoin">회원가입</button>
-          <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin" @click="goChat">채팅테스트</button>
-                    <button type="button" class="btn log-btn" @click="loginOut">{{checkLogin}}</button>
+          <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin == false" @click="login">로그인</button>
+
+          <img type="button" :src="this.$store.state.defaultImgpath" class="profile-img" v-if="this.$store.getters.isLogin" @click="userMenuStatus">
+          <!-- <button type="button" class="btn log-btn" v-if="this.$store.getters.isLogin" @click="goChat">채팅테스트</button> -->
       </div>
     </div>
   </div>
   <hr style="z-index: 2;">
 </template>
 <script>
-import { deleteCookie } from '@/utils/cookies'
-import {getMemberAll, getOneMember} from "@/api";
+import { getOneMember } from "@/api";
 
   export default {
     data() {
       return {
         searchWord: '',
         menu: false,
+        userMenu: false,
         memberData: '',
       }
     },
     async mounted() {
-      const getOneMemberRes = await getOneMember(this.$store.state.id)
-      this.memberData = getOneMemberRes.data;
-      console.log("this.memberData", this.memberData);
-      this.$store.getters.isLogin ? this.isLogin = true : this.$store.getters.clearUserAll;
+      this.getOneMember()
     },
     computed: {
-      checkLogin() {
-        return this.$store.getters.isLogin ? '로그아웃' : '로그인';
-      },
     },
     methods: {
       searchBoard() {
         this.$emit('searchBoard', this.searchWord);
         this.$clearLayer( { searchWord : this.searchWord } );
       },
-      async loginOut() {
-        if (this.$store.getters.isLogin) {
-          // localStorage.removeItem("isLogin");
-          
-          this.$store.commit('clearId') 
-          this.$store.commit('clearToken')
-          deleteCookie("token")
-          deleteCookie("id")
-          
-          await this.$clearLayer();
-          location.reload();
-          return;
-        }
-        else{
-            window.Kakao.API.request({
-              url: '/v1/user/unlink',
-              success: function (response) {
-                console.log("response", response);
-              },
-              fail: function (error) {
-                console.log(error);
-              },
-            });
-          this.$pushContents('Login');
-        }
+      login() {
+        window.Kakao.API.request({
+          url: '/v1/user/unlink',
+          success: function (response) {
+            console.log("response", response);
+          },
+          fail: function (error) {
+            console.log(error);
+          },
+        });
+        this.$pushContents('Login');
       },
-      memberUpdate() {
-        this.$pushContents('MemberUpdate');
+      async getOneMember() {
+        const getOneMemberRes = await getOneMember(this.$store.state.id)
+        this.memberData = getOneMemberRes.data;
+        console.log("this.memberData", this.memberData);
+        this.$store.getters.isLogin ? this.isLogin = true : this.$store.getters.clearUserAll;
       },
       closeAll() {
         this.$clearLayer();
@@ -93,11 +84,11 @@ import {getMemberAll, getOneMember} from "@/api";
       menuStatus() {
         this.menu = !this.menu
       },
+      userMenuStatus() {
+        this.userMenu = !this.userMenu
+      },
       boardChange(payload) {
         this.$emit('boardChange', payload)
-      },
-      goChat() {
-        this.$pushContents('Chat');
       },
       goTest() {
         this.$router.push('/admin');
@@ -135,9 +126,15 @@ import {getMemberAll, getOneMember} from "@/api";
     }
     .menu{
       position: absolute;
-      top: 72px;
+      top: 85px;
       z-index: 1;
       border: 1px;
+    }
+    .user-menu{
+      position: absolute;
+      top: 85px;
+      z-index: 1;
+      right: 330px;
     }
     .top-header .log-btn:hover .mem-btn:hover{
       background-color: rgba(194, 194, 194, 0.99);
@@ -176,6 +173,12 @@ import {getMemberAll, getOneMember} from "@/api";
       /* color:white; */
       color : black;
       margin:12px 0 0 3px
+    }
+
+    .profile-img{
+      max-width: 50px;
+      max-height: 50px;
+      border-radius: 50px;
     }
 
 .v-enter-active,
