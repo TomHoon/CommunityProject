@@ -274,9 +274,9 @@ export default {
     },
     productImg(item) {
       if (item.image_path) {
-        return 'width: 100px; height: 100px; border-radius: 12px;'
+        return 'width: 100px; height: 100px; border-radius: 12px; margin: 10px;'
       }else{
-        return 'width: 70px'
+        return 'width: 70px;'
       }
     },
     image_path(item) {
@@ -291,6 +291,10 @@ export default {
 </script>
 
 <style scoped>
+p {
+  margin: 0;
+}
+
 .top-box {
   height: 50px;
 }
@@ -298,15 +302,18 @@ export default {
 .write-btn {
   float: left;
     margin-top: 5px;
+    margin-left: 10px;
   }
   .right-btn{
     float: right;
     margin-top: 5px;
-    margin-left: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
   .select-date{
     margin-top: 5px;
     margin-left: 10px;
+    margin-right: 10px;
     height: 40px;
     float: right;
   }
@@ -324,9 +331,7 @@ export default {
   .board-table {
     text-align:center;
     display:table;
-    /*border:1px solid #cecece;*/
     width:100%;
-    /* height:250px; */
   }
 
   .board-table-row {
@@ -340,20 +345,22 @@ export default {
     vertical-align:middle;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    width: 30%
+    width: 20%;
+    height: 121px;
   }
 
   .board-table-cell2 {
     display:table-cell;
     vertical-align:middle;
     border-bottom: 1px solid #ddd;
-    width: 70%;
+    width: 80%;
     padding: 10px;
   }
-  
+
   .bottom-box {
     height: 130px;
   }
+
   .btn-box {
     height: 50px;
     margin-top:10px;
