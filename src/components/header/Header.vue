@@ -97,7 +97,7 @@ import { getOneMember } from "@/api";
     emits: ['searchBoard', 'allBoard','boardChange'],
   }
 </script>
-<style>
+<style scoped>
     .header-container{
       display: flex;
       justify-content: center;

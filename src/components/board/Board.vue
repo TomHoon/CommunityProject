@@ -633,7 +633,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .top-box {
   height: 50px;
 }
