@@ -42,7 +42,7 @@ import { getOneMember, getOneFile } from "@/api";
         menu: false,
         userMenu: false,
         memberData: '',
-        userImg: '',
+        userImg: this.$store.state.defaultImgpath,
       }
     },
     async mounted() {
@@ -76,7 +76,6 @@ import { getOneMember, getOneFile } from "@/api";
       },
       async getOneFile() {
           const getOneFileRes = await getOneFile(this.memberData.file_idx)
-          this.userImg = this.$store.state.defaultImgpath
           if(getOneFileRes.data.file_path){
             this.userImg = getOneFileRes.data.file_path
           }
