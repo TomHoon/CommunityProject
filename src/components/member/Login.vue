@@ -157,7 +157,7 @@ export default {
           saveUserToCookie(email)
           // saveAuthToCookie(res.data.token)
           console.log("email", email)
-          this.$router.push('/SocialJoin');
+          this.$router.push('/path/SocialJoin');
 
         },
         fail: (error) => {

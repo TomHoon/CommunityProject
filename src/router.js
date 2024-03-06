@@ -6,6 +6,7 @@ import AdminLogin from '@/components/admin/AdminLogin'
 import NotFound from '@/components/admin/NotFound'
 import Error from '@/components/admin/Error'
 import SocialJoin from '@/components/member/SocialJoin'
+import KakaoMap from '@/components/map/KakaoMap.vue'
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
     path: '/path/SocialJoin',
     component: SocialJoin,
     props: true,
+  },
+  {
+    path: '/map/KakaoMap',
+    component: KakaoMap,
   }
 ];
 

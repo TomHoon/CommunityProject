@@ -132,6 +132,7 @@ export default {
           .then(res => {
             if (res.data == 1) {
               this.$router.push('/')
+              // this.$pushContents("Board", {from: '로그인에서'})
 
             }
           })
