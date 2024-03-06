@@ -23,7 +23,7 @@
     <div class="pw_form" v-if="this.memberInfo.kakao_YN === 'N'">
       <label for="member_pw">비밀번호</label>
       <span class="float-right">
-          <input type="password" id="member_pw" v-model="memberInfo.member_pw" class="member_pw"
+          <input type="password" id="member_pw" class="member_pw"
                  placeholder="비밀번호를 입력해주세요."
                  maxlength="15" ref="member_pw">
           <span v-show="valid.member_pw">
@@ -111,6 +111,7 @@ import { getOneMember, getOneFile, tempImg, joinOut, memberUpdate } from '@/api/
 import {includes} from "core-js/internals/array-includes";
 
 export default {
+  props: ['pageParams', 'transferObj'],
   name: "MemberUpdate",
   data() {
     //true
@@ -129,6 +130,7 @@ export default {
         member_address: "",
       },
       member_pw_check: '',
+      detailAddress:'',
       showModal: false,
       postcode: "",
       extraAddress: "",

@@ -75,8 +75,11 @@ import { getOneMember, getOneFile } from "@/api";
       },
       async getOneFile() {
           const getOneFileRes = await getOneFile(this.memberData.file_idx)
+          console.log(this.memberData)
           if(getOneFileRes.data.file_path){
             this.userImg = getOneFileRes.data.file_path
+          }else if(this.memberData.kakao_YN == 'Y'){
+            this.userImg = this.memberData.file_idx
           }
       },
       closeAll() {
