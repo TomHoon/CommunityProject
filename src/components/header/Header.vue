@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <div v-if="menu" class="menu">
+    <div v-show="menu" class="menu">
       <HeaderMenu @boardChange="boardChange"></HeaderMenu>
     </div>
   </transition>
@@ -22,7 +22,7 @@
 
           <img type="button" :src="userImg" class="profile-img" v-if="this.$store.getters.isLogin" @click="userMenuStatus">
           <transition>
-            <div v-if="userMenu" class="user-menu">
+            <div v-show="userMenu" class="user-menu">
               <HeaderUser></HeaderUser>
             </div>
           </transition>
@@ -70,7 +70,6 @@ import { getOneMember, getOneFile } from "@/api";
       async getOneMember() {
         const getOneMemberRes = await getOneMember(this.$store.state.id)
         this.memberData = getOneMemberRes.data;
-        console.log("this.memberData", this.memberData);
         this.$store.getters.isLogin ? this.isLogin = true : this.$store.getters.clearUserAll;
         this.getOneFile()
       },

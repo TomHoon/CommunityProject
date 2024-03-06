@@ -53,8 +53,6 @@
 
 <script>
 import {joinMember, findIdNote,} from '@/api/index';
-import Vue from 'vue'
-import axios from 'axios'; //axios 호출
 
 export default {
   name: "SocialJoin",

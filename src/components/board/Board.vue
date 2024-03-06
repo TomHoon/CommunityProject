@@ -95,8 +95,8 @@ export default {
       noteList: [],
       noteDetail: [],
       findId: 'N',
-      sendList: [],
-      recvList: [],
+      // sendList: [],
+      // recvList: [],
       recvShow: true,
       readCount: '',
       NoteSelected: 'recvNote',
@@ -221,7 +221,7 @@ export default {
       return this.boardList.slice(this.startPage(), this.endPage()) // dataPerPage로 나눠서 페이지당 볼 수 있는 게시글 제한
     },
     propsChanged() {
-      console.log(this.transferObj);
+      // console.log(this.transferObj);
     },
     changeCreateTime() {
       this.boardList.reverse()
