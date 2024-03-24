@@ -32,8 +32,7 @@
 </div>
 
 ### 아키텍처 시각화
-
-![아키텍쳐_컴허브](https://github.com/TomHoon/CommunityProject/assets/100109284/c8097a4f-de9e-4c1e-8a28-bd53ecd7fe8a)
+![아키텍쳐_컴허브](https://github.com/TomHoon/CommunityProject/assets/100109284/84c0301b-6c73-4761-82ba-64032d1ba6f2)
 
 
 ### Lighthouse Score
